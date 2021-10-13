@@ -14,10 +14,15 @@ public class SalgsSituation {
     public void setNavn(String navn) {
         this.navn = navn;
     }
+/* ------------------------------------------------------------------------------------------------------------*/
+    // Create pris
+
+
+
 
     @Override
     public String toString() {
-        return navn.toString();
+        return navn;
     }
 }
 

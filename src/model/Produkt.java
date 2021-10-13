@@ -7,7 +7,7 @@ public class Produkt {
 
     public Produkt(String name, ProduktType produkType, Produktgruppe produktgruppe) {
         this.name = name;
-        this.produktType = produkType;
+        setProduktType(produkType);
         setProduktgruppe(produktgruppe);
     }
 
@@ -23,8 +23,13 @@ public class Produkt {
         return produktType;
     }
 
-    public void setProdukType(ProduktType produktType) {
-        this.produktType = produktType;
+    public void setProduktType(ProduktType produktType) {
+        if (this.produktType != produktType) {
+            this.produktType = produktType;
+            if (produktType != null) {
+                produktType.addProdukter(this);
+            }
+        }
     }
 
     public Produktgruppe getProduktgruppe() {
@@ -44,4 +49,8 @@ public class Produkt {
             }
         }
     }
+
+
+
+
 }
