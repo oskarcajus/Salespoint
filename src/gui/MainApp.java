@@ -11,13 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
-import javafx.scene.layout.HBox;
-
-//import java.awt.*;
 
 public class MainApp extends Application {
 
@@ -90,7 +85,7 @@ public class MainApp extends Application {
     private void openAdminWindow() {
         System.out.println("Test Admin");
         AdminWindow aw = new AdminWindow();
-        aw.showAndWait();
+        aw.start(new Stage());
     }
 
     private void openSalgWindow() {
