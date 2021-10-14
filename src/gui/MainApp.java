@@ -14,6 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
 
@@ -68,6 +70,9 @@ public class MainApp extends Application {
         pane.setMargin(btnAdmin, new Insets(10, 10, 10, 10));
         pane.setHalignment(btnAdmin, HPos.CENTER);
         btnAdmin.setMaxSize(100, 100);
+        Font font = Font.font("Courier New", FontWeight.BOLD, 20);
+        btnAdmin.setStyle("-fx-base: lightgrey;");
+        btnAdmin.setFont(font);
 
         btnAdmin.setOnAction(event -> openAdminWindow());
 
@@ -83,6 +88,8 @@ public class MainApp extends Application {
         pane.setMargin(btnSalg, new Insets(10, 10, 10, 10));
         pane.setHalignment(btnSalg, HPos.CENTER);
         btnSalg.setMaxSize(100, 100);
+        btnSalg.setFont(font);
+        btnSalg.setStyle("-fx-base: lightblue;");
 
         btnSalg.setOnAction(event -> openSalgWindow());
     }
