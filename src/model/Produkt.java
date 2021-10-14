@@ -19,7 +19,7 @@ public class Produkt {
         this.name = name;
     }
 
-    public ProduktType getProdukType() {
+    public ProduktType getProduktType() {
         return produktType;
     }
 

@@ -90,6 +90,8 @@ public class MainApp extends Application {
 
     private void openSalgWindow() {
         System.out.println("Test Salg");
+        SalgWindow sw = new SalgWindow();
+        sw.start(new Stage());
     }
 }
 

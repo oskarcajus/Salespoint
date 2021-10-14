@@ -33,9 +33,14 @@ public class Produktgruppe {
             produkter.remove(produkt);
             produkt.setProduktgruppe(null);
         }
+
     }
 
+    public String getNavn() {
+        return navn;
+    }
 
-
-
+    public void setNavn(String navn) {
+        this.navn = navn;
+    }
 }

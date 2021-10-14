@@ -26,7 +26,6 @@ public class ProduktType {
         if (!produkter.contains(produkt)) {
             produkter.add(produkt);
             produkt.setProduktType(this);
-
         }
 
 }
