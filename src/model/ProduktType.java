@@ -22,10 +22,10 @@ public class ProduktType {
         return produkter;
     }
 
-    public void addProdukter(ArrayList<Produkt> produkt) {
+    public void addProdukt(Produkt produkt) {
         if (!produkter.contains(produkt)) {
             produkter.add(produkt);
-            produkter.setProduktType(this);
+            produkt.setProduktType(this);
         }
 
 }

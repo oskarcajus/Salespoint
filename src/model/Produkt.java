@@ -27,7 +27,7 @@ public class Produkt {
         if (this.produktType != produktType) {
             this.produktType = produktType;
             if (produktType != null) {
-                produktType.addProdukter(this);
+                produktType.addProdukt(this);
             }
         }
     }
