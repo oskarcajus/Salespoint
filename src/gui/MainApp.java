@@ -44,8 +44,11 @@ public class MainApp extends Application {
 //------tabPane------------------------------------------------------------------------------------------
 
         private void initContent(BorderPane pane) {
-            TabPane tabPane = new TabPane();
-            pane.setCenter(tabPane);
+
+            pane.setGridLinesVisible(false);
+            pane.setPadding(new Insets(10));
+            pane.setHgap(10);
+            pane.setVgap(10);
 
             pane.add(btnAdmin, 3, 4);
             pane.setMargin(btnAdmin, new Insets(1, 0, 1, 1));
