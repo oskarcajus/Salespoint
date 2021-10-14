@@ -1,16 +1,16 @@
 package gui;
 
 
-    import controller.Controller;
-    import javafx.application.Application;
-    import javafx.scene.Scene;
-    import javafx.scene.control.Tab;
-    import javafx.scene.control.TabPane;
-    import javafx.scene.control.TabPane.TabClosingPolicy;
-    import javafx.scene.layout.BorderPane;
-    import javafx.stage.Stage;
+import controller.Controller;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
-    public class MainApp extends Application {
+//import java.awt.*;
+
+public class MainApp extends Application {
 
         // Controller access
         private Controller controller;
@@ -37,41 +37,19 @@ package gui;
             stage.show();
         }
 
+        // Buttons
+        private Button btnAdmin = new Button("Admin");
+        private Button btnSalg = new Button("Salg System");
+
 //------tabPane------------------------------------------------------------------------------------------
 
         private void initContent(BorderPane pane) {
             TabPane tabPane = new TabPane();
-//            this.initTabPane(tabPane);
             pane.setCenter(tabPane);
+
+            pane.add(btnAdmin, 3, 4);
+            pane.setMargin(btnAdmin, new Insets(1, 0, 1, 1));
+//            btnAdmin.setOnAction(event -> rollAction());
         }
-
-//-------init tabPane-----------------------------------------------------------------------------------------
-
-//        private void initTabPane(TabPane tabPane) {
-//
-//            tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-//
-//            // forskellige tab
-//            Tab tabOrdre = new Tab("Ordre Admin");
-//            Tab tabProdukter = new Tab("Produkter");
-//            Tab tabPrisLister = new Tab("PrisLister");
-//
-//            // Ordre admin pane til tab
-//            OrdreAdminPane ordrePane = new OrdreAdminPane();
-//            tabOrdre.setContent(ordrePane);
-//
-//            // ProduktPane til tab
-//            ProduktPane produktPane = new ProduktPane();
-//            tabProdukter.setContent(produktPane);
-//
-//            // PrisListePane til tab
-//            PrisListePane prisListePane = new PrisListePane();
-//            tabPrisLister.setContent(prisListePane);
-//
-//            // Add Ordre, produkter, pristLister til TabPane
-//            tabPane.getTabs().add(tabOrdre);
-//            tabPane.getTabs().add(tabProdukter);
-//            tabPane.getTabs().add(tabPrisLister);
-//        }
     }
 
