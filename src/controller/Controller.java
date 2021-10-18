@@ -49,4 +49,13 @@ public class Controller {
         }
         return produkter;
     }
+
+    public static void renameProduktgruppe(Produktgruppe produktgruppe, String navn) {
+        for (Produktgruppe pg : Storage.getProduktgrupper()) {
+            if (pg.getNavn().equals(navn)) {
+                throw new IllegalArgumentException("Der findes allerede en produktgruppe med det navn.");
+            }
+        }
+        produktgruppe.setNavn(navn);
+    }
 }

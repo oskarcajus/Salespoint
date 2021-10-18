@@ -59,6 +59,7 @@ public class AdminProduktPane extends GridPane {
         //Buttons
         hBoxProduktgrupper.getChildren().addAll(btnOpretProduktgruppe, btnRedigerProduktgruppe, btnSletProduktgruppe);
         btnOpretProduktgruppe.setOnAction(event -> this.onActionBtnOpretProduktgruppe(this));
+        btnRedigerProduktgruppe.setOnAction(event -> this.onActionBtnRedigerProduktgruppe(this, lwProduktgrupper.getSelectionModel().getSelectedItem()));
         btnSletProduktgruppe.setOnAction(event -> this.onActionBtnSletProduktgruppe(lwProduktgrupper.getSelectionModel().getSelectedItem()));
         hBoxProduktgrupper.setAlignment(Pos.CENTER);
         hBoxProduktgrupper.setSpacing(20);
@@ -71,14 +72,16 @@ public class AdminProduktPane extends GridPane {
 
     }
 
-    public void onActionBtnOpretProduktgruppe(AdminProduktPane adminProduktPane) {
+    private void onActionBtnOpretProduktgruppe(AdminProduktPane adminProduktPane) {
         AdminOpretProduktgruppeWindow adminOpretProduktgruppeWindow = new AdminOpretProduktgruppeWindow(adminProduktPane);
         adminOpretProduktgruppeWindow.showAndWait();
     }
 
-    public void updateLwProduktgrupper() {
-        lwProduktgrupper.getItems().setAll(Storage.getProduktgrupper());
+    private void onActionBtnRedigerProduktgruppe(AdminProduktPane adminProduktPane, Produktgruppe produktgruppe) {
+        AdminRedigerProduktgruppeWindow adminRedigerProduktgruppeWindow = new AdminRedigerProduktgruppeWindow(adminProduktPane, produktgruppe);
+        adminRedigerProduktgruppeWindow.showAndWait();
     }
+
 
     private void onActionBtnSletProduktgruppe(Produktgruppe produktgruppe) {
         try {
@@ -88,5 +91,9 @@ public class AdminProduktPane extends GridPane {
         catch (RuntimeException e) {
             errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
         }
+    }
+
+    public void updateLwProduktgrupper() {
+        lwProduktgrupper.getItems().setAll(Storage.getProduktgrupper());
     }
 }

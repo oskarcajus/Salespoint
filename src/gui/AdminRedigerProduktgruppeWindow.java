@@ -13,22 +13,24 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Produktgruppe;
 
-public class AdminOpretProduktgruppeWindow extends Stage {
+public class AdminRedigerProduktgruppeWindow extends Stage {
     private AdminProduktPane adminProduktPane;
+    private Produktgruppe produktgruppe;
     private Label lblNavn;
     private TextField navnInput;
-    private Button btnOpret;
+    private Button btnRediger;
     private VBox vBox;
     private Alert errorAlert;
 
-    public AdminOpretProduktgruppeWindow(AdminProduktPane adminProduktPane) {
+    public AdminRedigerProduktgruppeWindow(AdminProduktPane adminProduktPane, Produktgruppe produktgruppe) {
         this.adminProduktPane = adminProduktPane;
+        this.produktgruppe = produktgruppe;
 
         this.setMinHeight(200);
         this.setMinWidth(300);
 
 
-        this.setTitle("Opret produktgruppe");
+        this.setTitle("Rediger produktgruppe");
         GridPane pane = new GridPane();
         pane.setGridLinesVisible(false);
         pane.setPadding(new Insets(20));
@@ -44,13 +46,15 @@ public class AdminOpretProduktgruppeWindow extends Stage {
 
     private void initContent(GridPane pane) {
 
-        lblNavn = new Label("Navn på produktgruppe: ");
+        lblNavn = new Label("Nyt navn på produktgruppe: ");
         navnInput = new TextField();
-        btnOpret = new Button("Opret");
-        btnOpret.setOnAction(event -> this.opretProduktgruppe(navnInput.getText().trim()));
+        btnRediger = new Button("Rediger");
+        btnRediger.setOnAction(event -> this.redigerProduktgruppe(
+                this.produktgruppe,
+                navnInput.getText().trim()));
 
         vBox = new VBox();
-        vBox.getChildren().add(btnOpret);
+        vBox.getChildren().add(btnRediger);
 
         pane.add(lblNavn, 0, 1);
         pane.add(navnInput, 1, 1);
@@ -58,15 +62,14 @@ public class AdminOpretProduktgruppeWindow extends Stage {
 
     }
 
-    private void opretProduktgruppe(String navn) {
+    private void redigerProduktgruppe(Produktgruppe produktgruppe, String navn) {
         if (navn.equals("")) {
             errorAlert = new Alert(Alert.AlertType.ERROR, "Manglende navn.");
             errorAlert.show();
         }
         else {
-            //Errorhandling fra Produktgruppe i modellen
             try {
-                Controller.createProduktgruppe(navn);
+                Controller.renameProduktgruppe(produktgruppe, navn);
                 this.adminProduktPane.updateLwProduktgrupper();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
