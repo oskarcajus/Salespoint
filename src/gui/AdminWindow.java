@@ -21,7 +21,6 @@ public class AdminWindow extends Application {
         BorderPane pane = new BorderPane();
         this.initContent(pane);
 
-
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.setHeight(500);

@@ -35,6 +35,7 @@ public class MainApp extends Application {
         stage.setTitle("Salespoint");
         GridPane pane = new GridPane();
         this.initContent(pane);
+        Controller.initContent();
 
         Scene scene = new Scene(pane);
         stage.setScene(scene);
@@ -90,13 +91,11 @@ public class MainApp extends Application {
     }
 
     private void openAdminWindow() {
-        System.out.println("Test Admin");
         AdminWindow aw = new AdminWindow();
         aw.start(new Stage());
     }
 
     private void openSalgWindow() {
-        System.out.println("Test Salg");
         SalgWindow sw = new SalgWindow();
         sw.start(new Stage());
     }

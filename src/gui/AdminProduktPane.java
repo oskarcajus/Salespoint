@@ -48,6 +48,7 @@ public class AdminProduktPane extends GridPane {
         //Listviews
         lwProduktgrupper = new ListView<>();
         lwProduktgrupper.getItems().setAll(Storage.getProduktgrupper());
+        lwProduktgrupper.getSelectionModel().select(0);
         this.add(lwProduktgrupper, 0, 1);
         lwProdukter = new ListView<>();
         this.add(lwProdukter, 1, 1);
@@ -58,9 +59,6 @@ public class AdminProduktPane extends GridPane {
 
         //Buttons
         hBoxProduktgrupper.getChildren().addAll(btnOpretProduktgruppe, btnRedigerProduktgruppe, btnSletProduktgruppe);
-        btnOpretProduktgruppe.setOnAction(event -> this.onActionBtnOpretProduktgruppe(this));
-        btnRedigerProduktgruppe.setOnAction(event -> this.onActionBtnRedigerProduktgruppe(this, lwProduktgrupper.getSelectionModel().getSelectedItem()));
-        btnSletProduktgruppe.setOnAction(event -> this.onActionBtnSletProduktgruppe(lwProduktgrupper.getSelectionModel().getSelectedItem()));
         hBoxProduktgrupper.setAlignment(Pos.CENTER);
         hBoxProduktgrupper.setSpacing(20);
         this.add(hBoxProduktgrupper, 0, 2);
@@ -69,6 +67,19 @@ public class AdminProduktPane extends GridPane {
         hBoxProdukt.setAlignment(Pos.CENTER);
         hBoxProdukt.setSpacing(20);
         this.add(hBoxProdukt, 1, 2);
+
+        //Buttons on click
+        btnOpretProduktgruppe.setOnAction(event ->
+                this.onActionBtnOpretProduktgruppe(this));
+        btnRedigerProduktgruppe.setOnAction(event ->
+                this.onActionBtnRedigerProduktgruppe(this, lwProduktgrupper.getSelectionModel().getSelectedItem()));
+        btnSletProduktgruppe.setOnAction(event ->
+                this.onActionBtnSletProduktgruppe(lwProduktgrupper.getSelectionModel().getSelectedItem()));
+
+
+//        btnOpretProdukt.setOnAction(event -> this.onActionBtnOpretProdukt(this, lwProduktgrupper.getSelectionModel().getSelectedItem()));
+//        btnOpretProdukt.setOnAction(event -> this.onActionBtnRedigerProdukt());
+
 
     }
 

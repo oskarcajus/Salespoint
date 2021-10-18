@@ -58,4 +58,11 @@ public class Controller {
         }
         produktgruppe.setNavn(navn);
     }
+
+    public static void initContent() {
+        //Create produktgrupper
+        Controller.createProduktgruppe("Øl");
+        Controller.createProduktgruppe("Fustage");
+    }
+
 }
