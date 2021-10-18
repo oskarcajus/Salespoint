@@ -14,10 +14,6 @@ public class AdminWindow extends Application {
 
     // Controller access
     private Controller controller;
-    private Button btnTest = new Button("Hej");
-
-//------------------------------------------------------------------------------------------------
-
     //------------------------------------------------------------------------------------------------
     public void start(Stage stage) {
 

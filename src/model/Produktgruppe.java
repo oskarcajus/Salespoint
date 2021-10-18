@@ -10,7 +10,7 @@ public class Produktgruppe {
         this.navn = navn;
     }
 
-    public Produkt createProdukt(String navn, ProduktType produktType) {
+    public Produkt createProdukt(ProduktType produktType, String navn) {
         Produkt produkt = null;
         for (Produkt p : produkter) {
             if (p.getName().equals(navn)) {
@@ -42,5 +42,14 @@ public class Produktgruppe {
 
     public void setNavn(String navn) {
         this.navn = navn;
+    }
+
+    @Override
+    public String toString() {
+        return this.getNavn();
+    }
+
+    public ArrayList<Produkt> getProdukter() {
+        return new ArrayList<Produkt>(this.produkter);
     }
 }
