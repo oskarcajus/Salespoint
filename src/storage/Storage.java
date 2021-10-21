@@ -1,9 +1,8 @@
 package storage;
 
-import model.Produkt;
+import model.ProduktType;
 import model.Produktgruppe;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Storage {
@@ -34,5 +33,18 @@ public class Storage {
     }
     public static ArrayList<Produktgruppe> getProduktgrupper() {
         return new ArrayList<Produktgruppe>(produktgrupper);
+    }
+
+    //ProduktType
+    private static ArrayList<ProduktType> produktTyper = new ArrayList<>();
+
+    public static void addProduktType(ProduktType pt) {
+        produktTyper.add(pt);
+    }
+    public static void removeProduktType(ProduktType pt) {
+        produktTyper.remove(pt);
+    }
+    public static ArrayList<ProduktType> getProduktTyper() {
+        return new ArrayList<ProduktType>(Storage.produktTyper);
     }
 }

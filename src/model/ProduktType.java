@@ -19,7 +19,7 @@ public class ProduktType {
     }
 
     public ArrayList<Produkt> getProdukter() {
-        return produkter;
+        return new ArrayList<>(this.produkter);
     }
 
     public void addProdukt(Produkt produkt) {

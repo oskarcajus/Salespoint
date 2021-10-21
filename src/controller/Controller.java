@@ -59,6 +59,42 @@ public class Controller {
         produktgruppe.setNavn(navn);
     }
 
+    //ProduktType
+    public static ProduktType createProduktType(String navn) {
+        ProduktType produktType;
+        for (ProduktType pt : Storage.getProduktTyper()) {
+            if (pt.getNavn().equals(navn)) {
+                throw new IllegalArgumentException("Der findes allerede en produkttype med dette navn.");
+            }
+        }
+        produktType = new ProduktType(navn);
+        Storage.addProduktType(produktType);
+        return produktType;
+    }
+
+    public static void removeProduktType(ProduktType produktType) {
+        if (Controller.getProdukterFromProduktType(produktType).size() == 0) {
+            Storage.removeProduktType(produktType);
+        }
+        else {
+            throw new RuntimeException("Der er stadig produkter tilknyttet den valgte produktgruppe.\nFjern alle produkter fra produktgruppen før du fortsætter.");
+        }
+    }
+
+    private static ArrayList<Produkt> getProdukterFromProduktType(ProduktType produktType) {
+        return produktType.getProdukter();
+    }
+
+    public static void renameProduktType(ProduktType produktType, String navn) {
+        for (ProduktType pt : Storage.getProduktTyper()) {
+            if (pt.getNavn().equals(navn)) {
+                throw new IllegalArgumentException("Der findes allerede en produkttype med det navn.");
+            }
+        }
+        produktType.setNavn(navn);
+    }
+
+
     public static void initContent() {
         //Create produktgrupper
         Controller.createProduktgruppe("Øl");

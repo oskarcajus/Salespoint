@@ -5,9 +5,9 @@ public class Produkt {
     private ProduktType produktType;
     private Produktgruppe produktgruppe;
 
-    public Produkt(String name, ProduktType produkType, Produktgruppe produktgruppe) {
+    public Produkt(String name, ProduktType produktType, Produktgruppe produktgruppe) {
         this.name = name;
-        setProduktType(produkType);
+        setProduktType(produktType);
         setProduktgruppe(produktgruppe);
     }
 
