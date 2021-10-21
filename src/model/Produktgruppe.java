@@ -11,13 +11,15 @@ public class Produktgruppe {
     }
 
     public Produkt createProdukt(ProduktType produktType, String navn) {
-        Produkt produkt = null;
+        Produkt produkt;
         for (Produkt p : produkter) {
             if (p.getName().equals(navn)) {
                 throw new IllegalArgumentException("Der findes allerede et produkt med dette navn.");
             }
-            produkt = new Produkt(navn, produktType, this);
         }
+        produkt = new Produkt(navn, produktType, this);
+        this.produkter.add(produkt);
+        produktType.addProdukt(produkt);
         return produkt;
     }
 

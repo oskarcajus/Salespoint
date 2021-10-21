@@ -50,6 +50,10 @@ public class Produkt {
         }
     }
 
+    @Override
+    public String toString() {
+        return this.name + "PG: " + this.produktgruppe + " PT: " + this.produktType;
+    }
 
 
 
