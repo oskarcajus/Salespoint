@@ -60,11 +60,15 @@ public class AdminOpretProduktWindow extends Stage {
         txfProduktgruppe = new TextField(produktgruppe.getNavn());
         txfProduktgruppe.setBackground(Background.EMPTY);
         txfProduktgruppe.setEditable(false);
+        txfProduktgruppe.setFocusTraversable(false);
+        txfProduktgruppe.setStyle("-fx-font-weight: bold");
 
         lblProduktType = new Label("Produkttype: ");
         txfProduktType = new TextField(produktType.getNavn());
         txfProduktType.setBackground(Background.EMPTY);
         txfProduktType.setEditable(false);
+        txfProduktType.setFocusTraversable(false);
+        txfProduktType.setStyle("-fx-font-weight: bold");
 
 
         lblNavn = new Label("Navn på produktet: ");
