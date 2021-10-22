@@ -9,7 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.*;
-import storage.*;
 
 import java.util.ArrayList;
 
@@ -28,17 +27,17 @@ public class AdminProduktPane extends GridPane {
     private final Label lblProdukter = new Label("Produkter:");
 
     //Buttons
-    HBox hBoxProduktgrupper = new HBox();
+    private final HBox hBoxProduktgrupper = new HBox();
     private final Button btnOpretProduktgruppe = new Button("Opret");
     private final Button btnRedigerProduktgruppe = new Button("Rediger");
     private final Button btnSletProduktgruppe = new Button("Slet");
 
-    HBox hBoxProduktTyper = new HBox();
+    private final HBox hBoxProduktTyper = new HBox();
     private final Button btnOpretProduktType = new Button("Opret");
     private final Button btnRedigerProduktType = new Button("Rediger");
     private final Button btnSletProduktType = new Button("Slet");
 
-    HBox hBoxProdukt = new HBox();
+    private final HBox hBoxProdukt = new HBox();
     private final Button btnOpretProdukt = new Button("Opret");
     private final Button btnRedigerProdukt = new Button("Rediger");
     private final Button btnSletProdukt = new Button("Slet");
@@ -61,7 +60,7 @@ public class AdminProduktPane extends GridPane {
         lwProduktgrupper = new ListView<>();
         ChangeListener<? super Produktgruppe> lwProduktgrupperListener = (ov, oldString, newString) -> this.selectionChangedLwProduktgrupper();
         lwProduktgrupper.getSelectionModel().selectedItemProperty().addListener(lwProduktgrupperListener);
-        lwProduktgrupper.getItems().setAll(Storage.getProduktgrupper());
+        lwProduktgrupper.getItems().setAll(Controller.getProduktgrupper());
         lwProduktgrupper.getSelectionModel().select(0);
         lwProduktgrupper.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         this.add(lwProduktgrupper, 0, 1);
@@ -69,8 +68,8 @@ public class AdminProduktPane extends GridPane {
         lwProduktTyper = new ListView<>();
         ChangeListener<? super ProduktType> lwProduktTyperListener = (ov, oldString, newString) -> this.selectionChangedLwProduktTyper();
         lwProduktTyper.getSelectionModel().selectedItemProperty().addListener(lwProduktTyperListener);
-        lwProduktTyper.getItems().setAll(Storage.getProduktTyper());
-        lwProduktTyper.getSelectionModel().select(1);
+        lwProduktTyper.getItems().setAll(Controller.getProduktTyper());
+        lwProduktTyper.getSelectionModel().select(0);
         lwProduktTyper.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         this.add(lwProduktTyper, 0, 4);
 
@@ -157,7 +156,7 @@ public class AdminProduktPane extends GridPane {
     }
 
     public void updateLwProduktgrupper() {
-        lwProduktgrupper.getItems().setAll(Storage.getProduktgrupper());
+        lwProduktgrupper.getItems().setAll(Controller.getProduktgrupper());
     }
 
 //--------------------------------------
@@ -183,7 +182,7 @@ public class AdminProduktPane extends GridPane {
         }
     }
 
-    public void updateLwProduktTyper()  { lwProduktTyper.getItems().setAll(Storage.getProduktTyper()); }
+    public void updateLwProduktTyper()  { lwProduktTyper.getItems().setAll(Controller.getProduktTyper()); }
 
 //--------------------------------------
 

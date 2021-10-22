@@ -5,18 +5,19 @@ import model.*;
 import storage.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Controller {
 
     //Produkt -------------------------
     public static Produkt createProdukt(Produktgruppe produktgruppe, ProduktType produktType, String navn) {
         Produkt produkt;
-//        if (Controller.checkProduktNameIsInProduktgruppe(produktgruppe, navn)){
-//            throw new IllegalArgumentException("Der er allerede tilknyttet et produkt med det navn til produktgruppen.");
-//        }
-//        if (Controller.checkProduktNameIsInProduktType(produktType, navn)) {
-//            throw new IllegalArgumentException("Der er allerede tilknyttet et produkt med det navn til produkttypen.");
-//        }
+        if (Controller.checkProduktNameIsInProduktgruppe(produktgruppe, navn)){
+            throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produktgruppen.");
+        }
+        if (Controller.checkProduktNameIsInProduktType(produktType, navn)) {
+            throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produkttypen.");
+        }
         produkt = produktgruppe.createProdukt(produktType, navn);
         return produkt;
     }
@@ -131,87 +132,22 @@ public class Controller {
         return check;
     }
 
-//    public static ArrayList<Produkt> getProdukterInProduktgruppeAndProduktType(Produktgruppe produktgruppe, ProduktType produktType) {
-//        ArrayList<Produkt> produkter = new ArrayList<>();
-//        for (Produkt p : produktgruppe.getProdukter()) {
-//            if (p.getProduktType() == produktType) {
-//                produkter.add(p);
-//            }
-//        }
-//        return produkter;
-//    }
 
     public static ArrayList<Produkt> getProdukterInProduktgruppeAndOrProduktType(ObservableList<Produktgruppe> produktgrupper,
                                                                                  ObservableList<ProduktType> produktTyper) {
+        //Skal nok være en mergesort!!
         ArrayList<Produkt> produkter = new ArrayList<>();
-
-        // Hvis der er valgt flere end 1 produktgruppe, og ingen produkttyper
-        if (produktgrupper.size() > 0 && produktTyper.size() == 0) {
-            for (Produktgruppe pg : produktgrupper) {
-                for (Produkt p : pg.getProdukter()) {
-                    if (!produkter.contains(p)) {
-                        produkter.add(p);
-                    }
-                }
-            }
+        for (Produktgruppe pg : produktgrupper) {
+            produkter.addAll(pg.getProdukter());
         }
-
-        // Hvis der er valgt ingen produktgrupper, og flere end 1 produkttype
-        if (produktgrupper.size() == 0 && produktTyper.size() > 0) {
-            for (ProduktType pt : produktTyper) {
-                for (Produkt p : pt.getProdukter()) {
-                    if (!produkter.contains(p)) {
-                        produkter.add(p);
-                    }
-                }
-            }
-        }
-
-        // Hvis der er valgt flere produktgrupper end produkttyper
-        if (produktgrupper.size() >= produktTyper.size()) {
-            for (Produktgruppe pg : produktgrupper) {
-                for (Produkt p : pg.getProdukter()) {
+        for (ProduktType pt : produktTyper) {
+            for (Produkt p : pt.getProdukter()) {
+                if (!produkter.contains(p)) {
                     produkter.add(p);
                 }
             }
-            for (ProduktType pt : produktTyper) {
-                for (Produkt p : pt.getProdukter()) {
-                    if (!produkter.contains(p)) {
-                        produkter.add(p);
-                    }
-                }
-            }
         }
-
-        //Hvis der er valgt færre produktgrupper end produkttyper
-        if (produktgrupper.size() <= produktTyper.size()) {
-            for (ProduktType pt : produktTyper) {
-                for (Produkt p : pt.getProdukter()) {
-                    produkter.add(p);
-                }
-            }
-            for (Produktgruppe pg : produktgrupper) {
-                for (Produkt p : pg.getProdukter()) {
-                    if (!produkter.contains(p)) {
-                        produkter.add(p);
-                    }
-                }
-            }
-
-        }
-//
-//        for (Produktgruppe pg : produktgrupper) {
-//            produkter.addAll(pg.getProdukter());
-//        }
-//        for (ProduktType pt : produktTyper) {
-//            for (Produkt p : pt.getProdukter()) {
-//                if (!produkter.contains(p)) {
-//                    produkter.add(p);
-//                }
-//            }
-//        }
-
-
+        Collections.sort(produkter);
         return produkter;
     }
 
@@ -229,6 +165,7 @@ public class Controller {
         Produkt p2 = Controller.createProdukt(pg1, pt1, "Sweet Georgia Brown");
         Produkt p3 = Controller.createProdukt(pg2, pt2, "Jazz Classic, 25 liter");
         Produkt p4 = Controller.createProdukt(pg2, pt2, "Extra Pilsner, 25 liter");
+
 
     }
 

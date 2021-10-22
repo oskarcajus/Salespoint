@@ -18,8 +18,10 @@ public class Produktgruppe {
             }
         }
         produkt = new Produkt(navn, produktType, this);
-        this.produkter.add(produkt);
-        produktType.addProdukt(produkt);
+        // De her to gør at produktet bliver added x2 til Produktgruppe og ProduktType
+        // Vi skal finde ud af hvor de skal være placeret
+//        this.produkter.add(produkt);
+//        produktType.addProdukt(produkt);
         return produkt;
     }
 
