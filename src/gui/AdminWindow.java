@@ -24,7 +24,7 @@ public class AdminWindow extends Application {
         Scene scene = new Scene(pane);
         stage.setScene(scene);
         stage.setHeight(500);
-        stage.setWidth(800);
+        stage.setWidth(500);
         stage.show();
     }
 
@@ -40,22 +40,17 @@ public class AdminWindow extends Application {
 
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        // forskellige tab
         Tab tabProdukter = new Tab("Produkter");
-        Tab tabPrisLister = new Tab("Prislister");
+        Tab tabPriser = new Tab("Priser");
 
         AdminProduktPane adminProduktPane = new AdminProduktPane();
         tabProdukter.setContent(adminProduktPane);
-//            // ProduktPane til tab
-//            ProduktPane produktPane = new ProduktPane();
-//            tabProdukter.setContent(produktPane);
-//
-//            // PrisListePane til tab
-//            PrisListePane prisListePane = new PrisListePane();
-//            tabPrisLister.setContent(prisListePane);
+
+        AdminPrisPane adminPrisPane = new AdminPrisPane();
+        tabPriser.setContent(adminPrisPane);
 
         // Add Ordre, produkter, pristLister til TabPane
-        tabPane.getTabs().addAll(tabProdukter, tabPrisLister);
+        tabPane.getTabs().addAll(tabProdukter, tabPriser);
 
 
     }

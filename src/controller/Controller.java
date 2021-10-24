@@ -70,7 +70,9 @@ public class Controller {
         return new ArrayList<>(Storage.getProduktgrupper());
     }
 
-    //ProduktType
+    //------------------------------------
+
+    //ProduktType -----------------------------
     public static ProduktType createProduktType(String navn) {
         ProduktType produktType;
         for (ProduktType pt : Storage.getProduktTyper()) {
@@ -151,6 +153,50 @@ public class Controller {
         return produkter;
     }
 
+    //----------------------------------------------
+
+    //SalgSituation --------------------------------
+
+    public static ArrayList<SalgsSituation> getSalgsSituationer() {
+        return new ArrayList<>(Storage.getSalgsSituationer());
+    }
+
+    public static void removeSalgsSituation(SalgsSituation salgsSituation) {
+        Storage.removeSalgsSituation(salgsSituation);
+    }
+
+    public static SalgsSituation createSalgsSituation(String navn) {
+        SalgsSituation salgsSituation = new SalgsSituation(navn);
+        for (SalgsSituation ss :  Storage.getSalgsSituationer()) {
+            if (ss.getNavn().equals(navn)) {
+                throw new IllegalArgumentException("Der findes allerede en salgssituation med det navn.");
+            }
+        }
+        Storage.addSalgsSituation(salgsSituation);
+        return salgsSituation;
+    }
+
+    //----------------------------------------------
+
+    //Pris ------------------------------------------
+
+    public static ArrayList<Pris> getPriserFromSalgsSituation(SalgsSituation salgsSituation) {
+        return new ArrayList<>(salgsSituation.getPriser());
+    }
+
+    public static Pris createPris(SalgsSituation salgsSituation, Produkt produkt, int pris, int klip, int pant) {
+        Pris p = null;
+        try {
+            p = salgsSituation.createPris(produkt, pris, klip, pant);
+            return p;
+        }
+        catch (IllegalArgumentException e) {
+            return p;
+        }
+    }
+
+    //---------------------------------------------
+
     public static void initContent() {
         //Create produktgrupper
         Produktgruppe pg1 = Controller.createProduktgruppe("Flaske");
@@ -166,8 +212,14 @@ public class Controller {
         Produkt p3 = Controller.createProdukt(pg2, pt2, "Jazz Classic, 25 liter");
         Produkt p4 = Controller.createProdukt(pg2, pt2, "Extra Pilsner, 25 liter");
 
+        //Create salgssituation
+        SalgsSituation s1 = Controller.createSalgsSituation("Butik");
+        SalgsSituation s2 = Controller.createSalgsSituation("Fredagsbar");
+
 
     }
+
+
 
 }
 

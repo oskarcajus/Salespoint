@@ -2,6 +2,7 @@ package storage;
 
 import model.ProduktType;
 import model.Produktgruppe;
+import model.SalgsSituation;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class Storage {
     //-------------------------
 
     //Produktgruppe
-    private static ArrayList<Produktgruppe> produktgrupper = new ArrayList<>();
+    private static final ArrayList<Produktgruppe> produktgrupper = new ArrayList<>();
 
     public static void addProduktgruppe(Produktgruppe pg) {
         produktgrupper.add(pg);
@@ -36,7 +37,7 @@ public class Storage {
     }
 
     //ProduktType
-    private static ArrayList<ProduktType> produktTyper = new ArrayList<>();
+    private static final ArrayList<ProduktType> produktTyper = new ArrayList<>();
 
     public static void addProduktType(ProduktType pt) {
         produktTyper.add(pt);
@@ -46,5 +47,18 @@ public class Storage {
     }
     public static ArrayList<ProduktType> getProduktTyper() {
         return new ArrayList<ProduktType>(Storage.produktTyper);
+    }
+
+    //SalgsSituation
+    private static final ArrayList<SalgsSituation> salgsSituationer = new ArrayList<>();
+
+    public static void addSalgsSituation(SalgsSituation ss) {
+        salgsSituationer.add(ss);
+    }
+    public static void removeSalgsSituation(SalgsSituation ss) {
+        salgsSituationer.remove(ss);
+    }
+    public static ArrayList<SalgsSituation> getSalgsSituationer() {
+        return new ArrayList<SalgsSituation>(Storage.salgsSituationer);
     }
 }

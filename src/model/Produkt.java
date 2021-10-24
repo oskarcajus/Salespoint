@@ -52,7 +52,7 @@ public class Produkt implements Comparable<Produkt> {
 
     @Override
     public String toString() {
-        return this.name + "PG: " + this.produktgruppe + " PT: " + this.produktType;
+        return this.name;
     }
 
 

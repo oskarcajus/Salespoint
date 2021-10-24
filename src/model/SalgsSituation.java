@@ -53,7 +53,7 @@ public class SalgsSituation {
     }
 
     public ArrayList<Pris> getPriser() {
-        return priser;
+        return  new ArrayList<>(this.priser);
     }
 
 

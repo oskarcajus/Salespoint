@@ -58,19 +58,21 @@ public class AdminProduktPane extends GridPane {
         //Listviews
 
         lwProduktgrupper = new ListView<>();
-        ChangeListener<? super Produktgruppe> lwProduktgrupperListener = (ov, oldString, newString) -> this.selectionChangedLwProduktgrupper();
-        lwProduktgrupper.getSelectionModel().selectedItemProperty().addListener(lwProduktgrupperListener);
+
         lwProduktgrupper.getItems().setAll(Controller.getProduktgrupper());
         lwProduktgrupper.getSelectionModel().select(0);
         lwProduktgrupper.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        ChangeListener<? super Produktgruppe> lwProduktgrupperListener = (ov, oldString, newString) -> this.selectionChangedLwProduktgrupper();
+        lwProduktgrupper.getSelectionModel().selectedItemProperty().addListener(lwProduktgrupperListener);
         this.add(lwProduktgrupper, 0, 1);
 
         lwProduktTyper = new ListView<>();
-        ChangeListener<? super ProduktType> lwProduktTyperListener = (ov, oldString, newString) -> this.selectionChangedLwProduktTyper();
-        lwProduktTyper.getSelectionModel().selectedItemProperty().addListener(lwProduktTyperListener);
+
         lwProduktTyper.getItems().setAll(Controller.getProduktTyper());
         lwProduktTyper.getSelectionModel().select(0);
         lwProduktTyper.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        ChangeListener<? super ProduktType> lwProduktTyperListener = (ov, oldString, newString) -> this.selectionChangedLwProduktTyper();
+        lwProduktTyper.getSelectionModel().selectedItemProperty().addListener(lwProduktTyperListener);
         this.add(lwProduktTyper, 0, 4);
 
 
