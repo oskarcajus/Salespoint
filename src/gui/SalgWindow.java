@@ -20,8 +20,8 @@ public class SalgWindow extends Application {
     // Controller access
     private Controller controller;
     private ListView<SalgsSituation> lvwSalgsSituation;
-    private MainApp mainApp;
-    private Button start;
+    private Button btnStart;
+    private Alert errorAlert;
 
 //------------------------------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ public class SalgWindow extends Application {
 
     private void initContent(GridPane pane) {
         pane.setAlignment(Pos.BASELINE_CENTER);
-
+        // Listviews
         Label lblSalg = new Label("Liste af Salgs områder");
         pane.add(lblSalg,10,9);
 
@@ -54,18 +54,32 @@ public class SalgWindow extends Application {
         pane.add(lvwSalgsSituation, 10, 10, 1, 5);
         lvwSalgsSituation.setPrefWidth(200);
         lvwSalgsSituation.setPrefHeight(200);
-        lvwSalgsSituation.getItems().setAll();
+        lvwSalgsSituation.getItems().setAll(Controller.getSalgsSituationer());
 
 //        ChangeListener<SalgsSituation> listenerSalgsSituation = (ok, oldKonference, newKonference) -> ;
 //        lvwSalgsSituation.getSelectionModel().selectedItemProperty().addListener(listenerSalgsSituation);
 
-
+        // button
+        Button btnStart = new Button("Start salg");
+        pane.add(btnStart, 10, 20);
+        btnStart.setOnAction(event ->
+                this.onActionBtnStart(lvwSalgsSituation.getSelectionModel().getSelectedItem()));
 
     }
 
-    public void btnActionStart(){
+    private void onActionBtnStart(SalgsSituation selectedItem) {
+        if (selectedItem != null){
+            SalgStartWindow salgStartWindow = new SalgStartWindow(selectedItem);
+            salgStartWindow.showAndWait();
+        } else {
+            errorAlert = new Alert(Alert.AlertType.ERROR, "Mangler at vælge en salgs område!");
+            errorAlert.show();
+        }
 
     }
+
+
+
 
 }
 
