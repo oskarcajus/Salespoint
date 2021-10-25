@@ -85,6 +85,7 @@ public class AdminPrisPane extends GridPane {
         hBoxPriser.setSpacing(20);
         this.add(hBoxPriser, 1, 2);
 
+
         //Buttons on click
 //        btnOpretProduktgruppe.setOnAction(event ->
 //                this.onActionBtnOpretProduktgruppe(this));
