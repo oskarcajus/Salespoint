@@ -52,6 +52,10 @@ public class SalgsSituation {
         return p;
     }
 
+    public void removePris(Pris pris) {
+        priser.remove(pris);
+    }
+
     public ArrayList<Pris> getPriser() {
         return  new ArrayList<>(this.priser);
     }

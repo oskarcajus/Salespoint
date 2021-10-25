@@ -195,6 +195,10 @@ public class Controller {
         }
     }
 
+    public static void removePris(SalgsSituation salgsSituation, Pris pris) {
+        salgsSituation.removePris(pris);
+    }
+
     //---------------------------------------------
 
     public static void initContent() {

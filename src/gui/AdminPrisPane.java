@@ -71,8 +71,8 @@ public class AdminPrisPane extends GridPane {
 //        ObservableList<Pris> selectedPriser = this.lwPriser.getSelectionModel().getSelectedItems();
 
         //Labels
-        this.add(lblSalgsSituationer, 0,0);
-        this.add(lblPriser, 1,0);
+        this.add(lblSalgsSituationer, 0, 0);
+        this.add(lblPriser, 1, 0);
 
         //Buttons
         hBoxSalgsSituationer.getChildren().addAll(btnOpretSalgsSituation, btnRedigerSalgsSituation, btnSletSalgsSituation);
@@ -86,80 +86,64 @@ public class AdminPrisPane extends GridPane {
         this.add(hBoxPriser, 1, 2);
 
         //Buttons on click
-//        btnOpretProduktgruppe.setOnAction(event ->
-//                this.onActionBtnOpretProduktgruppe(this));
-//        btnRedigerProduktgruppe.setOnAction(event ->
-//                this.onActionBtnRedigerProduktgruppe(this, lwProduktgrupper.getSelectionModel().getSelectedItem()));
-//        btnSletProduktgruppe.setOnAction(event ->
-//                this.onActionBtnSletProduktgruppe(lwProduktgrupper.getSelectionModel().getSelectedItem()));
+//        btnOpretSalgsSituation.setOnAction(event ->
+//                this.onActionBtnOpretSalgsSituation(this));
+//        btnRedigerSalgsSituation.setOnAction(event ->
+//                this.onActionBtnRedigerSalgsSituation(this, lwSalgsSituationer.getSelectionModel().getSelectedItem()));
+//        btnSletSalgsSituation.setOnAction(event ->
+//                this.onActionBtnSletSalgsSituation(lwSalgsSituationer.getSelectionModel().getSelectedItem()));
 //
-//        btnOpretProduktType.setOnAction(event ->
-//                this.onActionBtnOpretProduktType(this));
-//        btnRedigerProduktType.setOnAction(event ->
-//                this.onActionBtnRedigerProduktType(this, lwProduktTyper.getSelectionModel().getSelectedItem()));
-//        btnSletProduktType.setOnAction(event ->
-//                this.onActionBtnSletProduktType(lwProduktTyper.getSelectionModel().getSelectedItem()));
+//        btnOpretPris.setOnAction(event ->
+//                this.onActionBtnOpretPris(this));
+//        btnRedigerPris.setOnAction(event ->
+//                this.onActionBtnRedigerPris(this, lwPriser.getSelectionModel().getSelectedItem()));
+////        btnSletPris.setOnAction(event ->
+////                this.onActionBtnSletPris(lwPriser.getSelectionModel().getSelectedItem()));
 //
-//        btnOpretProdukt.setOnAction(event ->
-//                this.onActionBtnOpretProdukt(this, lwProduktgrupper.getSelectionModel().getSelectedItem(),
-//                        lwProduktTyper.getSelectionModel().getSelectedItem()));
-//        btnRedigerProdukt.setOnAction(event ->
-//                this.onActionBtnRedigerProdukt(this, lwProduktTyper.getSelectionModel().getSelectedItem()));
-//        btnSletProdukt.setOnAction(event ->
-//                this.onActionBtnSletProdukt(lwProduktTyper.getSelectionModel().getSelectedItem()));
+//    }
 
 
-
-
-//        btnOpretProdukt.setOnAction(event -> this.onActionBtnOpretProdukt(this, lwProduktgrupper.getSelectionModel().getSelectedItem()));
-//        btnOpretProdukt.setOnAction(event -> this.onActionBtnRedigerProdukt());
-
-
-    }
-
-
-
-    private void onActionBtnOpretProduktgruppe(AdminProduktPane adminProduktPane) {
-        AdminOpretProduktgruppeWindow adminOpretProduktgruppeWindow = new AdminOpretProduktgruppeWindow(adminProduktPane);
-        adminOpretProduktgruppeWindow.showAndWait();
-    }
-
-    private void onActionBtnRedigerProduktgruppe(AdminProduktPane adminProduktPane, Produktgruppe produktgruppe) {
-        AdminRedigerProduktgruppeWindow adminRedigerProduktgruppeWindow = new AdminRedigerProduktgruppeWindow(adminProduktPane, produktgruppe);
-        adminRedigerProduktgruppeWindow.showAndWait();
-    }
-
-//    private void onActionBtnSletProduktgruppe(Produktgruppe produktgruppe) {
+//    private void onActionBtnOpretSalgsSituation(AdminPrisPane adminPrisPane) {
+//        AdminOpretSalgsSituationWindow adminOpretSalgsSituationWindow = new AdminOpretSalgsSituationWindow(adminPrisPane);
+//        adminOpretPrisWindow.showAndWait();
+//    }
+//
+//    private void onActionBtnRedigerSalgsSituation(AdminProduktPane adminProduktPane, SalgsSituation salgsSituation) {
+//        AdminRedigerSalgsSituationWindow adminRedigerSalgsSituationWindow = new AdminRedigerSalgsSituationWindow(adminProduktPane, salgsSituation);
+//        adminRedigerSalgsSituationWindow.showAndWait();
+//    }
+//
+//    private void onActionBtnSletSalgsSituation(SalgsSituation salgsSituation) {
 //        try {
-//            Controller.removeProduktgruppe(produktgruppe);
-//            this.updateLwProduktgrupper();
+//            Controller.removeSalgsSituation(salgsSituation);
+//            this.updateLwSalgsSituationer();
 //        }
 //        catch (RuntimeException e) {
 //            errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
 //        }
 //    }
-
+//
 //    public void updateLwProduktgrupper() {
-//        lwProduktgrupper.getItems().setAll(Controller.getProduktgrupper());
+//        lwSalgsSituationer.getItems().setAll(Controller.getSalgsSituationer());
 //    }
-
-//--------------------------------------
-
-    private void onActionBtnOpretProduktType(AdminProduktPane adminProduktPane) {
-        AdminOpretProduktTypeWindow adminOpretProduktTypeWindow = new AdminOpretProduktTypeWindow(adminProduktPane);
-        adminOpretProduktTypeWindow.showAndWait();
-    }
-
-    private void onActionBtnRedigerProduktType(AdminProduktPane adminProduktPane, ProduktType produktType) {
-        AdminRedigerProduktTypeWindow adminRedigerProduktTypeWindow = new AdminRedigerProduktTypeWindow(adminProduktPane, produktType);
-        adminRedigerProduktTypeWindow.showAndWait();
-    }
-
-
-//    private void onActionBtnSletProduktType(ProduktType produktType) {
+//
+////--------------------------------------
+//
+//    private void onActionBtnOpretPris(AdminPrisPane adminPrisPane) {
+//        AdminOpretPrisWindow adminOpretPrisWindow = new AdminOpretPrisWindow(adminPrisPane);
+//        adminOpretPrisWindow.showAndWait();
+//    }
+//
+//    private void onActionBtnRedigerPris(AdminPrisPane adminPrisPane, Pris pris) {
+//        AdminRedigerPrisWindow adminRedigerPrisWindow = new AdminRedigerPrisWindow(adminPrisPane, pris);
+//        adminRedigerPrisWindow.showAndWait();
+//    }
+//
+//
+//    private void onActionBtnSletPris(SalgsSituation salgsSituation, Pris pris) {
 //        try {
-//            Controller.removeProduktType(produktType);
-//            this.updateLwProduktTyper();
+//            Controller.removePris(salgsSituation, pris);
+//            this.updateLwPriser();
 //        }
 //        catch (RuntimeException e) {
 //            errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
@@ -170,10 +154,10 @@ public class AdminPrisPane extends GridPane {
 
 //--------------------------------------
 
-    private void onActionBtnOpretProdukt(AdminProduktPane adminProduktPane, Produktgruppe produktgruppe, ProduktType produktType) {
-        AdminOpretProduktWindow adminOpretProduktWindow = new AdminOpretProduktWindow(adminProduktPane, produktgruppe, produktType);
-        adminOpretProduktWindow.showAndWait();
-    }
+//    private void onActionBtnOpretProdukt(AdminProduktPane adminProduktPane, Produktgruppe produktgruppe, ProduktType produktType) {
+//        AdminOpretProduktWindow adminOpretProduktWindow = new AdminOpretProduktWindow(adminProduktPane, produktgruppe, produktType);
+//        adminOpretProduktWindow.showAndWait();
+//    }
 
 //    private void onActionBtnRedigerProdukt(AdminProduktPane adminProduktPane, Produkt produkt) {
 //        AdminRedigerProduktWindow adminRedigerProduktWindow = new AdminRedigerProduktWindow(adminProduktPane, produkt);
@@ -197,7 +181,7 @@ public class AdminPrisPane extends GridPane {
 //                Controller.getProdukterInProduktgruppeAndOrProduktType(selectedProduktgrupper, selectedProduktTyper));
 //    }
 
-    //----------------------------------------
+        //----------------------------------------
 
 //    private void selectionChangedLwProduktgrupper() {
 //        this.updateLwProdukter();
@@ -206,4 +190,5 @@ public class AdminPrisPane extends GridPane {
 //        this.updateLwProdukter();
 //    }
 
+    }
 }
