@@ -35,6 +35,8 @@ public class AdminPrisPane extends GridPane {
     private final Button btnRedigerPris = new Button("Rediger");
     private final Button btnSletPris = new Button("Slet");
 
+    SalgsSituation selectedSalgsSituation;
+    Pris selectedPris;
 
     public AdminPrisPane() {
         this.setGridLinesVisible(false);
@@ -49,26 +51,22 @@ public class AdminPrisPane extends GridPane {
         //Listviews
 
         lwSalgsSituationer = new ListView<>();
+        selectedSalgsSituation = this.lwSalgsSituationer.getSelectionModel().getSelectedItem();
 
         lwSalgsSituationer.getItems().setAll(Controller.getSalgsSituationer());
         lwSalgsSituationer.getSelectionModel().select(0);
         lwSalgsSituationer.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-//        ChangeListener<? super Produktgruppe> lwProduktgrupperListener = (ov, oldString, newString) -> this.selectionChangedLwProduktgrupper();
-//        lwProduktgrupper.getSelectionModel().selectedItemProperty().addListener(lwProduktgrupperListener);
+        ChangeListener<? super SalgsSituation> lwSalgsSituationListener = (ov, oldString, newString) -> this.selectionChangedLwSalgsSituationer();
+        lwSalgsSituationer.getSelectionModel().selectedItemProperty().addListener(lwSalgsSituationListener);
         this.add(lwSalgsSituationer, 0, 1);
 
+
         lwPriser = new ListView<>();
+        selectedPris = this.lwPriser.getSelectionModel().getSelectedItem();
 
         lwPriser.getItems().setAll(Controller.getPriserFromSalgsSituation(lwSalgsSituationer.getItems().get(0)));
         lwPriser.getSelectionModel().select(0);
-        lwPriser.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-//        ChangeListener<? super ProduktType> lwProduktTyperListener = (ov, oldString, newString) -> this.selectionChangedLwProduktTyper();
-//        lwPriser.getSelectionModel().selectedItemProperty().addListener(lwProduktTyperListener);
         this.add(lwPriser, 1, 1);
-
-
-//        ObservableList<SalgsSituation> selectedSalgSituationer = this.lwSalgsSituationer.getSelectionModel().getSelectedItems();
-//        ObservableList<Pris> selectedPriser = this.lwPriser.getSelectionModel().getSelectedItems();
 
         //Labels
         this.add(lblSalgsSituationer, 0, 0);
@@ -87,109 +85,79 @@ public class AdminPrisPane extends GridPane {
 
 
         //Buttons on click
-//        btnOpretSalgsSituation.setOnAction(event ->
-//                this.onActionBtnOpretSalgsSituation(this));
-//        btnRedigerSalgsSituation.setOnAction(event ->
-//                this.onActionBtnRedigerSalgsSituation(this, lwSalgsSituationer.getSelectionModel().getSelectedItem()));
-//        btnSletSalgsSituation.setOnAction(event ->
-//                this.onActionBtnSletSalgsSituation(lwSalgsSituationer.getSelectionModel().getSelectedItem()));
-//
-//        btnOpretPris.setOnAction(event ->
-//                this.onActionBtnOpretPris(this));
-//        btnRedigerPris.setOnAction(event ->
-//                this.onActionBtnRedigerPris(this, lwPriser.getSelectionModel().getSelectedItem()));
-////        btnSletPris.setOnAction(event ->
-////                this.onActionBtnSletPris(lwPriser.getSelectionModel().getSelectedItem()));
-//
-//    }
+        btnOpretSalgsSituation.setOnAction(event ->
+                this.onActionBtnOpretSalgsSituation(this));
+        btnRedigerSalgsSituation.setOnAction(event ->
+                this.onActionBtnRedigerSalgsSituation(this, selectedSalgsSituation));
+        btnSletSalgsSituation.setOnAction(event ->
+                this.onActionBtnSletSalgsSituation(selectedSalgsSituation));
+
+        btnOpretPris.setOnAction(event ->
+                this.onActionBtnOpretPris(this, selectedSalgsSituation));
+        btnRedigerPris.setOnAction(event ->
+                this.onActionBtnRedigerPris(this, selectedPris));
+        btnSletPris.setOnAction(event ->
+                this.onActionBtnSletPris(selectedSalgsSituation, selectedPris));
+
+    }
+
+    private void selectionChangedLwSalgsSituationer() {
+        selectedSalgsSituation = lwSalgsSituationer.getSelectionModel().getSelectedItem();
+        this.updateLwPriser(this.selectedSalgsSituation);
+    }
 
 
-//    private void onActionBtnOpretSalgsSituation(AdminPrisPane adminPrisPane) {
-//        AdminOpretSalgsSituationWindow adminOpretSalgsSituationWindow = new AdminOpretSalgsSituationWindow(adminPrisPane);
-//        adminOpretPrisWindow.showAndWait();
-//    }
-//
-//    private void onActionBtnRedigerSalgsSituation(AdminProduktPane adminProduktPane, SalgsSituation salgsSituation) {
-//        AdminRedigerSalgsSituationWindow adminRedigerSalgsSituationWindow = new AdminRedigerSalgsSituationWindow(adminProduktPane, salgsSituation);
+    private void onActionBtnOpretSalgsSituation(AdminPrisPane adminPrisPane) {
+        AdminOpretSalgsSituationWindow adminOpretSalgsSituationWindow = new AdminOpretSalgsSituationWindow(adminPrisPane);
+        adminOpretSalgsSituationWindow.showAndWait();
+    }
+
+    private void onActionBtnRedigerSalgsSituation(AdminPrisPane adminPrisPane, SalgsSituation salgsSituation) {
+//        AdminRedigerSalgsSituationWindow adminRedigerSalgsSituationWindow = new AdminRedigerSalgsSituationWindow(adminPrisPane, salgsSituation);
 //        adminRedigerSalgsSituationWindow.showAndWait();
-//    }
-//
-//    private void onActionBtnSletSalgsSituation(SalgsSituation salgsSituation) {
-//        try {
-//            Controller.removeSalgsSituation(salgsSituation);
-//            this.updateLwSalgsSituationer();
-//        }
-//        catch (RuntimeException e) {
-//            errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
-//        }
-//    }
-//
-//    public void updateLwProduktgrupper() {
-//        lwSalgsSituationer.getItems().setAll(Controller.getSalgsSituationer());
-//    }
-//
-////--------------------------------------
-//
-//    private void onActionBtnOpretPris(AdminPrisPane adminPrisPane) {
-//        AdminOpretPrisWindow adminOpretPrisWindow = new AdminOpretPrisWindow(adminPrisPane);
-//        adminOpretPrisWindow.showAndWait();
-//    }
-//
-//    private void onActionBtnRedigerPris(AdminPrisPane adminPrisPane, Pris pris) {
-//        AdminRedigerPrisWindow adminRedigerPrisWindow = new AdminRedigerPrisWindow(adminPrisPane, pris);
-//        adminRedigerPrisWindow.showAndWait();
-//    }
-//
-//
-//    private void onActionBtnSletPris(SalgsSituation salgsSituation, Pris pris) {
-//        try {
-//            Controller.removePris(salgsSituation, pris);
-//            this.updateLwPriser();
-//        }
-//        catch (RuntimeException e) {
-//            errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
-//        }
-//    }
+    }
 
-//    public void updateLwProduktTyper()  { lwProduktTyper.getItems().setAll(Controller.getProduktTyper()); }
+    private void onActionBtnSletSalgsSituation(SalgsSituation salgsSituation) {
+        try {
+            Controller.removeSalgsSituation(salgsSituation);
+            this.updateLwSalgsSituationer();
+        }
+        catch (RuntimeException e) {
+            errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+        }
+    }
+
+    public void updateLwSalgsSituationer() {
+        lwSalgsSituationer.getItems().setAll(Controller.getSalgsSituationer());
+    }
 
 //--------------------------------------
 
-//    private void onActionBtnOpretProdukt(AdminProduktPane adminProduktPane, Produktgruppe produktgruppe, ProduktType produktType) {
-//        AdminOpretProduktWindow adminOpretProduktWindow = new AdminOpretProduktWindow(adminProduktPane, produktgruppe, produktType);
-//        adminOpretProduktWindow.showAndWait();
-//    }
-
-//    private void onActionBtnRedigerProdukt(AdminProduktPane adminProduktPane, Produkt produkt) {
-//        AdminRedigerProduktWindow adminRedigerProduktWindow = new AdminRedigerProduktWindow(adminProduktPane, produkt);
-//        adminRedigerProduktWindow.showAndWait();
-//    }
-
-//    private void onActionBtnSletProduktgruppe(Produktgruppe produktgruppe, Produkt produkt) {
-//        try {
-//            Controller.removeProdukt(produkt);
-//            this.updateLwProdukter();
-//        }
-//        catch (RuntimeException e) {
-//            errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
-//        }
-//    }
-
-//    public void updateLwProdukter() {
-//        ObservableList<Produktgruppe> selectedProduktgrupper = this.lwProduktgrupper.getSelectionModel().getSelectedItems();
-//        ObservableList<ProduktType> selectedProduktTyper = this.lwProduktTyper.getSelectionModel().getSelectedItems();
-//        lwProdukter.getItems().setAll(
-//                Controller.getProdukterInProduktgruppeAndOrProduktType(selectedProduktgrupper, selectedProduktTyper));
-//    }
-
-        //----------------------------------------
-
-//    private void selectionChangedLwProduktgrupper() {
-//        this.updateLwProdukter();
-//    }
-//    private void selectionChangedLwProduktTyper() {
-//        this.updateLwProdukter();
-//    }
-
+    private void onActionBtnOpretPris(AdminPrisPane adminPrisPane, SalgsSituation salgsSituation) {
+//        AdminOpretPrisWindow adminOpretPrisWindow = new AdminOpretPrisWindow(adminPrisPane, salgsSituation);
+//        adminOpretPrisWindow.showAndWait();
     }
+
+    private void onActionBtnRedigerPris(AdminPrisPane adminPrisPane, Pris pris) {
+//        AdminRedigerPrisWindow adminRedigerPrisWindow = new AdminRedigerPrisWindow(adminPrisPane, pris);
+//        adminRedigerPrisWindow.showAndWait();
+    }
+
+
+    private void onActionBtnSletPris(SalgsSituation salgsSituation, Pris pris) {
+        try {
+            Controller.removePris(salgsSituation, pris);
+            this.updateLwPriser(salgsSituation);
+        }
+        catch (RuntimeException e) {
+            errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+        }
+    }
+
+    public void updateLwPriser(SalgsSituation salgsSituation)  {
+        lwPriser.getItems().setAll(Controller.getPriserFromSalgsSituation(salgsSituation));
+    }
+
+//--------------------------------------
+
 }

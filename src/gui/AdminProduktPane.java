@@ -42,8 +42,8 @@ public class AdminProduktPane extends GridPane {
     private final Button btnRedigerProdukt = new Button("Rediger");
     private final Button btnSletProdukt = new Button("Slet");
 
-
-
+    private ObservableList<Produktgruppe> selectedProduktgrupper;
+    private ObservableList<ProduktType> selectedProduktTyper;
 
     public AdminProduktPane() {
         this.setGridLinesVisible(false);
@@ -58,6 +58,7 @@ public class AdminProduktPane extends GridPane {
         //Listviews
 
         lwProduktgrupper = new ListView<>();
+        selectedProduktgrupper = this.lwProduktgrupper.getSelectionModel().getSelectedItems();
 
         lwProduktgrupper.getItems().setAll(Controller.getProduktgrupper());
         lwProduktgrupper.getSelectionModel().select(0);
@@ -67,6 +68,7 @@ public class AdminProduktPane extends GridPane {
         this.add(lwProduktgrupper, 0, 1);
 
         lwProduktTyper = new ListView<>();
+        selectedProduktTyper = this.lwProduktTyper.getSelectionModel().getSelectedItems();
 
         lwProduktTyper.getItems().setAll(Controller.getProduktTyper());
         lwProduktTyper.getSelectionModel().select(0);
@@ -76,8 +78,8 @@ public class AdminProduktPane extends GridPane {
         this.add(lwProduktTyper, 0, 4);
 
 
-        ObservableList<Produktgruppe> selectedProduktgrupper = this.lwProduktgrupper.getSelectionModel().getSelectedItems();
-        ObservableList<ProduktType> selectedProduktTyper = this.lwProduktTyper.getSelectionModel().getSelectedItems();
+
+
         lwProdukter = new ListView<>();
         lwProdukter.getItems().setAll(Controller.getProdukterInProduktgruppeAndOrProduktType(selectedProduktgrupper, selectedProduktTyper));
         this.add(lwProdukter, 1, 1, 1, 4);

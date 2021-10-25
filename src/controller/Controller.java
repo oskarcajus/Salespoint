@@ -184,15 +184,17 @@ public class Controller {
         return new ArrayList<>(salgsSituation.getPriser());
     }
 
-    public static Pris createPris(SalgsSituation salgsSituation, Produkt produkt, int pris, int klip, int pant) {
-        Pris p = null;
-        try {
-            p = salgsSituation.createPris(produkt, pris, klip, pant);
-            return p;
+    public static Pris createPris(SalgsSituation salgsSituation, Produkt produkt, double pris, int klipPris, double pantPris) {
+        if (produkt == null) {
+            throw new IllegalArgumentException("Du har ikke valgt et produkt.");
         }
-        catch (IllegalArgumentException e) {
-            return p;
+
+        for (Pris p : salgsSituation.getPriser()) {
+            if (p.getProdukt().equals(produkt)) {
+                throw new IllegalArgumentException("Produktet har allerede en pris i denne salgssituation.");
+            }
         }
+        return salgsSituation.createPris(produkt, pris, klipPris, pantPris);
     }
 
     public static void removePris(SalgsSituation salgsSituation, Pris pris) {
@@ -220,6 +222,15 @@ public class Controller {
         SalgsSituation s1 = Controller.createSalgsSituation("Butik");
         SalgsSituation s2 = Controller.createSalgsSituation("Fredagsbar");
 
+
+        //Create priser
+        Pris pris1 = Controller.createPris(s1, p1, 35, 0, 0);
+        Pris pris2 = Controller.createPris(s2, p1, 35, 2, 0);
+        Pris pris3 = Controller.createPris(s1, p3, 500, 0, 200);
+
+        for (Pris p : s1.getPriser()) {
+            System.out.println(p.getProdukt().getName());
+        }
 
     }
 
