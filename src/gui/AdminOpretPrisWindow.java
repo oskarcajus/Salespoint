@@ -73,7 +73,6 @@ public class AdminOpretPrisWindow extends Stage {
 
         btnOpret = new Button("Opret");
         btnOpret.setOnAction(event -> this.opretPris(
-                this.salgsSituation,
                 cbProdukter.getSelectionModel().getSelectedItem(),
                 Double.parseDouble(prisInput.getText()),
                 Integer.parseInt(klikPrisInput.getText()),
@@ -99,12 +98,13 @@ public class AdminOpretPrisWindow extends Stage {
 
     }
 
-    private void opretPris(SalgsSituation salgsSituation, Produkt produkt, double pris, int klikPris, double pantPris) {
+    private void opretPris(Produkt produkt, double pris, int klikPris, double pantPris) {
         try {
-            Controller.createPris(salgsSituation, produkt, pris, klikPris, pantPris);
+            Controller.createPris(this.salgsSituation, produkt, pris, klikPris, pantPris);
         }
         catch (IllegalArgumentException e) {
             errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            errorAlert.show();
         }
     }
 
