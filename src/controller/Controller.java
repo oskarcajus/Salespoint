@@ -26,6 +26,10 @@ public class Controller {
         produktgruppe.removeProdukt(produkt);
         return produkt;
     }
+
+    public static ArrayList<Produkt> getAllProdukter() {
+       return getProdukterInProduktgruppeAndOrProduktType(Controller.getProduktgrupper(), Controller.getProduktTyper());
+    }
     // --------------------------------
 
     //Produktgruppe -------------------
@@ -89,7 +93,8 @@ public class Controller {
         if (Controller.getProdukterFromProduktType(produktType).size() == 0) {
             Storage.removeProduktType(produktType);
         } else {
-            throw new RuntimeException("Der er stadig produkter tilknyttet den valgte produktgruppe.\nFjern alle produkter fra produktgruppen før du fortsætter.");
+            throw new RuntimeException("Der er stadig produkter tilknyttet den valgte produktgruppe." +
+                    "\nFjern alle produkter fra produktgruppen før du fortsætter.");
         }
     }
 
@@ -137,6 +142,24 @@ public class Controller {
 
     public static ArrayList<Produkt> getProdukterInProduktgruppeAndOrProduktType(ObservableList<Produktgruppe> produktgrupper,
                                                                                  ObservableList<ProduktType> produktTyper) {
+        //Skal nok være en mergesort!!
+        ArrayList<Produkt> produkter = new ArrayList<>();
+        for (Produktgruppe pg : produktgrupper) {
+            produkter.addAll(pg.getProdukter());
+        }
+        for (ProduktType pt : produktTyper) {
+            for (Produkt p : pt.getProdukter()) {
+                if (!produkter.contains(p)) {
+                    produkter.add(p);
+                }
+            }
+        }
+        Collections.sort(produkter);
+        return produkter;
+    }
+
+    public static ArrayList<Produkt> getProdukterInProduktgruppeAndOrProduktType(ArrayList<Produktgruppe> produktgrupper,
+                                                                                 ArrayList<ProduktType> produktTyper) {
         //Skal nok være en mergesort!!
         ArrayList<Produkt> produkter = new ArrayList<>();
         for (Produktgruppe pg : produktgrupper) {
@@ -227,10 +250,6 @@ public class Controller {
         Pris pris1 = Controller.createPris(s1, p1, 35, 0, 0);
         Pris pris2 = Controller.createPris(s2, p1, 35, 2, 0);
         Pris pris3 = Controller.createPris(s1, p3, 500, 0, 200);
-
-        for (Pris p : s1.getPriser()) {
-            System.out.println(p.getProdukt().getName());
-        }
 
     }
 

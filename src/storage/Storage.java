@@ -8,20 +8,8 @@ import java.util.ArrayList;
 
 public class Storage {
 
-    //Kommentar fra Oskar: Skal vi have produkter i storage? Jeg tror at vi skal hente dem fra produktgrupper i stedet
-    //Produkt -----------------
-//    private static ArrayList<Produkt> produkter = new ArrayList<>();
-//
-//    public static void addProdukt(Produkt p) {
-//        produkter.add(p);
-//    }
-//    public static void removeProdukt(Produkt p) {
-//        produkter.remove(p);
-//    }
-//    public static ArrayList<Produkt> getProdukter() {
-//        return new ArrayList<Produkt>(Storage.produkter);
-//    }
-    //-------------------------
+    //Lav singleton
+
 
     //Produktgruppe
     private static final ArrayList<Produktgruppe> produktgrupper = new ArrayList<>();
@@ -33,7 +21,7 @@ public class Storage {
         produktgrupper.remove(pg);
     }
     public static ArrayList<Produktgruppe> getProduktgrupper() {
-        return new ArrayList<Produktgruppe>(produktgrupper);
+        return new ArrayList<Produktgruppe>(Storage.produktgrupper);
     }
 
     //ProduktType
