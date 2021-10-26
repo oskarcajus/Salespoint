@@ -82,4 +82,10 @@ public class Pris {
     public Produkt getProdukt() {
         return produkt;
     }
+
+    @Override
+    public String toString() {
+
+        return getProdukt().toString() + ": "+ "\t" + getPris();
+    }
 }
