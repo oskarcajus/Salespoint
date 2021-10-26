@@ -134,8 +134,8 @@ public class AdminPrisPane extends GridPane {
 //--------------------------------------
 
     private void onActionBtnOpretPris(AdminPrisPane adminPrisPane, SalgsSituation salgsSituation) {
-//        AdminOpretPrisWindow adminOpretPrisWindow = new AdminOpretPrisWindow(adminPrisPane, salgsSituation);
-//        adminOpretPrisWindow.showAndWait();
+        AdminOpretPrisWindow adminOpretPrisWindow = new AdminOpretPrisWindow(adminPrisPane, salgsSituation);
+        adminOpretPrisWindow.showAndWait();
     }
 
     private void onActionBtnRedigerPris(AdminPrisPane adminPrisPane, Pris pris) {
