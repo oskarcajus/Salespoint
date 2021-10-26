@@ -9,8 +9,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Pris;
 import model.Produkt;
 import model.SalgsSituation;
 
@@ -50,10 +56,26 @@ public class SalgStartWindow extends Stage {
         pane.add(lblProdukter, 0, 0);
 
         lvwProdukter = new ListView();
+        Font font = Font.font("Calibri", FontWeight.BOLD, FontPosture.ITALIC, 15);
+        String produktGruppe = "";
+
+        for (Pris pr : salgsSituation.getPriser()) {
+
+            if (!pr.getProdukt().getProduktgruppe().getNavn().equals(produktGruppe)) {
+                produktGruppe = pr.getProdukt().getProduktgruppe().getNavn();
+                Text txt = new Text(produktGruppe+":");
+                txt.setFont(font);
+                lvwProdukter.getItems().add(txt);
+            }
+            lvwProdukter.getItems().add(pr);
+        }
+        lvwProdukter.getSelectionModel().selectedItemProperty().addListener(obs -> {
+            if (lvwProdukter.getSelectionModel().getSelectedItem() instanceof Text)
+                lvwProdukter.getSelectionModel().selectNext();
+        });
         pane.add(lvwProdukter, 0, 1, 1, 5);
-        lvwProdukter.setPrefWidth(200);
+        lvwProdukter.setPrefWidth(300);
         lvwProdukter.setPrefHeight(500);
-        lvwProdukter.getItems().setAll(salgsSituation.getPriser());
 
 
         // Ordre line
@@ -62,27 +84,43 @@ public class SalgStartWindow extends Stage {
 
         lvwOrdreList = new ListView();
         pane.add(lvwOrdreList, 3, 1, 1, 5);
-        lvwOrdreList.setPrefWidth(200);
+        lvwOrdreList.setPrefWidth(300);
         lvwOrdreList.setPrefHeight(500);
         /* TODO Den her skal ændres ASAP; når de nye ordre, ordrelinje klasser er lavet */
         lvwOrdreList.getItems().setAll(salgsSituation.getNavn());
 
         // Samlet beløb
         lblSamletBeløb = new Label("Samlet beløb:");
-        pane.add(lblSamletBeløb,5,0);
+        pane.add(lblSamletBeløb,4,6);
 
         txfSamletBeløb = new TextField("00.0");
-        pane.add(txfSamletBeløb,5,1);
+        pane.add(txfSamletBeløb,5,6);
         txfSamletBeløb.setPrefWidth(100);
         txfSamletBeløb.setEditable(false);
 
         // Aftalt Beløb
         lblAftaltBeløb = new Label("Aftalt beløb:");
-        pane.add(lblAftaltBeløb,5,6);
+        pane.add(lblAftaltBeløb,5,0);
 
         txfAftaltBeløb = new TextField("00.0");
-        pane.add(txfAftaltBeløb,5,11);
+        pane.add(txfAftaltBeløb,5,1);
         txfAftaltBeløb.setPrefWidth(200);
+
+        // Buttons
+        HBox hbxButtonsOrdre = new HBox(40);
+        pane.add(hbxButtonsOrdre, 3, 6, 1, 1);
+
+        hbxButtonsOrdre.setPadding(new Insets(10, 0, 0, 0));
+        hbxButtonsOrdre.setAlignment(Pos.BASELINE_CENTER);
+
+        Button btnOpretBestilling = new Button("Opret Bestilling");
+        hbxButtonsOrdre.getChildren().add(btnOpretBestilling);
+//        btnOpretBestilling.setOnAction(event -> this.createActionKonference());
+
+        Button btnFjernProdukt = new Button("Fjern produkt");
+        hbxButtonsOrdre.getChildren().add(btnFjernProdukt);
+//        btnFjernProdukt.setOnAction(event -> this.updateActionKonference());
+
 
     }
 
