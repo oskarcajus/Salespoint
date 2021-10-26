@@ -8,6 +8,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Controller {
+    private static Controller controller;
+
+    // Singleton metode
+    public static Controller getController() {
+        if (controller == null) {
+            controller = new Controller();
+        }
+        return controller;
+    }
 
     //Produkt -------------------------
     public static Produkt createProdukt(Produktgruppe produktgruppe, ProduktType produktType, String navn) {

@@ -8,8 +8,15 @@ import java.util.ArrayList;
 
 public class Storage {
 
-    //Lav singleton
+    private static Storage storage;
 
+    //Lav singleton
+    public static Storage getStorage() {
+        if (storage == null) {
+            storage = new Storage();
+        }
+        return storage;
+    }
 
     //Produktgruppe
     private static final ArrayList<Produktgruppe> produktgrupper = new ArrayList<>();
