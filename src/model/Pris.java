@@ -85,7 +85,15 @@ public class Pris {
 
     @Override
     public String toString() {
+        if (getPantPris() <0 && getKlipPris() <0){
+            return getProdukt().toString() + ": "+ "\t" + getPris() + " kr.";
+        } else if (getPantPris() >0) {
+            return getProdukt().toString() + ": "+ "\t" + getPris() + "kr/ " + getPantPris() + "kr.";
+        } else if (getKlipPris() >0) {
+            return getProdukt().toString() + ": "+ "\t" + getPris() + "kr/ " + getKlipPris() + " klip";
+        } else{
+            return getProdukt().toString() + ": "+ "\t" + getPris() + " kr.";
+        }
 
-        return getProdukt().toString() + ": "+ "\t" + getPris();
     }
 }
