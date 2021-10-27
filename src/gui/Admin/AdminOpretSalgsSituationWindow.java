@@ -13,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class AdminOpretSalgsSituationWindow extends Stage {
+    private final Controller controller = Controller.getController();
+
     private AdminPrisPane adminPrisPane;
     private Label lblNavn;
     private TextField navnInput;
@@ -21,6 +23,7 @@ public class AdminOpretSalgsSituationWindow extends Stage {
     private Alert errorAlert;
 
     public AdminOpretSalgsSituationWindow(AdminPrisPane adminPrisPane) {
+
         this.adminPrisPane = adminPrisPane;
 
         this.setMinHeight(200);
@@ -65,7 +68,7 @@ public class AdminOpretSalgsSituationWindow extends Stage {
         else {
             //Errorhandling fra Produktgruppe i modellen
             try {
-                Controller.createSalgsSituation(navn);
+                controller.createSalgsSituation(navn);
                 this.adminPrisPane.updateLwSalgsSituationer();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());

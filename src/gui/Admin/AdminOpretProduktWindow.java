@@ -13,6 +13,8 @@ import model.ProduktType;
 import model.Produktgruppe;
 
 public class AdminOpretProduktWindow extends Stage {
+    private final Controller controller = Controller.getController();
+
     private AdminProduktPane adminProduktPane;
     private Produktgruppe produktgruppe;
     private ProduktType produktType;
@@ -98,7 +100,7 @@ public class AdminOpretProduktWindow extends Stage {
         else {
             //Errorhandling fra Produktgruppe i modellen
             try {
-                Controller.createProdukt(produktgruppe, produktType, navn);
+                controller.createProdukt(produktgruppe, produktType, navn);
                 this.adminProduktPane.updateLwProduktgrupper();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());

@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 import model.ProduktType;
 
 public class AdminRedigerProduktTypeWindow extends Stage {
+    private final Controller controller = Controller.getController();
+
     private AdminProduktPane adminProduktPane;
     private ProduktType produktType;
     private Label lblNavn;
@@ -69,7 +71,7 @@ public class AdminRedigerProduktTypeWindow extends Stage {
         }
         else {
             try {
-                Controller.renameProduktType(produktType, navn);
+                controller.renameProduktType(produktType, navn);
                 this.adminProduktPane.updateLwProduktTyper();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());

@@ -19,25 +19,15 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
+    private final Controller controller = Controller.getController();
 
-    // Controller access
-    private Controller controller;
-
-//------------------------------------------------------------------------------------------------
-
-    @Override
-    public void init() {
-//            controller = Controller.getController();
-    }
-
-    //------------------------------------------------------------------------------------------------
     @Override
     public void start(Stage stage) {
 
         stage.setTitle("Salespoint");
         GridPane pane = new GridPane();
         this.initContent(pane);
-        Controller.initContent();
+        controller.initContent();
 
         Scene scene = new Scene(pane);
         stage.setScene(scene);

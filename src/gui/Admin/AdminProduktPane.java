@@ -11,6 +11,8 @@ import javafx.scene.layout.HBox;
 import model.*;
 
 public class AdminProduktPane extends GridPane {
+    private final Controller controller = Controller.getController();
+
     //Alerts
     private Alert errorAlert;
 
@@ -58,7 +60,7 @@ public class AdminProduktPane extends GridPane {
         lwProduktgrupper = new ListView<>();
         selectedProduktgrupper = this.lwProduktgrupper.getSelectionModel().getSelectedItems();
 
-        lwProduktgrupper.getItems().setAll(Controller.getProduktgrupper());
+        lwProduktgrupper.getItems().setAll(controller.getProduktgrupper());
         lwProduktgrupper.getSelectionModel().select(0);
         lwProduktgrupper.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         ChangeListener<? super Produktgruppe> lwProduktgrupperListener = (ov, oldString, newString) -> this.selectionChangedLwProduktgrupper();
@@ -68,7 +70,7 @@ public class AdminProduktPane extends GridPane {
         lwProduktTyper = new ListView<>();
         selectedProduktTyper = this.lwProduktTyper.getSelectionModel().getSelectedItems();
 
-        lwProduktTyper.getItems().setAll(Controller.getProduktTyper());
+        lwProduktTyper.getItems().setAll(controller.getProduktTyper());
         lwProduktTyper.getSelectionModel().select(0);
         lwProduktTyper.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         ChangeListener<? super ProduktType> lwProduktTyperListener = (ov, oldString, newString) -> this.selectionChangedLwProduktTyper();
@@ -79,7 +81,7 @@ public class AdminProduktPane extends GridPane {
 
 
         lwProdukter = new ListView<>();
-        lwProdukter.getItems().setAll(Controller.getProdukterInProduktgruppeAndOrProduktType(selectedProduktgrupper, selectedProduktTyper));
+        lwProdukter.getItems().setAll(controller.getProdukterInProduktgruppeAndOrProduktType(selectedProduktgrupper, selectedProduktTyper));
         this.add(lwProdukter, 1, 1, 1, 4);
 
         //Labels
@@ -149,7 +151,7 @@ public class AdminProduktPane extends GridPane {
 
     private void onActionBtnSletProduktgruppe(Produktgruppe produktgruppe) {
         try {
-            Controller.removeProduktgruppe(produktgruppe);
+            controller.removeProduktgruppe(produktgruppe);
             this.updateLwProduktgrupper();
         }
         catch (RuntimeException e) {
@@ -158,7 +160,7 @@ public class AdminProduktPane extends GridPane {
     }
 
     public void updateLwProduktgrupper() {
-        lwProduktgrupper.getItems().setAll(Controller.getProduktgrupper());
+        lwProduktgrupper.getItems().setAll(controller.getProduktgrupper());
     }
 
 //--------------------------------------
@@ -176,7 +178,7 @@ public class AdminProduktPane extends GridPane {
 
     private void onActionBtnSletProduktType(ProduktType produktType) {
         try {
-            Controller.removeProduktType(produktType);
+            controller.removeProduktType(produktType);
             this.updateLwProduktTyper();
         }
         catch (RuntimeException e) {
@@ -184,7 +186,7 @@ public class AdminProduktPane extends GridPane {
         }
     }
 
-    public void updateLwProduktTyper()  { lwProduktTyper.getItems().setAll(Controller.getProduktTyper()); }
+    public void updateLwProduktTyper()  { lwProduktTyper.getItems().setAll(controller.getProduktTyper()); }
 
 //--------------------------------------
 
@@ -212,7 +214,7 @@ public class AdminProduktPane extends GridPane {
         ObservableList<Produktgruppe> selectedProduktgrupper = this.lwProduktgrupper.getSelectionModel().getSelectedItems();
         ObservableList<ProduktType> selectedProduktTyper = this.lwProduktTyper.getSelectionModel().getSelectedItems();
         lwProdukter.getItems().setAll(
-                Controller.getProdukterInProduktgruppeAndOrProduktType(selectedProduktgrupper, selectedProduktTyper));
+                controller.getProdukterInProduktgruppeAndOrProduktType(selectedProduktgrupper, selectedProduktTyper));
     }
 
     //----------------------------------------

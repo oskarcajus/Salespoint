@@ -10,6 +10,8 @@ import javafx.scene.layout.HBox;
 import model.*;
 
 public class AdminPrisPane extends GridPane {
+    private final Controller controller = Controller.getController();
+
     //Alerts
     private Alert errorAlert;
 
@@ -32,6 +34,8 @@ public class AdminPrisPane extends GridPane {
     private final Button btnRedigerPris = new Button("Rediger");
     private final Button btnSletPris = new Button("Slet");
 
+
+
     SalgsSituation selectedSalgsSituation;
     Pris selectedPris;
 
@@ -50,7 +54,7 @@ public class AdminPrisPane extends GridPane {
         lwSalgsSituationer = new ListView<>();
         selectedSalgsSituation = this.lwSalgsSituationer.getSelectionModel().getSelectedItem();
 
-        lwSalgsSituationer.getItems().setAll(Controller.getSalgsSituationer());
+        lwSalgsSituationer.getItems().setAll(controller.getSalgsSituationer());
         lwSalgsSituationer.getSelectionModel().select(0);
         lwSalgsSituationer.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         ChangeListener<? super SalgsSituation> lwSalgsSituationListener = (ov, oldString, newString) -> this.selectionChangedLwSalgsSituationer();
@@ -61,7 +65,7 @@ public class AdminPrisPane extends GridPane {
         lwPriser = new ListView<>();
         selectedPris = this.lwPriser.getSelectionModel().getSelectedItem();
 
-        lwPriser.getItems().setAll(Controller.getPriserFromSalgsSituation(lwSalgsSituationer.getItems().get(0)));
+        lwPriser.getItems().setAll(controller.getPriserFromSalgsSituation(lwSalgsSituationer.getItems().get(0)));
         lwPriser.getSelectionModel().select(0);
         this.add(lwPriser, 1, 1);
 
@@ -116,7 +120,7 @@ public class AdminPrisPane extends GridPane {
 
     private void onActionBtnSletSalgsSituation(SalgsSituation salgsSituation) {
         try {
-            Controller.removeSalgsSituation(salgsSituation);
+            controller.removeSalgsSituation(salgsSituation);
             this.updateLwSalgsSituationer();
         }
         catch (RuntimeException e) {
@@ -125,7 +129,7 @@ public class AdminPrisPane extends GridPane {
     }
 
     public void updateLwSalgsSituationer() {
-        lwSalgsSituationer.getItems().setAll(Controller.getSalgsSituationer());
+        lwSalgsSituationer.getItems().setAll(controller.getSalgsSituationer());
     }
 
 //--------------------------------------
@@ -143,7 +147,7 @@ public class AdminPrisPane extends GridPane {
 
     private void onActionBtnSletPris(SalgsSituation salgsSituation, Pris pris) {
         try {
-            Controller.removePris(salgsSituation, pris);
+            controller.removePris(salgsSituation, pris);
             this.updateLwPriser(salgsSituation);
         }
         catch (RuntimeException e) {
@@ -152,7 +156,7 @@ public class AdminPrisPane extends GridPane {
     }
 
     public void updateLwPriser(SalgsSituation salgsSituation)  {
-        lwPriser.getItems().setAll(Controller.getPriserFromSalgsSituation(salgsSituation));
+        lwPriser.getItems().setAll(controller.getPriserFromSalgsSituation(salgsSituation));
     }
 
 //--------------------------------------

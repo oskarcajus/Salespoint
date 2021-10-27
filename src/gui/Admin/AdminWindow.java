@@ -1,6 +1,5 @@
 package gui.Admin;
 
-import controller.Controller;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -10,9 +9,6 @@ import javafx.stage.Stage;
 
 public class AdminWindow extends Application {
 
-    // Controller access
-    private Controller controller;
-    //------------------------------------------------------------------------------------------------
     public void start(Stage stage) {
 
         stage.setTitle("Admin");

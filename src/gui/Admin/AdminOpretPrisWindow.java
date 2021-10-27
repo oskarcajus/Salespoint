@@ -14,6 +14,8 @@ import model.Produkt;
 import model.SalgsSituation;
 
 public class AdminOpretPrisWindow extends Stage {
+    private final Controller controller = Controller.getController();
+
     private AdminPrisPane adminPrisPane;
     private SalgsSituation salgsSituation;
     private Label lblProdukter;
@@ -27,6 +29,8 @@ public class AdminOpretPrisWindow extends Stage {
     private Button btnOpret;
     private VBox vBox;
     private Alert errorAlert;
+
+
 
     public AdminOpretPrisWindow(AdminPrisPane adminPrisPane, SalgsSituation salgsSituation) {
         this.adminPrisPane = adminPrisPane;
@@ -54,8 +58,8 @@ public class AdminOpretPrisWindow extends Stage {
 
         lblProdukter = new Label("Vælg et produkt:");
         cbProdukter = new ComboBox<>();
-        ObservableList<Produkt> alleProdukter = FXCollections.observableArrayList(Controller.getAllProdukter());
-        for (Produkt p : Controller.getAllProdukter()) {
+        ObservableList<Produkt> alleProdukter = FXCollections.observableArrayList(controller.getAllProdukter());
+        for (Produkt p : controller.getAllProdukter()) {
             cbProdukter.getItems().add(p);
         }
 //        cbProdukter.getItems().addAll(alleProdukter);
@@ -98,7 +102,7 @@ public class AdminOpretPrisWindow extends Stage {
 
     private void opretPris(Produkt produkt, double pris, int klikPris, double pantPris) {
         try {
-            Controller.createPris(this.salgsSituation, produkt, pris, klikPris, pantPris);
+            controller.createPris(this.salgsSituation, produkt, pris, klikPris, pantPris);
         }
         catch (IllegalArgumentException e) {
             errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());

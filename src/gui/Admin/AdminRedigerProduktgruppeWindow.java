@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 import model.Produktgruppe;
 
 public class AdminRedigerProduktgruppeWindow extends Stage {
+    private final Controller controller = Controller.getController();
+
     private AdminProduktPane adminProduktPane;
     private Produktgruppe produktgruppe;
     private Label lblNavn;
@@ -69,7 +71,7 @@ public class AdminRedigerProduktgruppeWindow extends Stage {
         }
         else {
             try {
-                Controller.renameProduktgruppe(produktgruppe, navn);
+                controller.renameProduktgruppe(produktgruppe, navn);
                 this.adminProduktPane.updateLwProduktgrupper();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());

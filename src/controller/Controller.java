@@ -10,6 +10,7 @@ import java.util.Collections;
 
 public class Controller {
     private static Controller controller;
+    private final Storage storage = Storage.getStorage();
 
     // Singleton metode
     public static Controller getController() {
@@ -20,50 +21,50 @@ public class Controller {
     }
 
     //Produkt -------------------------
-    public static Produkt createProdukt(Produktgruppe produktgruppe, ProduktType produktType, String navn) {
+    public Produkt createProdukt(Produktgruppe produktgruppe, ProduktType produktType, String navn) {
         Produkt produkt;
-        if (Controller.checkProduktNameIsInProduktgruppe(produktgruppe, navn)){
+        if (controller.checkProduktNameIsInProduktgruppe(produktgruppe, navn)){
             throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produktgruppen.");
         }
-        if (Controller.checkProduktNameIsInProduktType(produktType, navn)) {
+        if (controller.checkProduktNameIsInProduktType(produktType, navn)) {
             throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produkttypen.");
         }
         produkt = produktgruppe.createProdukt(produktType, navn);
         return produkt;
     }
 
-    public static Produkt removeProdukt(Produktgruppe produktgruppe, Produkt produkt) {
+    public Produkt removeProdukt(Produktgruppe produktgruppe, Produkt produkt) {
         produktgruppe.removeProdukt(produkt);
         return produkt;
     }
 
-    public static ArrayList<Produkt> getAllProdukter() {
-       return getProdukterInProduktgruppeAndOrProduktType(Controller.getProduktgrupper(), Controller.getProduktTyper());
+    public ArrayList<Produkt> getAllProdukter() {
+       return getProdukterInProduktgruppeAndOrProduktType(controller.getProduktgrupper(), controller.getProduktTyper());
     }
     // --------------------------------
 
     //Produktgruppe -------------------
-    public static Produktgruppe createProduktgruppe(String navn) {
+    public Produktgruppe createProduktgruppe(String navn) {
         Produktgruppe produktgruppe;
-        for (Produktgruppe pg : Storage.getProduktgrupper()) {
+        for (Produktgruppe pg : storage.getProduktgrupper()) {
             if (pg.getNavn().equals(navn)) {
                 throw new IllegalArgumentException("Der findes allerede en produktgruppe med dette navn.");
             }
         }
         produktgruppe = new Produktgruppe(navn);
-        Storage.addProduktgruppe(produktgruppe);
+        storage.addProduktgruppe(produktgruppe);
         return produktgruppe;
     }
 
-    public static void removeProduktgruppe(Produktgruppe produktgruppe) {
-        if (Controller.getProdukterFromProduktgruppe(produktgruppe).size() == 0) {
-            Storage.removeProduktgruppe(produktgruppe);
+    public void removeProduktgruppe(Produktgruppe produktgruppe) {
+        if (controller.getProdukterFromProduktgruppe(produktgruppe).size() == 0) {
+            storage.removeProduktgruppe(produktgruppe);
         } else {
             throw new RuntimeException("Der er stadig produkter tilknyttet den valgte produktgruppe.\nFjern alle produkter fra produktgruppen før du fortsætter.");
         }
     }
 
-    public static ArrayList<Produkt> getProdukterFromProduktgruppe(Produktgruppe produktgruppe) {
+    public ArrayList<Produkt> getProdukterFromProduktgruppe(Produktgruppe produktgruppe) {
         ArrayList<Produkt> produkter = new ArrayList<>();
         for (Produkt p : produktgruppe.getProdukter()) {
             produkter.add(p);
@@ -71,8 +72,8 @@ public class Controller {
         return produkter;
     }
 
-    public static void renameProduktgruppe(Produktgruppe produktgruppe, String navn) {
-        for (Produktgruppe pg : Storage.getProduktgrupper()) {
+    public void renameProduktgruppe(Produktgruppe produktgruppe, String navn) {
+        for (Produktgruppe pg : storage.getProduktgrupper()) {
             if (pg.getNavn().equals(navn)) {
                 throw new IllegalArgumentException("Der findes allerede en produktgruppe med det navn.");
             }
@@ -80,40 +81,40 @@ public class Controller {
         produktgruppe.setNavn(navn);
     }
 
-    public static ArrayList<Produktgruppe> getProduktgrupper() {
-        return new ArrayList<>(Storage.getProduktgrupper());
+    public ArrayList<Produktgruppe> getProduktgrupper() {
+        return new ArrayList<>(storage.getProduktgrupper());
     }
 
     //------------------------------------
 
     //ProduktType -----------------------------
-    public static ProduktType createProduktType(String navn) {
+    public ProduktType createProduktType(String navn) {
         ProduktType produktType;
-        for (ProduktType pt : Storage.getProduktTyper()) {
+        for (ProduktType pt : storage.getProduktTyper()) {
             if (pt.getNavn().equals(navn)) {
                 throw new IllegalArgumentException("Der findes allerede en produkttype med dette navn.");
             }
         }
         produktType = new ProduktType(navn);
-        Storage.addProduktType(produktType);
+        storage.addProduktType(produktType);
         return produktType;
     }
 
-    public static void removeProduktType(ProduktType produktType) {
-        if (Controller.getProdukterFromProduktType(produktType).size() == 0) {
-            Storage.removeProduktType(produktType);
+    public void removeProduktType(ProduktType produktType) {
+        if (controller.getProdukterFromProduktType(produktType).size() == 0) {
+            storage.removeProduktType(produktType);
         } else {
             throw new RuntimeException("Der er stadig produkter tilknyttet den valgte produktgruppe." +
                     "\nFjern alle produkter fra produktgruppen før du fortsætter.");
         }
     }
 
-    private static ArrayList<Produkt> getProdukterFromProduktType(ProduktType produktType) {
+    private ArrayList<Produkt> getProdukterFromProduktType(ProduktType produktType) {
         return produktType.getProdukter();
     }
 
-    public static void renameProduktType(ProduktType produktType, String navn) {
-        for (ProduktType pt : Storage.getProduktTyper()) {
+    public void renameProduktType(ProduktType produktType, String navn) {
+        for (ProduktType pt : storage.getProduktTyper()) {
             if (pt.getNavn().equals(navn)) {
                 throw new IllegalArgumentException("Der findes allerede en produkttype med det navn.");
             }
@@ -121,13 +122,13 @@ public class Controller {
         produktType.setNavn(navn);
     }
 
-    public static ArrayList<ProduktType> getProduktTyper() {
-        return new ArrayList<>(Storage.getProduktTyper());
+    public ArrayList<ProduktType> getProduktTyper() {
+        return new ArrayList<>(storage.getProduktTyper());
     }
 
     //-------------------------------------
 
-    public static boolean checkProduktNameIsInProduktgruppe(Produktgruppe produktgruppe, String navn) {
+    public boolean checkProduktNameIsInProduktgruppe(Produktgruppe produktgruppe, String navn) {
         boolean check = false;
         for (Produkt p : produktgruppe.getProdukter()) {
             if (p.getName().equals(navn)) {
@@ -138,7 +139,7 @@ public class Controller {
         return check;
     }
 
-    public static boolean checkProduktNameIsInProduktType(ProduktType produktType, String navn) {
+    public boolean checkProduktNameIsInProduktType(ProduktType produktType, String navn) {
         boolean check = false;
         for (Produkt p : produktType.getProdukter()) {
             if (p.getName().equals(navn)) {
@@ -150,7 +151,7 @@ public class Controller {
     }
 
 
-    public static ArrayList<Produkt> getProdukterInProduktgruppeAndOrProduktType(ObservableList<Produktgruppe> produktgrupper,
+    public ArrayList<Produkt> getProdukterInProduktgruppeAndOrProduktType(ObservableList<Produktgruppe> produktgrupper,
                                                                                  ObservableList<ProduktType> produktTyper) {
         //Skal nok være en mergesort!!
         ArrayList<Produkt> produkter = new ArrayList<>();
@@ -168,7 +169,7 @@ public class Controller {
         return produkter;
     }
 
-    public static ArrayList<Produkt> getProdukterInProduktgruppeAndOrProduktType(ArrayList<Produktgruppe> produktgrupper,
+    public ArrayList<Produkt> getProdukterInProduktgruppeAndOrProduktType(ArrayList<Produktgruppe> produktgrupper,
                                                                                  ArrayList<ProduktType> produktTyper) {
         //Skal nok være en mergesort!!
         ArrayList<Produkt> produkter = new ArrayList<>();
@@ -190,22 +191,22 @@ public class Controller {
 
     //SalgSituation --------------------------------
 
-    public static ArrayList<SalgsSituation> getSalgsSituationer() {
-        return new ArrayList<>(Storage.getSalgsSituationer());
+    public ArrayList<SalgsSituation> getSalgsSituationer() {
+        return new ArrayList<>(storage.getSalgsSituationer());
     }
 
-    public static void removeSalgsSituation(SalgsSituation salgsSituation) {
-        Storage.removeSalgsSituation(salgsSituation);
+    public void removeSalgsSituation(SalgsSituation salgsSituation) {
+        storage.removeSalgsSituation(salgsSituation);
     }
 
-    public static SalgsSituation createSalgsSituation(String navn) {
+    public SalgsSituation createSalgsSituation(String navn) {
         SalgsSituation salgsSituation = new SalgsSituation(navn);
-        for (SalgsSituation ss :  Storage.getSalgsSituationer()) {
+        for (SalgsSituation ss :  storage.getSalgsSituationer()) {
             if (ss.getNavn().equals(navn)) {
                 throw new IllegalArgumentException("Der findes allerede en salgssituation med det navn.");
             }
         }
-        Storage.addSalgsSituation(salgsSituation);
+        storage.addSalgsSituation(salgsSituation);
         return salgsSituation;
     }
 
@@ -213,11 +214,11 @@ public class Controller {
 
     //Pris ------------------------------------------
 
-    public static ArrayList<Pris> getPriserFromSalgsSituation(SalgsSituation salgsSituation) {
+    public ArrayList<Pris> getPriserFromSalgsSituation(SalgsSituation salgsSituation) {
         return new ArrayList<>(salgsSituation.getPriser());
     }
 
-    public static Pris createPris(SalgsSituation salgsSituation, Produkt produkt, double pris, int klipPris, double pantPris) {
+    public Pris createPris(SalgsSituation salgsSituation, Produkt produkt, double pris, int klipPris, double pantPris) {
         if (produkt == null) {
             throw new IllegalArgumentException("Du har ikke valgt et produkt.");
         }
@@ -230,7 +231,7 @@ public class Controller {
         return salgsSituation.createPris(produkt, pris, klipPris, pantPris);
     }
 
-    public static void removePris(SalgsSituation salgsSituation, Pris pris) {
+    public void removePris(SalgsSituation salgsSituation, Pris pris) {
         salgsSituation.removePris(pris);
     }
 
@@ -238,55 +239,55 @@ public class Controller {
 
     //Order ---------------------------------------------------------------------
 
-    public static ArrayList<Order> getOrders() {
-        return new ArrayList<>(Storage.getOrders());
+    public ArrayList<Order> getOrders() {
+        return new ArrayList<>(storage.getOrders());
     }
 
-    public static Order createOrder(int orderNr, LocalDate oprettelsesDato) {
-        for (Order o : Controller.getOrders()) {
+    public Order createOrder(int orderNr, LocalDate oprettelsesDato) {
+        for (Order o : controller.getOrders()) {
             if (o.getOrderNr() == orderNr) {
                 throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
             }
         }
         Order order = new Order(orderNr, oprettelsesDato);
-        Storage.addOrder(order);
+        storage.addOrder(order);
 
         return order;
     }
 
-    public static Order createRundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato) {
-        for (Order o : Controller.getOrders()) {
+    public Order createRundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato) {
+        for (Order o : controller.getOrders()) {
             if (o.getOrderNr() == orderNr) {
                 throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
             }
         }
 
         Order order = new RundvisningOrder(orderNr, oprettelsesDato, expectingBetalingsDato);
-        Storage.addOrder(order);
+        storage.addOrder(order);
 
         return order;
     }
 
-    public static Order createUdlejningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato, LocalDate forventetReturDato) {
-        for (Order o : Controller.getOrders()) {
+    public Order createUdlejningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato, LocalDate forventetReturDato) {
+        for (Order o : controller.getOrders()) {
             if (o.getOrderNr() == orderNr) {
                 throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
             }
         }
 
         Order order = new UdlejningsOrder(orderNr, oprettelsesDato, expectingBetalingsDato, forventetReturDato);
-        Storage.addOrder(order);
+        storage.addOrder(order);
 
         return order;
     }
 
-    public static Order createReturnOrder(int orderNr) {
+    public Order createReturnOrder(int orderNr) {
         Order returOrder = null;
 
-        for (Order order : Controller.getOrders()) {
+        for (Order order : controller.getOrders()) {
             if (order.getOrderNr() == orderNr) {
                 //Laver en ny ordre
-                returOrder = Controller.createOrder(order.getOrderNr() + 10000000, LocalDate.now());
+                returOrder = controller.createOrder(order.getOrderNr() + 10000000, LocalDate.now());
                 //Kopierer ordrelinjer fra order til returorder
                 for (OrderLine ol : order.getOrderLines()) {
                     returOrder.createOrderLine(ol.getAntalProdukt(), ol.getPris());
@@ -303,22 +304,21 @@ public class Controller {
         return returOrder;
     }
 
-    public static void removeOrder(Order order) {
-        Storage.removeOrder(order);
+    public void removeOrder(Order order) {
+        storage.removeOrder(order);
     }
     //---------------------------------------------------------------------------
 
     //Orderline -----------------------------------------------------------------
 
-    public static OrderLine createOrderLine(Order order, int antalProdukt, Pris pris) {
+    public OrderLine createOrderLine(Order order, int antalProdukt, Pris pris) {
         if (order == null || antalProdukt == 0 || pris == null) {
             throw new IllegalArgumentException("Du mangler at udfylde en eller argumenter.");
         }
-        OrderLine orderLine = order.createOrderLine(antalProdukt, pris);
-        return orderLine;
+        return order.createOrderLine(antalProdukt, pris);
     }
 
-    public static void redigerOrderLine(OrderLine orderLine, int antalProdukt, Pris pris) {
+    public void redigerOrderLine(OrderLine orderLine, int antalProdukt, Pris pris) {
         if (orderLine == null || antalProdukt == 0 || pris == null) {
             throw new IllegalArgumentException("Du mangler at udfylde en eller argumenter.");
         }
@@ -326,36 +326,36 @@ public class Controller {
         orderLine.setPris(pris);
     }
 
-    public static void removeOrderLine(Order order, OrderLine orderLine) {
+    public void removeOrderLine(Order order, OrderLine orderLine) {
         order.removeOrderLine(orderLine);
     }
 
     //---------------------------------------------------------------------------
 
-    public static void initContent() {
+    public void initContent() {
         //Create produktgrupper
-        Produktgruppe pg1 = Controller.createProduktgruppe("Flaske");
-        Produktgruppe pg2 = Controller.createProduktgruppe("Fustage");
+        Produktgruppe pg1 = controller.createProduktgruppe("Flaske");
+        Produktgruppe pg2 = controller.createProduktgruppe("Fustage");
 
         //Create produktTyper
-        ProduktType pt1 = Controller.createProduktType("Produkt");
-        ProduktType pt2 = Controller.createProduktType("Udlejning");
+        ProduktType pt1 = controller.createProduktType("Produkt");
+        ProduktType pt2 = controller.createProduktType("Udlejning");
 
         //Create produkter
-        Produkt p1 = Controller.createProdukt(pg1, pt1, "Klosterbryg");
-        Produkt p2 = Controller.createProdukt(pg1, pt1, "Sweet Georgia Brown");
-        Produkt p3 = Controller.createProdukt(pg2, pt2, "Jazz Classic, 25 liter");
-        Produkt p4 = Controller.createProdukt(pg2, pt2, "Extra Pilsner, 25 liter");
+        Produkt p1 = controller.createProdukt(pg1, pt1, "Klosterbryg");
+        Produkt p2 = controller.createProdukt(pg1, pt1, "Sweet Georgia Brown");
+        Produkt p3 = controller.createProdukt(pg2, pt2, "Jazz Classic, 25 liter");
+        Produkt p4 = controller.createProdukt(pg2, pt2, "Extra Pilsner, 25 liter");
 
         //Create salgssituation
-        SalgsSituation s1 = Controller.createSalgsSituation("Butik");
-        SalgsSituation s2 = Controller.createSalgsSituation("Fredagsbar");
+        SalgsSituation s1 = controller.createSalgsSituation("Butik");
+        SalgsSituation s2 = controller.createSalgsSituation("Fredagsbar");
 
 
         //Create priser
-        Pris pris1 = Controller.createPris(s1, p1, 35, 0, 0);
-        Pris pris2 = Controller.createPris(s2, p1, 35, 2, 0);
-        Pris pris3 = Controller.createPris(s1, p3, 500, 0, 200);
+        Pris pris1 = controller.createPris(s1, p1, 35, 0, 0);
+        Pris pris2 = controller.createPris(s2, p1, 35, 2, 0);
+        Pris pris3 = controller.createPris(s1, p3, 500, 0, 200);
 
     }
 
