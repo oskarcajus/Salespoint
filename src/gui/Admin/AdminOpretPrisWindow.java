@@ -1,4 +1,4 @@
-package gui;
+package gui.Admin;
 
 import controller.Controller;
 import javafx.collections.FXCollections;
@@ -10,9 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.Pris;
 import model.Produkt;
-import model.Produktgruppe;
 import model.SalgsSituation;
 
 public class AdminOpretPrisWindow extends Stage {

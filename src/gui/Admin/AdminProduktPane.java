@@ -1,4 +1,4 @@
-package gui;
+package gui.Admin;
 
 import controller.Controller;
 import javafx.beans.value.ChangeListener;
@@ -9,8 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.*;
-
-import java.util.ArrayList;
 
 public class AdminProduktPane extends GridPane {
     //Alerts

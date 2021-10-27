@@ -1,16 +1,13 @@
-package gui;
+package gui.Admin;
 
 import controller.Controller;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.*;
-
-import java.util.ArrayList;
 
 public class AdminPrisPane extends GridPane {
     //Alerts

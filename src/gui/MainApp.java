@@ -2,6 +2,8 @@ package gui;
 
 
 import controller.Controller;
+import gui.Admin.AdminWindow;
+import gui.Salg.SalgWindow;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;

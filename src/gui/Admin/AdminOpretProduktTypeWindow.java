@@ -1,4 +1,4 @@
-package gui;
+package gui.Admin;
 
 import controller.Controller;
 import javafx.geometry.Insets;
@@ -11,27 +11,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.ProduktType;
-import model.Produktgruppe;
 
-public class AdminRedigerProduktTypeWindow extends Stage {
+public class AdminOpretProduktTypeWindow extends Stage {
     private AdminProduktPane adminProduktPane;
-    private ProduktType produktType;
     private Label lblNavn;
     private TextField navnInput;
-    private Button btnRediger;
+    private Button btnOpret;
     private VBox vBox;
     private Alert errorAlert;
 
-    public AdminRedigerProduktTypeWindow(AdminProduktPane adminProduktPane, ProduktType produktType) {
+    public AdminOpretProduktTypeWindow(AdminProduktPane adminProduktPane) {
         this.adminProduktPane = adminProduktPane;
-        this.produktType = produktType;
 
         this.setMinHeight(200);
         this.setMinWidth(300);
 
 
-        this.setTitle("Rediger produkttype");
+        this.setTitle("Opret produkttype");
         GridPane pane = new GridPane();
         pane.setGridLinesVisible(false);
         pane.setPadding(new Insets(20));
@@ -47,15 +43,13 @@ public class AdminRedigerProduktTypeWindow extends Stage {
 
     private void initContent(GridPane pane) {
 
-        lblNavn = new Label("Nyt navn på produkttype: ");
+        lblNavn = new Label("Navn på produkttype: ");
         navnInput = new TextField();
-        btnRediger = new Button("Rediger");
-        btnRediger.setOnAction(event -> this.redigerProduktType(
-                this.produktType,
-                navnInput.getText().trim()));
+        btnOpret = new Button("Opret");
+        btnOpret.setOnAction(event -> this.opretProduktType(navnInput.getText().trim()));
 
         vBox = new VBox();
-        vBox.getChildren().add(btnRediger);
+        vBox.getChildren().add(btnOpret);
 
         pane.add(lblNavn, 0, 1);
         pane.add(navnInput, 1, 1);
@@ -63,19 +57,21 @@ public class AdminRedigerProduktTypeWindow extends Stage {
 
     }
 
-    private void redigerProduktType(ProduktType produktType, String navn) {
+    private void opretProduktType(String navn) {
         if (navn.equals("")) {
             errorAlert = new Alert(Alert.AlertType.ERROR, "Manglende navn.");
             errorAlert.show();
         }
         else {
             try {
-                Controller.renameProduktType(produktType, navn);
+                Controller.createProduktType(navn);
                 this.adminProduktPane.updateLwProduktTyper();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 errorAlert.show();
             }
+
         }
     }
+
 }

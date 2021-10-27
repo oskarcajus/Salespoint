@@ -1,7 +1,6 @@
-package gui;
+package gui.Admin;
 
 import controller.Controller;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,10 +9,8 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.Produkt;
 import model.ProduktType;
 import model.Produktgruppe;
-import storage.Storage;
 
 public class AdminOpretProduktWindow extends Stage {
     private AdminProduktPane adminProduktPane;

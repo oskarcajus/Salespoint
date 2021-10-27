@@ -1,4 +1,4 @@
-package gui;
+package gui.Salg;
 
 import controller.Controller;
 import javafx.geometry.Insets;

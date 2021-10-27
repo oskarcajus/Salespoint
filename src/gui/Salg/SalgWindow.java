@@ -1,19 +1,14 @@
-package gui;
+package gui.Salg;
 
 import controller.Controller;
 import javafx.application.Application;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.SalgsSituation;
-import javafx.beans.value.ChangeListener;
-import org.w3c.dom.html.HTMLButtonElement;
 
 public class SalgWindow extends Application {
 

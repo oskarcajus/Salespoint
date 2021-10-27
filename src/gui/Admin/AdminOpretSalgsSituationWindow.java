@@ -1,4 +1,4 @@
-package gui;
+package gui.Admin;
 
 import controller.Controller;
 import javafx.geometry.Insets;
@@ -11,24 +11,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import model.Produktgruppe;
 
-public class AdminOpretProduktgruppeWindow extends Stage {
-    private AdminProduktPane adminProduktPane;
+public class AdminOpretSalgsSituationWindow extends Stage {
+    private AdminPrisPane adminPrisPane;
     private Label lblNavn;
     private TextField navnInput;
     private Button btnOpret;
     private VBox vBox;
     private Alert errorAlert;
 
-    public AdminOpretProduktgruppeWindow(AdminProduktPane adminProduktPane) {
-        this.adminProduktPane = adminProduktPane;
+    public AdminOpretSalgsSituationWindow(AdminPrisPane adminPrisPane) {
+        this.adminPrisPane = adminPrisPane;
 
         this.setMinHeight(200);
         this.setMinWidth(300);
 
 
-        this.setTitle("Opret produktgruppe");
+        this.setTitle("Opret salgssituation");
         GridPane pane = new GridPane();
         pane.setGridLinesVisible(false);
         pane.setPadding(new Insets(20));
@@ -44,10 +43,10 @@ public class AdminOpretProduktgruppeWindow extends Stage {
 
     private void initContent(GridPane pane) {
 
-        lblNavn = new Label("Navn på produktgruppe: ");
+        lblNavn = new Label("Navn på salgssituation: ");
         navnInput = new TextField();
         btnOpret = new Button("Opret");
-        btnOpret.setOnAction(event -> this.opretProduktgruppe(navnInput.getText().trim()));
+        btnOpret.setOnAction(event -> this.opretSalgsSituation(navnInput.getText().trim()));
 
         vBox = new VBox();
         vBox.getChildren().add(btnOpret);
@@ -58,7 +57,7 @@ public class AdminOpretProduktgruppeWindow extends Stage {
 
     }
 
-    private void opretProduktgruppe(String navn) {
+    private void opretSalgsSituation(String navn) {
         if (navn.equals("")) {
             errorAlert = new Alert(Alert.AlertType.ERROR, "Manglende navn.");
             errorAlert.show();
@@ -66,8 +65,8 @@ public class AdminOpretProduktgruppeWindow extends Stage {
         else {
             //Errorhandling fra Produktgruppe i modellen
             try {
-                Controller.createProduktgruppe(navn);
-                this.adminProduktPane.updateLwProduktgrupper();
+                Controller.createSalgsSituation(navn);
+                this.adminPrisPane.updateLwSalgsSituationer();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 errorAlert.show();
@@ -77,3 +76,4 @@ public class AdminOpretProduktgruppeWindow extends Stage {
     }
 
 }
+
