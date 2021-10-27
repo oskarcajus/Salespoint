@@ -10,9 +10,7 @@ public class OrderLine {
         this.pris = pris;
     }
 
-    // beregn pris for orderLine
-    // getPris() method 추가해야함
-    public double getOrderLineBeløb() {
+     public double getOrderLineBeløb() {
         double price = pris.getPris() * antalProdukt;
             return price;
         }

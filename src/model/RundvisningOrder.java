@@ -6,16 +6,16 @@ public class RundvisningOrder extends Order{
 
     private LocalDate rundvisningsDato;
 
-    public RundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato) {
+    public RundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate rundvisningsDato) {
         super(orderNr, oprettelsesDato);
-        this.rundvisningsDato = expectingBetalingsDato;
+        this.rundvisningsDato = rundvisningsDato;
     }
 
-    public void setExpectingBetalingsDato(LocalDate expectingBetalingsDato) {
-        this.rundvisningsDato = expectingBetalingsDato;
+    public void setRundvisningsDato(LocalDate rundvisningsDato) {
+        this.rundvisningsDato = rundvisningsDato;
     }
 
-    public LocalDate getExpectingBetalingsDato() {
+    public LocalDate getRundvisningsDato() {
         return rundvisningsDato;
     }
 
