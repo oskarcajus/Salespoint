@@ -19,6 +19,8 @@ public class Storage {
         return storage;
     }
 
+    //-----------------------------------------------------------------------
+
     //Produktgruppe
     private final ArrayList<Produktgruppe> produktgrupper = new ArrayList<>();
 

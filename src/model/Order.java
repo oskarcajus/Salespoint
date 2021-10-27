@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Order {
     private int orderNr;
+    private int refOrderNr;
+    private String orderComment;
     private LocalDate oprettelsesDato;
     private LocalDate betalingsDato;
     private OrderStatus orderStatus; // oprettet, pending, afsluttet(betalt)
@@ -87,6 +89,22 @@ public class Order {
 
     public void setBetalingsDato(LocalDate betalingsDato) {
         this.betalingsDato = betalingsDato;
+    }
+
+    public int getRefOrderNr() {
+        return refOrderNr;
+    }
+
+    public void setRefOrderNr(int refOrderNr) {
+        this.refOrderNr = refOrderNr;
+    }
+
+    public String getOrderComment() {
+        return orderComment;
+    }
+
+    public void setOrderComment(String orderComment) {
+        this.orderComment = orderComment;
     }
 
     // nullable kunde(0..1)

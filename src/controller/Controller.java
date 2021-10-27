@@ -7,6 +7,7 @@ import storage.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class Controller {
     private static Controller controller;
@@ -82,7 +83,10 @@ public class Controller {
     }
 
     public ArrayList<Produktgruppe> getProduktgrupper() {
-        return new ArrayList<>(storage.getProduktgrupper());
+        ArrayList<Produktgruppe> produktgrupper = new ArrayList<>(controller.getProduktgrupper());
+//        produktgrupper.sort((Produktgruppe pg1, Produktgruppe pg2) -> pg1.getNavn().compareTo(pg2.getNavn()));
+        produktgrupper.sort(Comparator.comparing(Produktgruppe::getNavn));
+        return produktgrupper;
     }
 
     //------------------------------------
@@ -123,7 +127,10 @@ public class Controller {
     }
 
     public ArrayList<ProduktType> getProduktTyper() {
-        return new ArrayList<>(storage.getProduktTyper());
+        ArrayList<ProduktType> produktTyper = new ArrayList<>(controller.getProduktTyper());
+        //        produktTyper.sort((ProduktType pt1, ProduktType pt2) -> pt1.getNavn().compareTo(pt2.getNavn()));
+        produktTyper.sort(Comparator.comparing(ProduktType::getNavn));
+        return produktTyper;
     }
 
     //-------------------------------------
@@ -153,8 +160,9 @@ public class Controller {
 
     public ArrayList<Produkt> getProdukterInProduktgruppeAndOrProduktType(ObservableList<Produktgruppe> produktgrupper,
                                                                                  ObservableList<ProduktType> produktTyper) {
-        //Skal nok være en mergesort!!
         ArrayList<Produkt> produkter = new ArrayList<>();
+        //Skal nok være en mergesort!!
+
         for (Produktgruppe pg : produktgrupper) {
             produkter.addAll(pg.getProdukter());
         }
@@ -165,7 +173,8 @@ public class Controller {
                 }
             }
         }
-        Collections.sort(produkter);
+        //        produkter.sort((Produkt p1, Produkt p2) -> p1.getName().compareTo(p2.getName()));
+        produkter.sort(Comparator.comparing(Produkt::getName));
         return produkter;
     }
 
@@ -183,7 +192,8 @@ public class Controller {
                 }
             }
         }
-        Collections.sort(produkter);
+        //        produkter.sort((Produkt p1, Produkt p2) -> p1.getName().compareTo(p2.getName()));
+        produkter.sort(Comparator.comparing(Produkt::getName));
         return produkter;
     }
 
