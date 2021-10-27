@@ -1,5 +1,6 @@
 package storage;
 
+import model.Order;
 import model.ProduktType;
 import model.Produktgruppe;
 import model.SalgsSituation;
@@ -56,4 +57,18 @@ public class Storage {
     public static ArrayList<SalgsSituation> getSalgsSituationer() {
         return new ArrayList<SalgsSituation>(Storage.salgsSituationer);
     }
+
+    //Order
+    private static final ArrayList<Order> orders = new ArrayList<Order>();
+    public static void addOrder(Order order) {
+        orders.add(order);
+    }
+    public static void removeOrder(Order order) {
+        orders.remove(order);
+    }
+    public static ArrayList<Order> getOrders() {
+        return new ArrayList<Order>(Storage.orders);
+    }
+
+
 }

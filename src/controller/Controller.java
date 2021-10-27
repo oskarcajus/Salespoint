@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import model.*;
 import storage.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -234,6 +235,102 @@ public class Controller {
     }
 
     //---------------------------------------------
+
+    //Order ---------------------------------------------------------------------
+
+    public static ArrayList<Order> getOrders() {
+        return new ArrayList<>(Storage.getOrders());
+    }
+
+    public static Order createOrder(int orderNr, LocalDate oprettelsesDato) {
+        for (Order o : Controller.getOrders()) {
+            if (o.getOrderNr() == orderNr) {
+                throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
+            }
+        }
+        Order order = new Order(orderNr, oprettelsesDato);
+        Storage.addOrder(order);
+
+        return order;
+    }
+
+    public static Order createRundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato) {
+        for (Order o : Controller.getOrders()) {
+            if (o.getOrderNr() == orderNr) {
+                throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
+            }
+        }
+
+        Order order = new RundvisningOrder(orderNr, oprettelsesDato, expectingBetalingsDato);
+        Storage.addOrder(order);
+
+        return order;
+    }
+
+    public static Order createUdlejningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato, LocalDate forventetReturDato) {
+        for (Order o : Controller.getOrders()) {
+            if (o.getOrderNr() == orderNr) {
+                throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
+            }
+        }
+
+        Order order = new UdlejningsOrder(orderNr, oprettelsesDato, expectingBetalingsDato, forventetReturDato);
+        Storage.addOrder(order);
+
+        return order;
+    }
+
+    public static Order createReturnOrder(int orderNr) {
+        Order returOrder = null;
+
+        for (Order order : Controller.getOrders()) {
+            if (order.getOrderNr() == orderNr) {
+                //Laver en ny ordre
+                returOrder = Controller.createOrder(order.getOrderNr() + 10000000, LocalDate.now());
+                //Kopierer ordrelinjer fra order til returorder
+                for (OrderLine ol : order.getOrderLines()) {
+                    returOrder.createOrderLine(ol.getAntalProdukt(), ol.getPris());
+                }
+                //Sætter beløbet på alle orderlinjer til modsat fortegn
+                for (OrderLine ol : returOrder.getOrderLines()) {
+                    ol.setOrderLineBeløb(ol.getOrderLineBeløb() * (- 1));
+                }
+                break;
+            }
+        }
+
+
+        return returOrder;
+    }
+
+    public static void removeOrder(Order order) {
+        Storage.removeOrder(order);
+    }
+    //---------------------------------------------------------------------------
+
+    //Orderline -----------------------------------------------------------------
+
+    public static OrderLine createOrderLine(Order order, int antalProdukt, Pris pris) {
+        if (order == null || antalProdukt == 0 || pris == null) {
+            throw new IllegalArgumentException("Du mangler at udfylde en eller argumenter.");
+        }
+        OrderLine orderLine = order.createOrderLine(antalProdukt, pris);
+        return orderLine;
+    }
+
+    public static void redigerOrderLine(OrderLine orderLine, int antalProdukt, Pris pris) {
+        if (orderLine == null || antalProdukt == 0 || pris == null) {
+            throw new IllegalArgumentException("Du mangler at udfylde en eller argumenter.");
+        }
+        orderLine.setAntalProdukt(antalProdukt);
+        orderLine.setPris(pris);
+    }
+
+    public static void removeOrderLine(Order order, OrderLine orderLine) {
+        order.removeOrderLine(orderLine);
+    }
+
+    //---------------------------------------------------------------------------
 
     public static void initContent() {
         //Create produktgrupper
