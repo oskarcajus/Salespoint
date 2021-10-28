@@ -63,8 +63,8 @@ public class SalgWindow extends Application {
 
     private void onActionBtnStart(SalgsSituation selectedItem) {
         if (selectedItem != null){
-            SalgStartWindow salgStartWindow = new SalgStartWindow(selectedItem);
-            salgStartWindow.showAndWait();
+            SalgButikStartWindow salgButikStartWindow = new SalgButikStartWindow(selectedItem);
+            salgButikStartWindow.showAndWait();
         } else {
             errorAlert = new Alert(Alert.AlertType.ERROR, "Mangler at vælge en salgs område!");
             errorAlert.show();

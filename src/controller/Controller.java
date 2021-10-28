@@ -392,6 +392,28 @@ public class Controller {
 
     //---------------------------------------------------------------------------
 
+    //Kunde -----------------------------------------------------------------
+
+    public Kunde opretKunde(String navn, String nummer) {
+        if (navn.isEmpty() || nummer.isEmpty()) {
+            throw new IllegalArgumentException("Du mangler at udfylde en eller argumenter.");
+        }
+        Kunde kunde = new Kunde(navn,nummer);
+        storage.addKunde(kunde);
+        return kunde;
+    }
+
+    public ArrayList<Kunde> getKunder() {
+        return new ArrayList<>(storage.getKunder());
+    }
+
+    public ArrayList<Order> getKundeOrders(Kunde kunde) {
+        return kunde.getOrders();
+    }
+
+    //---------------------------------------------------------------------------
+    
+
     public void initContent() {
         //Create produktgrupper
         Produktgruppe pg1 = controller.createProduktgruppe("Flaske");
@@ -417,7 +439,13 @@ public class Controller {
         Pris pris2 = controller.createPris(s2, p1, 35, 2, 0);
         Pris pris3 = controller.createPris(s1, p3, 500, 0, 200);
 
+        Kunde k1 = controller.opretKunde("Arosan","12345678");
+        Kunde k2 = controller.opretKunde("Oskar", "09876543");
+        Kunde k3 = controller.opretKunde("Kim", "23456789");
+
     }
+
+    
 
 
 
