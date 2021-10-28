@@ -9,6 +9,7 @@ public class Order {
     private LocalDate betalingsDato;
     private OrderStatus orderStatus; // oprettet, pending, afsluttet(betalt)
     private BetalingsType betalingsType; // Dankort, klippeKort....
+    private RabatStrategy rabatStrategy; // (0..1) nullable rabat
 
     // nullable doubleRettet kunde(0..1)
     private Kunde kunde;
@@ -42,6 +43,14 @@ public class Order {
             orderPris += orderLine.getOrderLineBeløb();
         }
         return orderPris;
+    }
+
+    public double prisWithRabat(){
+        double total = this.orderPris();
+        if(rabatStrategy != null){
+         total = total - rabatStrategy.getRabat(total);
+        }
+        return total;
     }
 
     // get orderLine arrayList

@@ -34,6 +34,7 @@ public class Kunde implements Comparable<Kunde> {
             this.rabatStrategy = rabatStrategy;
     }
 
+    // rabat
     public double totalPris() {
         double sum = 0;
         for (Order order : orders) {
@@ -42,14 +43,12 @@ public class Kunde implements Comparable<Kunde> {
         return sum;
     }
 
-    private double prisWithDC(){
-        double rabatSum = 0;
+    public double prisWithDC(){
         double total = this.totalPris();
-
         if(this.rabatStrategy != null) {
             total -= this.rabatStrategy.getRabat(total);
         }
-        return total; // return to this method again
+        return total;
       }
 
     public ArrayList<Order> getOrders() {

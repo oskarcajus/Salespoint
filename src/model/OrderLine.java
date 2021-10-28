@@ -10,7 +10,6 @@ public class OrderLine {
         this.antalProdukt = antalProdukt;
         this.pris = pris;
         this.orderLineBeløb = pris.getPris() * antalProdukt;
-
     }
 
     // beregn pris for orderLine

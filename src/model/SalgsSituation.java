@@ -39,7 +39,6 @@ public class SalgsSituation {
         return  new ArrayList<>(this.priser);
     }
 
-
     @Override
     public String toString() {
         return navn;

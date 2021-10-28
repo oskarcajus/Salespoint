@@ -69,6 +69,4 @@ public class Storage {
     public static ArrayList<Order> getOrders() {
         return new ArrayList<Order>(Storage.orders);
     }
-
-
 }

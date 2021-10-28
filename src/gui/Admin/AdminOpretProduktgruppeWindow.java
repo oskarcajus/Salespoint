@@ -54,7 +54,6 @@ public class AdminOpretProduktgruppeWindow extends Stage {
         pane.add(lblNavn, 0, 1);
         pane.add(navnInput, 1, 1);
         pane.add(vBox, 1, 2);
-
     }
 
     private void opretProduktgruppe(String navn) {
@@ -71,8 +70,6 @@ public class AdminOpretProduktgruppeWindow extends Stage {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 errorAlert.show();
             }
-
         }
     }
-
 }
