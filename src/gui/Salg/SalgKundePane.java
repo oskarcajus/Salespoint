@@ -18,9 +18,10 @@ import model.Pris;
 import model.SalgsSituation;
 
 public class SalgKundePane extends GridPane {
+    private final Controller controller = Controller.getController();
+
     private ListView lvwKunder, lvwKundeOrdreNr, lvwOrdreInfo;
     private Label lblKunde, lblOrdre;
-    private Controller controller;
 
 
     public SalgKundePane() {

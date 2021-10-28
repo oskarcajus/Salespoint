@@ -9,11 +9,12 @@ import javafx.stage.Stage;
 import model.SalgsSituation;
 
 public class SalgButikStartWindow extends Stage {
+    private final Controller controller = Controller.getController();
+
     private SalgsSituation salgsSituation;
     private ListView lvwProdukter, lvwOrdreList;
     private Label lblProdukter, lblOrdreList, lblSamletBeløb, lblAftaltBeløb;
     private Button btnOpretOrdre;
-    private Controller controller;
     private TextField txfSamletBeløb, txfBetalingStatus, txfAftaltBeløb;
 
     public SalgButikStartWindow(SalgsSituation salgsSituation) {
