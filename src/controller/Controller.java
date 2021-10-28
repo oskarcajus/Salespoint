@@ -34,13 +34,43 @@ public class Controller {
         return produkt;
     }
 
-    public Produkt removeProdukt(Produktgruppe produktgruppe, Produkt produkt) {
-        produktgruppe.removeProdukt(produkt);
+    public Produkt redigerProdukt(Produkt produkt, String navn, Produktgruppe produktgruppe, ProduktType produktType) {
+        for (Produkt p : produktgruppe.getProdukter()) {
+            if (p.getName().equals(navn)) {
+                throw new IllegalArgumentException("Der findes allerede et produkt med det navn i " +
+                        produktgruppe.getNavn() + ".");
+            }
+        }
+        for (Produkt p : produktType.getProdukter()) {
+            if (p.getName().equals(navn)) {
+                throw new IllegalArgumentException("Der findes allerede et produkt med det navn i " +
+                        produktType.getNavn() + ".");
+            }
+        }
+
+        produkt.setName(navn);
+        produkt.setProduktgruppe(produktgruppe);
+        produkt.setProduktType(produktType);
+
         return produkt;
+    }
+
+
+    public void removeProdukt(Produkt produkt) {
+        produkt.getProduktgruppe().removeProdukt(produkt);
+        produkt.getProduktType().removeProdukt(produkt);
     }
 
     public ArrayList<Produkt> getAllProdukter() {
        return getProdukterInProduktgruppeAndOrProduktType(controller.getProduktgrupper(), controller.getProduktTyper());
+    }
+
+    public Produktgruppe getProduktgruppeFromProdukt(Produkt produkt) {
+        return produkt.getProduktgruppe();
+    }
+
+    public ProduktType getProduktTypeFromProdukt(Produkt produkt) {
+        return produkt.getProduktType();
     }
     // --------------------------------
 
@@ -83,7 +113,7 @@ public class Controller {
     }
 
     public ArrayList<Produktgruppe> getProduktgrupper() {
-        ArrayList<Produktgruppe> produktgrupper = new ArrayList<>(controller.getProduktgrupper());
+        ArrayList<Produktgruppe> produktgrupper = new ArrayList<>(storage.getProduktgrupper());
 //        produktgrupper.sort((Produktgruppe pg1, Produktgruppe pg2) -> pg1.getNavn().compareTo(pg2.getNavn()));
         produktgrupper.sort(Comparator.comparing(Produktgruppe::getNavn));
         return produktgrupper;
@@ -127,8 +157,8 @@ public class Controller {
     }
 
     public ArrayList<ProduktType> getProduktTyper() {
-        ArrayList<ProduktType> produktTyper = new ArrayList<>(controller.getProduktTyper());
-        //        produktTyper.sort((ProduktType pt1, ProduktType pt2) -> pt1.getNavn().compareTo(pt2.getNavn()));
+        ArrayList<ProduktType> produktTyper = new ArrayList<>(storage.getProduktTyper());
+//        produktTyper.sort((ProduktType pt1, ProduktType pt2) -> pt1.getNavn().compareTo(pt2.getNavn()));
         produktTyper.sort(Comparator.comparing(ProduktType::getNavn));
         return produktTyper;
     }

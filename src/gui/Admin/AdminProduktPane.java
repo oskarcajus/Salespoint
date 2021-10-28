@@ -123,10 +123,10 @@ public class AdminProduktPane extends GridPane {
         btnOpretProdukt.setOnAction(event ->
                 this.onActionBtnOpretProdukt(this, lwProduktgrupper.getSelectionModel().getSelectedItem(),
                         lwProduktTyper.getSelectionModel().getSelectedItem()));
-//        btnRedigerProdukt.setOnAction(event ->
-//                this.onActionBtnRedigerProdukt(this, lwProduktTyper.getSelectionModel().getSelectedItem()));
-//        btnSletProdukt.setOnAction(event ->
-//                this.onActionBtnSletProdukt(lwProduktTyper.getSelectionModel().getSelectedItem()));
+        btnRedigerProdukt.setOnAction(event ->
+                this.onActionBtnRedigerProdukt(this, lwProdukter.getSelectionModel().getSelectedItem()));
+        btnSletProdukt.setOnAction(event ->
+                this.onActionBtnSletProdukt(lwProdukter.getSelectionModel().getSelectedItem()));
 
 
 
@@ -195,20 +195,20 @@ public class AdminProduktPane extends GridPane {
         adminOpretProduktWindow.showAndWait();
     }
 
-//    private void onActionBtnRedigerProdukt(AdminProduktPane adminProduktPane, Produkt produkt) {
-//        AdminRedigerProduktWindow adminRedigerProduktWindow = new AdminRedigerProduktWindow(adminProduktPane, produkt);
-//        adminRedigerProduktWindow.showAndWait();
-//    }
+    private void onActionBtnRedigerProdukt(AdminProduktPane adminProduktPane, Produkt produkt) {
+        AdminRedigerProduktWindow adminRedigerProduktWindow = new AdminRedigerProduktWindow(adminProduktPane, produkt);
+        adminRedigerProduktWindow.showAndWait();
+    }
 
-//    private void onActionBtnSletProduktgruppe(Produktgruppe produktgruppe, Produkt produkt) {
-//        try {
-//            Controller.removeProdukt(produkt);
-//            this.updateLwProdukter();
-//        }
-//        catch (RuntimeException e) {
-//            errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
-//        }
-//    }
+    private void onActionBtnSletProdukt(Produkt produkt) {
+        try {
+            controller.removeProdukt(produkt);
+            this.updateLwProdukter();
+        }
+        catch (RuntimeException e) {
+            errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+        }
+    }
 
     public void updateLwProdukter() {
         ObservableList<Produktgruppe> selectedProduktgrupper = this.lwProduktgrupper.getSelectionModel().getSelectedItems();

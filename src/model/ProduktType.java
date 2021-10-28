@@ -28,7 +28,14 @@ public class ProduktType {
             produkt.setProduktType(this);
         }
 
-}
+    }
+
+    public void removeProdukt (Produkt produkt){
+        if (this.produkter.contains(produkt)) {
+            produkter.remove(produkt);
+            produkt.setProduktType(null);
+        }
+    }
 
     @Override
     public String toString() {
