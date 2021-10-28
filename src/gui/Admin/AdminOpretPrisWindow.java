@@ -14,6 +14,8 @@ import model.Produkt;
 import model.SalgsSituation;
 
 public class AdminOpretPrisWindow extends Stage {
+    private final Controller controller = Controller.getController();
+
     private AdminPrisPane adminPrisPane;
     private SalgsSituation salgsSituation;
     private Label lblProdukter;
@@ -27,6 +29,8 @@ public class AdminOpretPrisWindow extends Stage {
     private Button btnOpret;
     private VBox vBox;
     private Alert errorAlert;
+
+
 
     public AdminOpretPrisWindow(AdminPrisPane adminPrisPane, SalgsSituation salgsSituation) {
         this.adminPrisPane = adminPrisPane;
@@ -54,8 +58,8 @@ public class AdminOpretPrisWindow extends Stage {
 
         lblProdukter = new Label("Vælg et produkt:");
         cbProdukter = new ComboBox<>();
-        ObservableList<Produkt> alleProdukter = FXCollections.observableArrayList(Controller.getAllProdukter());
-        for (Produkt p : Controller.getAllProdukter()) {
+        ObservableList<Produkt> alleProdukter = FXCollections.observableArrayList(controller.getAllProdukter());
+        for (Produkt p : controller.getAllProdukter()) {
             cbProdukter.getItems().add(p);
         }
 //        cbProdukter.getItems().addAll(alleProdukter);
@@ -72,9 +76,9 @@ public class AdminOpretPrisWindow extends Stage {
         btnOpret = new Button("Opret");
         btnOpret.setOnAction(event -> this.opretPris(
                 cbProdukter.getSelectionModel().getSelectedItem(),
-                Double.parseDouble(prisInput.getText()),
-                Integer.parseInt(klikPrisInput.getText()),
-                Double.parseDouble(pantPrisInput.getText())));
+                prisInput.getText(),
+                klikPrisInput.getText(),
+                pantPrisInput.getText()));
 
 
         vBox = new VBox();
@@ -96,9 +100,36 @@ public class AdminOpretPrisWindow extends Stage {
 
     }
 
-    private void opretPris(Produkt produkt, double pris, int klikPris, double pantPris) {
+    private void opretPris(Produkt produkt, String inputPris, String inputKlikPris, String inputPantPris) {
+        double pris;
+        int klikPris;
+        double pantPris;
+
+        if (inputPris.equals("")) {
+            pris = 0;
+        }
+        else {
+            pris = Double.parseDouble(inputPris);
+        }
+
+        if (inputKlikPris.equals("")) {
+            klikPris = 0;
+        }
+        else {
+            klikPris = Integer.parseInt(inputKlikPris);
+        }
+
+        if (inputPantPris.equals("")) {
+            pantPris = 0;
+        }
+        else {
+            pantPris = Double.parseDouble(inputPantPris);
+        }
+
         try {
-            Controller.createPris(this.salgsSituation, produkt, pris, klikPris, pantPris);
+            controller.createPris(this.salgsSituation, produkt, pris, klikPris, pantPris);
+            adminPrisPane.updateLwPriser(this.salgsSituation);
+
         }
         catch (IllegalArgumentException e) {
             errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());

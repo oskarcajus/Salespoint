@@ -13,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class AdminOpretProduktgruppeWindow extends Stage {
+    private final Controller controller = Controller.getController();
+
     private AdminProduktPane adminProduktPane;
     private Label lblNavn;
     private TextField navnInput;
@@ -20,7 +22,10 @@ public class AdminOpretProduktgruppeWindow extends Stage {
     private VBox vBox;
     private Alert errorAlert;
 
+
+
     public AdminOpretProduktgruppeWindow(AdminProduktPane adminProduktPane) {
+
         this.adminProduktPane = adminProduktPane;
 
         this.setMinHeight(200);
@@ -64,7 +69,7 @@ public class AdminOpretProduktgruppeWindow extends Stage {
         else {
             //Errorhandling fra Produktgruppe i modellen
             try {
-                Controller.createProduktgruppe(navn);
+                controller.createProduktgruppe(navn);
                 this.adminProduktPane.updateLwProduktgrupper();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());

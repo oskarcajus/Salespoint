@@ -13,6 +13,8 @@ import model.ProduktType;
 import model.Produktgruppe;
 
 public class AdminOpretProduktWindow extends Stage {
+    private final Controller controller = Controller.getController();
+
     private AdminProduktPane adminProduktPane;
     private Produktgruppe produktgruppe;
     private ProduktType produktType;
@@ -86,8 +88,6 @@ public class AdminOpretProduktWindow extends Stage {
         pane.add(navnInput, 1, 2);
         pane.add(vBox, 1, 3);
 
-
-
     }
 
     private void opretProdukt(Produktgruppe produktgruppe, ProduktType produktType, String navn) {
@@ -98,8 +98,8 @@ public class AdminOpretProduktWindow extends Stage {
         else {
             //Errorhandling fra Produktgruppe i modellen
             try {
-                Controller.createProdukt(produktgruppe, produktType, navn);
-                this.adminProduktPane.updateLwProduktgrupper();
+                controller.createProdukt(produktgruppe, produktType, navn);
+                this.adminProduktPane.updateLwProdukter();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 errorAlert.show();

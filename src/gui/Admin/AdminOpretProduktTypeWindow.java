@@ -13,12 +13,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class AdminOpretProduktTypeWindow extends Stage {
+    private final Controller controller = Controller.getController();
+
     private AdminProduktPane adminProduktPane;
     private Label lblNavn;
     private TextField navnInput;
     private Button btnOpret;
     private VBox vBox;
     private Alert errorAlert;
+
 
     public AdminOpretProduktTypeWindow(AdminProduktPane adminProduktPane) {
         this.adminProduktPane = adminProduktPane;
@@ -64,7 +67,7 @@ public class AdminOpretProduktTypeWindow extends Stage {
         }
         else {
             try {
-                Controller.createProduktType(navn);
+                controller.createProduktType(navn);
                 this.adminProduktPane.updateLwProduktTyper();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());

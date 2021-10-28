@@ -21,11 +21,6 @@ public class SalgsSituation {
     /* ------------------------------------------------------------------------------------------------------------*/
     // Create pris
     public Pris createPris(Produkt produkt, double pris, int klipPris, double pantPris) {
-        for (Pris p : this.priser) {
-            if (p.getProdukt().equals(produkt)) {
-                throw new IllegalArgumentException("Produktet har allerede en pris i denne salgssituation.");
-            }
-        }
         Pris newPris = new Pris(produkt, pris, klipPris, pantPris);
         this.priser.add(newPris);
         return newPris;

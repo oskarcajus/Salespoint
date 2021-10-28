@@ -19,54 +19,56 @@ public class Storage {
         return storage;
     }
 
-    //Produktgruppe
-    private static final ArrayList<Produktgruppe> produktgrupper = new ArrayList<>();
+    //-----------------------------------------------------------------------
 
-    public static void addProduktgruppe(Produktgruppe pg) {
+    //Produktgruppe
+    private final ArrayList<Produktgruppe> produktgrupper = new ArrayList<>();
+
+    public void addProduktgruppe(Produktgruppe pg) {
         produktgrupper.add(pg);
     }
-    public static void removeProduktgruppe(Produktgruppe pg) {
+    public void removeProduktgruppe(Produktgruppe pg) {
         produktgrupper.remove(pg);
     }
-    public static ArrayList<Produktgruppe> getProduktgrupper() {
-        return new ArrayList<Produktgruppe>(Storage.produktgrupper);
+    public ArrayList<Produktgruppe> getProduktgrupper() {
+        return new ArrayList<>(this.produktgrupper);
     }
 
     //ProduktType
-    private static final ArrayList<ProduktType> produktTyper = new ArrayList<>();
+    private final ArrayList<ProduktType> produktTyper = new ArrayList<>();
 
-    public static void addProduktType(ProduktType pt) {
+    public void addProduktType(ProduktType pt) {
         produktTyper.add(pt);
     }
-    public static void removeProduktType(ProduktType pt) {
+    public void removeProduktType(ProduktType pt) {
         produktTyper.remove(pt);
     }
-    public static ArrayList<ProduktType> getProduktTyper() {
-        return new ArrayList<ProduktType>(Storage.produktTyper);
+    public ArrayList<ProduktType> getProduktTyper() {
+        return new ArrayList<>(this.produktTyper);
     }
 
     //SalgsSituation
-    private static final ArrayList<SalgsSituation> salgsSituationer = new ArrayList<>();
+    private final ArrayList<SalgsSituation> salgsSituationer = new ArrayList<>();
 
-    public static void addSalgsSituation(SalgsSituation ss) {
+    public void addSalgsSituation(SalgsSituation ss) {
         salgsSituationer.add(ss);
     }
-    public static void removeSalgsSituation(SalgsSituation ss) {
+    public void removeSalgsSituation(SalgsSituation ss) {
         salgsSituationer.remove(ss);
     }
-    public static ArrayList<SalgsSituation> getSalgsSituationer() {
-        return new ArrayList<SalgsSituation>(Storage.salgsSituationer);
+    public ArrayList<SalgsSituation> getSalgsSituationer() {
+        return new ArrayList<>(this.salgsSituationer);
     }
 
     //Order
-    private static final ArrayList<Order> orders = new ArrayList<Order>();
-    public static void addOrder(Order order) {
+    private final ArrayList<Order> orders = new ArrayList<>();
+    public void addOrder(Order order) {
         orders.add(order);
     }
-    public static void removeOrder(Order order) {
+    public void removeOrder(Order order) {
         orders.remove(order);
     }
-    public static ArrayList<Order> getOrders() {
-        return new ArrayList<Order>(Storage.orders);
+    public ArrayList<Order> getOrders() {
+        return new ArrayList<>(this.orders);
     }
 }

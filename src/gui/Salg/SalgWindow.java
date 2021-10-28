@@ -11,9 +11,8 @@ import javafx.stage.Stage;
 import model.SalgsSituation;
 
 public class SalgWindow extends Application {
+    private final Controller controller = Controller.getController();
 
-    // Controller access
-    private Controller controller;
     private ListView<SalgsSituation> lvwSalgsSituation;
     private Button btnStart;
     private Alert errorAlert;
@@ -49,7 +48,7 @@ public class SalgWindow extends Application {
         pane.add(lvwSalgsSituation, 10, 10, 1, 5);
         lvwSalgsSituation.setPrefWidth(200);
         lvwSalgsSituation.setPrefHeight(200);
-        lvwSalgsSituation.getItems().setAll(Controller.getSalgsSituationer());
+        lvwSalgsSituation.getItems().setAll(controller.getSalgsSituationer());
 
 //        ChangeListener<SalgsSituation> listenerSalgsSituation = (ok, oldKonference, newKonference) -> ;
 //        lvwSalgsSituation.getSelectionModel().selectedItemProperty().addListener(listenerSalgsSituation);
