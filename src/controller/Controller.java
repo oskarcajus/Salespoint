@@ -262,13 +262,33 @@ public class Controller {
         if (produkt == null) {
             throw new IllegalArgumentException("Du har ikke valgt et produkt.");
         }
+        if (pris < 0 || klipPris < 0 || pantPris < 0) {
+            throw new IllegalArgumentException("En pris må ikke være mindre end 0.");
+        }
+        if (pris == 0 && klipPris == 0 && pantPris == 0) {
+            throw new IllegalArgumentException("Vælg mindst én pris.");
+        }
 
         for (Pris p : salgsSituation.getPriser()) {
             if (p.getProdukt().equals(produkt)) {
-                throw new IllegalArgumentException("Produktet har allerede en pris i denne salgssituation.");
+                throw new IllegalArgumentException("Produktet har allerede en pris i denne salgssituation. \n" +
+                        "Redigér i stedet prisen for produktet.");
             }
         }
         return salgsSituation.createPris(produkt, pris, klipPris, pantPris);
+    }
+
+    public void redigerPris(Pris pris, double newPris, int newKlipPris, double newPantPris) {
+        if (newPris < 0 || newKlipPris < 0 || newPantPris < 0) {
+            throw new IllegalArgumentException("En pris må ikke være mindre end 0.");
+        }
+        if (newPris == 0 && newKlipPris == 0 && newPantPris == 0) {
+            throw new IllegalArgumentException("Vælg mindst én pris.");
+        }
+
+        pris.setPris(newPris);
+        pris.setKlipPris(newKlipPris);
+        pris.setPantPris(newPantPris);
     }
 
     public void removePris(SalgsSituation salgsSituation, Pris pris) {

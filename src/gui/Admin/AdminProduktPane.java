@@ -128,13 +128,6 @@ public class AdminProduktPane extends GridPane {
         btnSletProdukt.setOnAction(event ->
                 this.onActionBtnSletProdukt(lwProdukter.getSelectionModel().getSelectedItem()));
 
-
-
-
-//        btnOpretProdukt.setOnAction(event -> this.onActionBtnOpretProdukt(this, lwProduktgrupper.getSelectionModel().getSelectedItem()));
-//        btnOpretProdukt.setOnAction(event -> this.onActionBtnRedigerProdukt());
-
-
     }
 
 
@@ -211,8 +204,8 @@ public class AdminProduktPane extends GridPane {
     }
 
     public void updateLwProdukter() {
-        ObservableList<Produktgruppe> selectedProduktgrupper = this.lwProduktgrupper.getSelectionModel().getSelectedItems();
-        ObservableList<ProduktType> selectedProduktTyper = this.lwProduktTyper.getSelectionModel().getSelectedItems();
+        selectedProduktgrupper = this.lwProduktgrupper.getSelectionModel().getSelectedItems();
+        selectedProduktTyper = this.lwProduktTyper.getSelectionModel().getSelectedItems();
         lwProdukter.getItems().setAll(
                 controller.getProdukterInProduktgruppeAndOrProduktType(selectedProduktgrupper, selectedProduktTyper));
     }

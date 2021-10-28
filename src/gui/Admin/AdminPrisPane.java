@@ -52,7 +52,6 @@ public class AdminPrisPane extends GridPane {
         //Listviews
 
         lwSalgsSituationer = new ListView<>();
-        selectedSalgsSituation = this.lwSalgsSituationer.getSelectionModel().getSelectedItem();
 
         lwSalgsSituationer.getItems().setAll(controller.getSalgsSituationer());
         lwSalgsSituationer.getSelectionModel().select(0);
@@ -60,14 +59,15 @@ public class AdminPrisPane extends GridPane {
         ChangeListener<? super SalgsSituation> lwSalgsSituationListener = (ov, oldString, newString) -> this.selectionChangedLwSalgsSituationer();
         lwSalgsSituationer.getSelectionModel().selectedItemProperty().addListener(lwSalgsSituationListener);
         this.add(lwSalgsSituationer, 0, 1);
+        selectedSalgsSituation = this.lwSalgsSituationer.getSelectionModel().getSelectedItem();
 
 
         lwPriser = new ListView<>();
-        selectedPris = this.lwPriser.getSelectionModel().getSelectedItem();
 
         lwPriser.getItems().setAll(controller.getPriserFromSalgsSituation(lwSalgsSituationer.getItems().get(0)));
         lwPriser.getSelectionModel().select(0);
         this.add(lwPriser, 1, 1);
+        selectedPris = this.lwPriser.getSelectionModel().getSelectedItem();
 
         //Labels
         this.add(lblSalgsSituationer, 0, 0);
@@ -96,7 +96,7 @@ public class AdminPrisPane extends GridPane {
         btnOpretPris.setOnAction(event ->
                 this.onActionBtnOpretPris(this, selectedSalgsSituation));
         btnRedigerPris.setOnAction(event ->
-                this.onActionBtnRedigerPris(this, selectedPris));
+                this.onActionBtnRedigerPris(this, selectedSalgsSituation, selectedPris));
         btnSletPris.setOnAction(event ->
                 this.onActionBtnSletPris(selectedSalgsSituation, selectedPris));
 
@@ -139,9 +139,9 @@ public class AdminPrisPane extends GridPane {
         adminOpretPrisWindow.showAndWait();
     }
 
-    private void onActionBtnRedigerPris(AdminPrisPane adminPrisPane, Pris pris) {
-//        AdminRedigerPrisWindow adminRedigerPrisWindow = new AdminRedigerPrisWindow(adminPrisPane, pris);
-//        adminRedigerPrisWindow.showAndWait();
+    private void onActionBtnRedigerPris(AdminPrisPane adminPrisPane, SalgsSituation salgsSituation, Pris pris) {
+        AdminRedigerPrisWindow adminRedigerPrisWindow = new AdminRedigerPrisWindow(adminPrisPane, salgsSituation, lwPriser.getSelectionModel().getSelectedItem());
+        adminRedigerPrisWindow.showAndWait();
     }
 
 

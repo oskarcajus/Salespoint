@@ -88,8 +88,6 @@ public class AdminOpretProduktWindow extends Stage {
         pane.add(navnInput, 1, 2);
         pane.add(vBox, 1, 3);
 
-
-
     }
 
     private void opretProdukt(Produktgruppe produktgruppe, ProduktType produktType, String navn) {
