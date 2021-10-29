@@ -1,6 +1,8 @@
 package gui.Salg;
 
 import controller.Controller;
+import gui.Admin.AdminOpretProduktWindow;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -14,6 +16,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Kunde;
 import model.Pris;
 import model.SalgsSituation;
 
@@ -41,7 +44,9 @@ public class SalgKundePane extends GridPane {
         this.add(lvwKunder, 0, 1, 1, 5);
         lvwKunder.setPrefWidth(300);
         lvwKunder.setPrefHeight(500);
-        lvwKunder.getItems().setAll(controller.getAllProdukter());
+        lvwKunder.getItems().setAll(controller.getKunder());
+        ChangeListener<Kunde> listenerKunde = (ok, oldKunde, newKunde) -> this.selectedCompanyChanged();
+        lvwKunder.getSelectionModel().selectedItemProperty().addListener(listenerKunde);
         
         // Button kunde
         HBox hbxButtonsKunde = new HBox(40);
@@ -52,11 +57,11 @@ public class SalgKundePane extends GridPane {
 
         Button btnOpretKunde = new Button("Opret Kunde");
         hbxButtonsKunde.getChildren().add(btnOpretKunde);
-//        btnOpretBestilling.setOnAction(event -> this.createActionKonference());
+        btnOpretKunde.setOnAction(event -> this.opretKunde());
 
         Button btnSletKunde = new Button("Slet Kunde");
         hbxButtonsKunde.getChildren().add(btnSletKunde);
-//        btnFjernProdukt.setOnAction(event -> this.updateActionKonference());
+      btnSletKunde.setOnAction(event -> this.sletKunde());
 
 
 
@@ -69,7 +74,31 @@ public class SalgKundePane extends GridPane {
         this.add(lvwKundeOrdreNr, 3, 1, 1, 5);
         lvwKundeOrdreNr.setPrefWidth(300);
         lvwKundeOrdreNr.setPrefHeight(500);
-//        lvwKundeOrdreNr.getItems().setAll(controller.getKunder());
-
+        Kunde kunde = (Kunde) lvwKunder.getSelectionModel().getSelectedItem();
     }
+
+    public void selectedCompanyChanged(){
+        updateControls();
+    }
+
+
+    public void opretKunde(){
+        SalgOpretKundeWindow salgOpretKundeWindow = new SalgOpretKundeWindow(this);
+        salgOpretKundeWindow.showAndWait();
+
+        lvwKunder.getItems().setAll(controller.getKunder());
+    }
+
+    public void sletKunde(){
+        Kunde kunde = (Kunde) lvwKunder.getSelectionModel().getSelectedItem();
+        controller.removeKunde(kunde);
+        lvwKunder.getItems().setAll(controller.getKunder());
+    }
+
+    public void updateControls(){
+        Kunde kunde = (Kunde) lvwKunder.getSelectionModel().getSelectedItem();
+        lvwKundeOrdreNr.getItems().setAll(controller.getKundeOrders(kunde));
+    }
+
+
 }

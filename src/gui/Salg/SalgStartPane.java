@@ -3,17 +3,16 @@ package gui.Salg;
 import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import model.Pris;
+import model.Produkt;
 import model.SalgsSituation;
 
 public class SalgStartPane extends GridPane {
@@ -21,9 +20,10 @@ public class SalgStartPane extends GridPane {
 
     private SalgsSituation salgsSituation;
     private ListView lvwProdukter, lvwOrdreList;
-    private Label lblProdukter, lblOrdreList, lblSamletBeløb, lblAftaltBeløb;
-    private Button btnOpretOrdre;
-    private TextField txfSamletBeløb, txfBetalingStatus, txfAftaltBeløb;
+    private Label lblProdukter, lblOrdreList, lblSamletBeløb, lblAddProdukt,lblSpace;
+    private Button btnOpretOrdre, btnAddProdukter;
+    private TextField txfSamletBeløb, txfBetalingStatus, txfAddProdukter;
+    private Alert errorAlert;
 
 
     public SalgStartPane(SalgsSituation salgsSituation) {
@@ -71,25 +71,21 @@ public class SalgStartPane extends GridPane {
         this.add(lvwOrdreList, 3, 1, 1, 5);
         lvwOrdreList.setPrefWidth(300);
         lvwOrdreList.setPrefHeight(500);
-        /* TODO Den her skal ændres ASAP; når de nye ordre, ordrelinje klasser er lavet samt med controller */
-        lvwOrdreList.getItems().setAll(salgsSituation.getNavn());
+
 
         // Samlet beløb
+        VBox vboxSB = new VBox(20);
+        vboxSB.setAlignment(Pos.CENTER_LEFT);
+        this.add(vboxSB,1,4,1,1);
+
         lblSamletBeløb = new Label("Samlet beløb:");
-        this.add(lblSamletBeløb, 4, 6);
+        vboxSB.getChildren().add(lblSamletBeløb);
 
         txfSamletBeløb = new TextField("00.0");
-        this.add(txfSamletBeløb, 5, 6);
+        vboxSB.getChildren().add(txfSamletBeløb);
         txfSamletBeløb.setPrefWidth(100);
         txfSamletBeløb.setEditable(false);
 
-        // Aftalt Beløb
-        lblAftaltBeløb = new Label("Aftalt beløb:");
-        this.add(lblAftaltBeløb, 5, 0);
-
-        txfAftaltBeløb = new TextField("00.0");
-        this.add(txfAftaltBeløb, 5, 1);
-        txfAftaltBeløb.setPrefWidth(200);
 
         // Buttons
         HBox hbxButtonsOrdre = new HBox(40);
@@ -107,6 +103,44 @@ public class SalgStartPane extends GridPane {
 //        btnFjernProdukt.setOnAction(event -> this.updateActionKonference());
 
 
+        // Tilføje antal produkter
+        VBox xboxAddProdukt = new VBox(20);
+        xboxAddProdukt.setAlignment(Pos.CENTER_LEFT);
+        this.add(xboxAddProdukt,1,2,1,1);
+
+        lblAddProdukt = new Label("Antal: ");
+        xboxAddProdukt.getChildren().add(lblAddProdukt);
+
+        txfAddProdukter = new TextField();
+        xboxAddProdukt.getChildren().add(txfAddProdukter);
+
+        btnAddProdukter = new Button("Add");
+        btnFjernProdukt.setOnAction(event -> this.testAction());
+        xboxAddProdukt.getChildren().add(btnAddProdukter);
+
+        VBox vosa = new VBox(60);
+        this.add(vosa,1,3,1,1);
+        lblSpace = new Label("\n\n\n");
+        vosa.getChildren().add(lblSpace);
+
+    }
+
+    public void testAction (){
+
+
+
+            int antal = Integer.parseInt(txfAddProdukter.getText().trim());
+            if (antal >0) {
+                for (int i = 0; i < antal; i++){
+                    lvwOrdreList.getItems().add(lvwProdukter.getSelectionModel().getSelectedItem());
+                }
+
+            } else {
+                errorAlert = new Alert(Alert.AlertType.ERROR, "Du skal skrive antallet!");
+                errorAlert.show();
+            }
+
+            ;
     }
 
 }

@@ -86,4 +86,8 @@ public class Kunde implements Comparable<Kunde> {
     public void setNavn(String navn) {
         this.navn = navn;
     }
+
+    public void setFirma(boolean firma) {
+        isFirma = firma;
+    }
 }

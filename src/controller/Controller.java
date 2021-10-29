@@ -414,13 +414,17 @@ public class Controller {
 
     //Kunde -----------------------------------------------------------------
 
-    public Kunde opretKunde(String navn, String nummer) {
+    public Kunde createKunde(String navn, String nummer) {
         if (navn.isEmpty() || nummer.isEmpty()) {
             throw new IllegalArgumentException("Du mangler at udfylde en eller argumenter.");
         }
         Kunde kunde = new Kunde(navn,nummer);
         storage.addKunde(kunde);
         return kunde;
+    }
+
+    public void removeKunde(Kunde kunde){
+        storage.removeKunde(kunde);
     }
 
     public ArrayList<Kunde> getKunder() {
@@ -438,6 +442,7 @@ public class Controller {
         //Create produktgrupper
         Produktgruppe pg1 = controller.createProduktgruppe("Flaske");
         Produktgruppe pg2 = controller.createProduktgruppe("Fustage");
+
 
         //Create produktTyper
         ProduktType pt1 = controller.createProduktType("Produkt");
@@ -460,9 +465,16 @@ public class Controller {
         Pris pris3 = controller.createPris(s1, p3, 500, 0, 200);
 
         //Create kunder
-        Kunde k1 = controller.opretKunde("Arosan","12345678");
-        Kunde k2 = controller.opretKunde("Oskar", "09876543");
-        Kunde k3 = controller.opretKunde("Kim", "23456789");
+        // Kunde
+        Kunde k1 = controller.createKunde("Arosan","12345678");
+        Kunde k2 = controller.createKunde("Oskar", "09876543");
+        Kunde k3 = controller.createKunde("Kim", "23456789");
+
+        // Ordrer
+        Order o3 = controller.createOrder(10, LocalDate.of(2001,02,02));
+
+        o3.setKunde(k1);
+
 
         //Create order & orderline
         Order o1 = controller.createOrder(1, LocalDate.of(2021, 9, 1));

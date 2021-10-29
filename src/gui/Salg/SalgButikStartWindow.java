@@ -55,8 +55,14 @@ public class SalgButikStartWindow extends Stage {
         SalgKundePane salgKundePane = new SalgKundePane();
         tabKunde.setContent(salgKundePane);
 
+        SalgRundvisningPane salgRundvisningPane = new SalgRundvisningPane(salgsSituation);
+        tabRundvisning.setContent(salgRundvisningPane);
+
+        SalgUdlejningPane salgUdlejningPane = new SalgUdlejningPane(salgsSituation);
+        tabUdlejning.setContent(salgUdlejningPane);
+
         // Add Ordre, produkter, pristLister til TabPane
-        tabPane.getTabs().addAll(tabSalg,tabKunde);
+        tabPane.getTabs().addAll(tabSalg,tabUdlejning,tabRundvisning,tabKunde);
 
 
     }
