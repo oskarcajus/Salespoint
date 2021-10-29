@@ -68,8 +68,6 @@ public class OrderLine {
 
     @Override
     public String toString() {
-        return "OrderLine{" +
-                "antalProdukt=" + antalProdukt +
-                '}';
+        return getPris() + " : " + "Antal: " + getAntalProdukt();
     }
 }

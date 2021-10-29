@@ -11,16 +11,20 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import model.Order;
 import model.Pris;
 import model.Produkt;
 import model.SalgsSituation;
 
+import java.time.LocalDate;
+
 public class SalgStartPane extends GridPane {
     private final Controller controller = Controller.getController();
+    private Order currentOrder;
 
     private SalgsSituation salgsSituation;
-    private ListView lvwProdukter, lvwOrdreList;
-    private Label lblProdukter, lblOrdreList, lblSamletBeløb, lblAddProdukt,lblSpace;
+    private ListView lvwProduktPriser, lvwOrdreList;
+    private Label lblProdukter, lblOrdreList, lblSamletBeløb, lblAddProdukt, lblSpace;
     private Button btnOpretOrdre, btnAddProdukter;
     private TextField txfSamletBeløb, txfBetalingStatus, txfAddProdukter;
     private Alert errorAlert;
@@ -40,7 +44,7 @@ public class SalgStartPane extends GridPane {
         lblProdukter = new Label("Produkter: ");
         this.add(lblProdukter, 0, 0);
 
-        lvwProdukter = new ListView();
+        lvwProduktPriser = new ListView();
         Font font = Font.font("Calibri", FontWeight.BOLD, FontPosture.ITALIC, 15);
         String produktGruppe = "";
 
@@ -50,17 +54,17 @@ public class SalgStartPane extends GridPane {
                 produktGruppe = pr.getProdukt().getProduktgruppe().getNavn();
                 Text txt = new Text(produktGruppe + ":");
                 txt.setFont(font);
-                lvwProdukter.getItems().add(txt);
+                lvwProduktPriser.getItems().add(txt);
             }
-            lvwProdukter.getItems().add(pr);
+            lvwProduktPriser.getItems().add(pr);
         }
-        lvwProdukter.getSelectionModel().selectedItemProperty().addListener(obs -> {
-            if (lvwProdukter.getSelectionModel().getSelectedItem() instanceof Text)
-                lvwProdukter.getSelectionModel().selectNext();
+        lvwProduktPriser.getSelectionModel().selectedItemProperty().addListener(obs -> {
+            if (lvwProduktPriser.getSelectionModel().getSelectedItem() instanceof Text)
+                lvwProduktPriser.getSelectionModel().selectNext();
         });
-        this.add(lvwProdukter, 0, 1, 1, 5);
-        lvwProdukter.setPrefWidth(300);
-        lvwProdukter.setPrefHeight(500);
+        this.add(lvwProduktPriser, 0, 1, 1, 5);
+        lvwProduktPriser.setPrefWidth(300);
+        lvwProduktPriser.setPrefHeight(500);
 
 
         // Ordre line
@@ -76,7 +80,7 @@ public class SalgStartPane extends GridPane {
         // Samlet beløb
         VBox vboxSB = new VBox(20);
         vboxSB.setAlignment(Pos.CENTER_LEFT);
-        this.add(vboxSB,1,4,1,1);
+        this.add(vboxSB, 1, 4, 1, 1);
 
         lblSamletBeløb = new Label("Samlet beløb:");
         vboxSB.getChildren().add(lblSamletBeløb);
@@ -100,13 +104,13 @@ public class SalgStartPane extends GridPane {
 
         Button btnFjernProdukt = new Button("Fjern produkt");
         hbxButtonsOrdre.getChildren().add(btnFjernProdukt);
-//        btnFjernProdukt.setOnAction(event -> this.updateActionKonference());
+        btnFjernProdukt.setOnAction(event -> this.fjernProduktAction());
 
 
         // Tilføje antal produkter
         VBox xboxAddProdukt = new VBox(20);
         xboxAddProdukt.setAlignment(Pos.CENTER_LEFT);
-        this.add(xboxAddProdukt,1,2,1,1);
+        this.add(xboxAddProdukt, 1, 2, 1, 1);
 
         lblAddProdukt = new Label("Antal: ");
         xboxAddProdukt.getChildren().add(lblAddProdukt);
@@ -115,32 +119,73 @@ public class SalgStartPane extends GridPane {
         xboxAddProdukt.getChildren().add(txfAddProdukter);
 
         btnAddProdukter = new Button("Add");
-        btnFjernProdukt.setOnAction(event -> this.testAction());
+        btnAddProdukter.setOnAction(event -> this.addProduktAction());
         xboxAddProdukt.getChildren().add(btnAddProdukter);
 
         VBox vosa = new VBox(60);
-        this.add(vosa,1,3,1,1);
+        this.add(vosa, 1, 3, 1, 1);
         lblSpace = new Label("\n\n\n");
         vosa.getChildren().add(lblSpace);
 
     }
 
-    public void testAction (){
+    //-----------------------------------------------------------------------------------------------------------------------------------------
+    // Tilføjes produkter til den anden listview -------------------------------------------
+    public void addProduktAction() {
+        Order order = getCurrentOrder();
+        Object o = lvwProduktPriser.getSelectionModel().getSelectedItem();
+        int antal;
+        if (txfAddProdukter.getText().trim().equals("")) {
+            antal = 0;
+        } else {
+            antal = Integer.parseInt(txfAddProdukter.getText().trim());
 
-
-
-            int antal = Integer.parseInt(txfAddProdukter.getText().trim());
-            if (antal >0) {
-                for (int i = 0; i < antal; i++){
-                    lvwOrdreList.getItems().add(lvwProdukter.getSelectionModel().getSelectedItem());
+            if (o != null) {
+                if (o instanceof Pris) {
+                    Pris pris = (Pris) o;
+                    if (pris != null) {
+                        if (antal == 0) {
+                            order.createOrderLine(1, pris);
+                        } else if (antal > 0) {
+                            order.createOrderLine(antal, pris);
+                        } else {
+                            errorAlert = new Alert(Alert.AlertType.ERROR, "Antallet skal være mere end 0");
+                            errorAlert.show();
+                        }
+                    }
                 }
-
             } else {
-                errorAlert = new Alert(Alert.AlertType.ERROR, "Du skal skrive antallet!");
+                errorAlert = new Alert(Alert.AlertType.ERROR, "Du skal vælge en produkt!");
                 errorAlert.show();
             }
+        }
+        lvwOrdreList.getItems().setAll(order.getOrderLines());
+        updateSamletBeløb();
+    }
+    //---------------------------------------------------------------------------------------------------------
+    // Fjernes produkter fra Ordrer Listview
 
-            ;
+    public void fjernProduktAction() {
+        Object o = lvwOrdreList.getSelectionModel().getSelectedItem();
+        if (o != null) {
+            lvwOrdreList.getItems().remove(o);
+        } else {
+            errorAlert = new Alert(Alert.AlertType.ERROR, "Du skal vælge en produkt i ordrelisten!");
+            errorAlert.show();
+        }
+        updateSamletBeløb();
+
     }
 
+    public void updateSamletBeløb() {
+        double pris = getCurrentOrder().orderPris();
+        String s = String.valueOf(pris);
+        txfSamletBeløb.setText(s);
+    }
+
+    public Order getCurrentOrder() {
+        if (currentOrder == null)
+            currentOrder = controller.createOrder(controller.getOrders().size() + 1, LocalDate.now());
+        return currentOrder;
+    }
 }

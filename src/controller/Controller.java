@@ -470,18 +470,14 @@ public class Controller {
         Kunde k2 = controller.createKunde("Oskar", "09876543");
         Kunde k3 = controller.createKunde("Kim", "23456789");
 
-        // Ordrer
-        Order o3 = controller.createOrder(10, LocalDate.of(2001,02,02));
-
-        o3.setKunde(k1);
-
-
         //Create order & orderline
         Order o1 = controller.createOrder(1, LocalDate.of(2021, 9, 1));
         OrderLine ol1 = controller.createOrderLine(o1, 3, pris1);
         OrderLine ol2 = controller.createOrderLine(o1, 1, pris3);
 
         Order o2 = controller.createOrder(2, LocalDate.of(2021, 9, 1));
+
+        Order o5 = controller.createOrder(5, LocalDate.of(2001,02,02));
 
         //Udlejning
         Order uo1 = controller.createUdlejningOrder(3, LocalDate.of(2021, 5, 1),
@@ -499,6 +495,11 @@ public class Controller {
 
         System.out.println(uor1);
         System.out.println(controller.beregnPris(uor1));
+
+        // Ordrer på kunden
+        o5.setKunde(k1);
+        o2.setKunde(k2);
+        o1.setKunde(k3);
     }
 
     
