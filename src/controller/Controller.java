@@ -328,14 +328,14 @@ public class Controller {
         return order;
     }
 
-    public Order createUdlejningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato, LocalDate forventetReturDato) {
+    public Order createUdlejningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate forventetReturDato) {
         for (Order o : controller.getOrders()) {
             if (o.getOrderNr() == orderNr) {
                 throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
             }
         }
 
-        Order order = new UdlejningsOrder(orderNr, oprettelsesDato, expectingBetalingsDato, forventetReturDato);
+        Order order = new UdlejningsOrder(orderNr, oprettelsesDato, forventetReturDato);
         storage.addOrder(order);
 
         return order;
@@ -344,28 +344,48 @@ public class Controller {
     public Order createReturnOrder(int orderNr) {
         Order returOrder = null;
 
+        boolean found = false;
         for (Order order : controller.getOrders()) {
-            if (order.getOrderNr() == orderNr) {
+            if (order.getOrderNr() == orderNr && !found) {
+                found = true;
                 //Laver en ny ordre
                 returOrder = controller.createOrder(order.getOrderNr() + 10000000, LocalDate.now());
+                returOrder.setRefOrderNr(orderNr);
                 //Kopierer ordrelinjer fra order til returorder
                 for (OrderLine ol : order.getOrderLines()) {
                     returOrder.createOrderLine(ol.getAntalProdukt(), ol.getPris());
+
                 }
                 //Sætter beløbet på alle orderlinjer til modsat fortegn
-                for (OrderLine ol : returOrder.getOrderLines()) {
-                    ol.setOrderLineBeløb(ol.getOrderLineBeløb() * (- 1));
+                for (OrderLine olRetur : returOrder.getOrderLines()) {
+                    olRetur.setOrderLinePrisBeløb(olRetur.getOrderLinePrisBeløb() * (- 1));
+                    olRetur.setOrderLinePantBeløb(olRetur.getOrderLinePantBeløb() * (- 1));
                 }
-                break;
             }
         }
-
 
         return returOrder;
     }
 
     public void removeOrder(Order order) {
         storage.removeOrder(order);
+    }
+
+    public int beregnKlikPris(Order order) {
+        return order.orderKlipPris();
+    }
+
+    //Må gerne være negativ, da den også bruges til returordre
+    public double beregnPris(Order order) {
+        return order.prisWithRabat();
+    }
+
+    public int beregnKlipPris(Order order) {
+        int sum = 0;
+        for (OrderLine ol : order.getOrderLines()) {
+            sum += ol.getOrderLineKlipBeløb();
+        }
+        return sum;
     }
     //---------------------------------------------------------------------------
 
@@ -439,10 +459,34 @@ public class Controller {
         Pris pris2 = controller.createPris(s2, p1, 35, 2, 0);
         Pris pris3 = controller.createPris(s1, p3, 500, 0, 200);
 
+        //Create kunder
         Kunde k1 = controller.opretKunde("Arosan","12345678");
         Kunde k2 = controller.opretKunde("Oskar", "09876543");
         Kunde k3 = controller.opretKunde("Kim", "23456789");
 
+        //Create order & orderline
+        Order o1 = controller.createOrder(1, LocalDate.of(2021, 9, 1));
+        OrderLine ol1 = controller.createOrderLine(o1, 3, pris1);
+        OrderLine ol2 = controller.createOrderLine(o1, 1, pris3);
+
+        Order o2 = controller.createOrder(2, LocalDate.of(2021, 9, 1));
+
+        //Udlejning
+        Order uo1 = controller.createUdlejningOrder(3, LocalDate.of(2021, 5, 1),
+                LocalDate.of(2021, 6, 1));
+        OrderLine ol3 = controller.createOrderLine(uo1, 2, pris3);
+
+        Order uo2 = controller.createUdlejningOrder(4, LocalDate.of(2021, 6, 5),
+                LocalDate.of(2021, 6, 12));
+
+        //Retur
+        Order uor1 = controller.createReturnOrder(3);
+
+        System.out.println(uo1);
+        System.out.println(controller.beregnPris(uo1));
+
+        System.out.println(uor1);
+        System.out.println(controller.beregnPris(uor1));
     }
 
     

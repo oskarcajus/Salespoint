@@ -12,6 +12,7 @@ public class Order {
     private OrderStatus orderStatus; // oprettet, pending, afsluttet(betalt)
     private BetalingsType betalingsType; // Dankort, klippeKort....
     private RabatStrategy rabatStrategy; // (0..1) nullable rabat
+    private AmountRabat amountRabat;
 
     // nullable doubleRettet kunde(0..1)
     private Kunde kunde;
@@ -39,10 +40,18 @@ public class Order {
             orderLines.remove(orderLine);
     }
 
+    public int orderKlipPris() {
+        int orderKlipPris = 0;
+        for (OrderLine orderLine : orderLines) {
+            orderKlipPris += orderLine.getOrderLineKlipBeløb();
+        }
+        return orderKlipPris;
+    }
+
     public double orderPris() {
         double orderPris = 0.0;
         for (OrderLine orderLine : orderLines) {
-            orderPris += orderLine.getOrderLineBeløb();
+            orderPris += (orderLine.getOrderLinePrisBeløb() + orderLine.getOrderLinePantBeløb());
         }
         return orderPris;
     }
@@ -115,6 +124,23 @@ public class Order {
     public void setOrderComment(String orderComment) {
         this.orderComment = orderComment;
     }
+
+    public RabatStrategy getRabatStrategy() {
+        return rabatStrategy;
+    }
+
+    public void setRabatStrategy(RabatStrategy rabatStrategy) {
+        this.rabatStrategy = rabatStrategy;
+    }
+
+
+//    public AmountRabat getAmountRabat() {
+//        return amountRabat;
+//    }
+//
+//    public void setAmountRabat(AmountRabat amountRabat) {
+//        this.amountRabat = amountRabat;
+//    }
 
     // nullable kunde(0..1)
     public Kunde getKunde() {

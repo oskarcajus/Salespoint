@@ -4,28 +4,53 @@ public class OrderLine {
 
     private int antalProdukt;
     private Pris pris;
-    private double orderLineBeløb;
+    private double orderLinePrisBeløb;
+    private double orderLinePantBeløb;
+    private int getOrderLineKlipBeløb;
 
     public OrderLine(int antalProdukt, Pris pris){
         this.antalProdukt = antalProdukt;
         this.pris = pris;
-        this.orderLineBeløb = pris.getPris() * antalProdukt;
+        this.orderLinePrisBeløb = pris.getPris()  * antalProdukt;
+        this.orderLinePantBeløb = pris.getPantPris() * antalProdukt;
+        this.getOrderLineKlipBeløb = pris.getKlipPris() * antalProdukt;
     }
 
     // beregn pris for orderLine
     // getPris() method 추가해야함
-    public double getOrderLineBeløb() {
-        return orderLineBeløb;
+    public double getOrderLinePrisBeløb() {
+        return orderLinePrisBeløb;
     }
 
-    public void setOrderLineBeløb(double orderLineBeløb) {
-        this.orderLineBeløb = orderLineBeløb;
+    public void setOrderLinePrisBeløb(double orderLinePrisBeløb) {
+        this.orderLinePrisBeløb = orderLinePrisBeløb;
+    }
+
+    public void getOrderLinePrisBeløb(double pris) {
+        this.orderLinePrisBeløb = pris;
+    }
+
+    public double getOrderLinePantBeløb() {
+        return orderLinePantBeløb;
+    }
+
+    public void setOrderLinePantBeløb(double orderLinePantBeløb) {
+        this.orderLinePantBeløb = orderLinePantBeløb;
+    }
+
+    public int getOrderLineKlipBeløb() {
+        return getOrderLineKlipBeløb;
+    }
+
+    public void setOrderLineKlipBeløb(int getOrderLineKlipBeløb) {
+        this.getOrderLineKlipBeløb = getOrderLineKlipBeløb;
     }
 
     // Skal måske bruges til opdatering i GUI
 //    public double calcOrderLineBeløb() {
 //       return this.pris.getPris() * this.antalProdukt;
 //    }
+
 
     public Pris getPris() {
         return pris;

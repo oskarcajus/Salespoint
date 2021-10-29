@@ -23,7 +23,7 @@ public class RundvisningOrder extends Order{
     public double orderPris() {
         double orderPris = 0.0;
         for (OrderLine orderLine : getOrderLines()) {
-            orderPris += orderLine.getOrderLineBeløb();
+            orderPris += orderLine.getOrderLinePrisBeløb();
         }
         return orderPris;
     }

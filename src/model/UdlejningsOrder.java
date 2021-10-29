@@ -10,13 +10,13 @@ public class UdlejningsOrder extends Order {
 
 
     public UdlejningsOrder(int orderNr, LocalDate oprettelsesDato,
-                            LocalDate expectingBetalingsDato, LocalDate forventetReturDato) {
+                            LocalDate forventetReturDato) {
 
         super(orderNr, oprettelsesDato);
         this.forventetReturDato = forventetReturDato;
     }
 
-      public LocalDate getForventetReturDato() {
+    public LocalDate getForventetReturDato() {
         return forventetReturDato;
     }
 
