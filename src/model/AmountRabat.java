@@ -5,7 +5,7 @@ public class AmountRabat implements RabatStrategy {
     private double aftaltRabat; // ex) -200kr discount, hvis en kunde køber mere end 3000kr produkter.
     private double limitBeløb; // minimum purchase --> 3000kr
 
-    public AmountRabat(int aftaltRabat, int limitBeløb) {
+    public AmountRabat(double aftaltRabat, double limitBeløb) {
       this.aftaltRabat = aftaltRabat;
       this.limitBeløb = limitBeløb;
     }

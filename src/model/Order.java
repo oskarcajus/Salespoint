@@ -58,6 +58,14 @@ public class Order {
         return total;
     }
 
+    public double klipPrisWithRabat(){
+        double total = this.orderKlipPris();
+        if(rabatStrategy != null){
+            total -= rabatStrategy.getRabat(total);
+        }
+        return total;
+    }
+
     public void setKunde(Kunde targetKunde){
         if(this.kunde != targetKunde){
             Kunde oldKunde = this.kunde;
