@@ -11,10 +11,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import model.Order;
-import model.Pris;
-import model.Produkt;
-import model.SalgsSituation;
+import model.*;
 
 import java.time.LocalDate;
 
@@ -23,7 +20,9 @@ public class SalgStartPane extends GridPane {
     private Order currentOrder;
 
     private SalgsSituation salgsSituation;
-    private ListView lvwProduktPriser, lvwOrdreList;
+    private ListView lvwProduktPriser;
+    private ListView<OrderLine> lvwOrderLines;
+    
     private Label lblProdukter, lblOrdreList, lblSamletBeløb, lblAddProdukt, lblSpace;
     private Button btnOpretOrdre, btnAddProdukter;
     private TextField txfSamletBeløb, txfBetalingStatus, txfAddProdukter;
@@ -71,10 +70,10 @@ public class SalgStartPane extends GridPane {
         lblOrdreList = new Label("Ordrelist:");
         this.add(lblOrdreList, 3, 0);
 
-        lvwOrdreList = new ListView();
-        this.add(lvwOrdreList, 3, 1, 1, 5);
-        lvwOrdreList.setPrefWidth(300);
-        lvwOrdreList.setPrefHeight(500);
+        lvwOrderLines = new ListView();
+        this.add(lvwOrderLines, 3, 1, 1, 5);
+        lvwOrderLines.setPrefWidth(300);
+        lvwOrderLines.setPrefHeight(500);
 
 
         // Samlet beløb
@@ -104,7 +103,7 @@ public class SalgStartPane extends GridPane {
 
         Button btnFjernProdukt = new Button("Fjern produkt");
         hbxButtonsOrdre.getChildren().add(btnFjernProdukt);
-        btnFjernProdukt.setOnAction(event -> this.fjernProduktAction());
+        btnFjernProdukt.setOnAction(event -> this.fjernProduktAction(lvwOrderLines.getSelectionModel().getSelectedItem()));
 
 
         // Tilføje antal produkter
@@ -116,6 +115,7 @@ public class SalgStartPane extends GridPane {
         xboxAddProdukt.getChildren().add(lblAddProdukt);
 
         txfAddProdukter = new TextField();
+        txfAddProdukter.setText("1");
         xboxAddProdukt.getChildren().add(txfAddProdukter);
 
         btnAddProdukter = new Button("Add");
@@ -159,21 +159,21 @@ public class SalgStartPane extends GridPane {
                 errorAlert.show();
             }
         }
-        lvwOrdreList.getItems().setAll(order.getOrderLines());
+        lvwOrderLines.getItems().setAll(order.getOrderLines());
         updateSamletBeløb();
     }
     //---------------------------------------------------------------------------------------------------------
     // Fjernes produkter fra Ordrer Listview
 
-    public void fjernProduktAction() {
-        Object o = lvwOrdreList.getSelectionModel().getSelectedItem();
-        if (o != null) {
-            lvwOrdreList.getItems().remove(o);
+    public void fjernProduktAction(OrderLine ol) {
+        if (ol != null) {
+            controller.removeOrderLine(currentOrder, ol);
         } else {
             errorAlert = new Alert(Alert.AlertType.ERROR, "Du skal vælge en produkt i ordrelisten!");
             errorAlert.show();
         }
         updateSamletBeløb();
+        updateLvwOrderLines();
 
     }
 
@@ -181,6 +181,10 @@ public class SalgStartPane extends GridPane {
         double pris = getCurrentOrder().orderPris();
         String s = String.valueOf(pris);
         txfSamletBeløb.setText(s);
+    }
+
+    public void updateLvwOrderLines() {
+        lvwOrderLines.getItems().setAll(currentOrder.getOrderLines());
     }
 
     public Order getCurrentOrder() {
