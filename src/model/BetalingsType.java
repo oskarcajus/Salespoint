@@ -1,5 +1,6 @@
 package model;
 
 public enum BetalingsType {
-    DANKKORT, KONTANT, MOBILEPAY, FAKTURA
+    DANKKORT,  KONTANT, KLIPPEKORT, MOBILEPAY, FAKTURA
 }
+

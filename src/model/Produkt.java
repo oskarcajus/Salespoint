@@ -11,6 +11,29 @@ public class Produkt {
         setProduktgruppe(produktgruppe);
     }
 
+    public void setProduktgruppe(Produktgruppe produktgruppe) {
+        if (this.produktgruppe != produktgruppe) {
+            if (this.produktgruppe != null) {
+                Produktgruppe oldProduktgruppe = this.produktgruppe;
+                oldProduktgruppe.removeProdukt(this); // doublerettet
+            }
+
+            this.produktgruppe = produktgruppe;
+            if (this.produktgruppe != null) {
+                this.produktgruppe.addProdukt(this);  // doublerettet
+            }
+        }
+    }
+
+    public void setProduktType(ProduktType produktType) {
+        if (this.produktType != produktType) {
+            this.produktType = produktType;
+            if (produktType != null) {
+                produktType.addProdukt(this);  // doublerettet
+            }
+        }
+    }
+
     public String getName() {
         return name;
     }
@@ -23,37 +46,12 @@ public class Produkt {
         return produktType;
     }
 
-    public void setProduktType(ProduktType produktType) {
-        if (this.produktType != produktType) {
-            this.produktType = produktType;
-            if (produktType != null) {
-                produktType.addProdukt(this);
-            }
-        }
-    }
-
     public Produktgruppe getProduktgruppe() {
         return produktgruppe;
-    }
-
-    public void setProduktgruppe(Produktgruppe produktgruppe) {
-        if (this.produktgruppe != produktgruppe) { // same Group - check
-            if (this.produktgruppe != null) { // Gruppe - null check
-                Produktgruppe oldProduktgruppe = this.produktgruppe;
-                oldProduktgruppe.removeProdukt(this); // you have to remove old group first
-            }
-
-            this.produktgruppe = produktgruppe;
-            if (this.produktgruppe != null) { // Gruppe null check
-                this.produktgruppe.addProdukt(this); // Gruppe add this produkt
-            }
-        }
     }
 
     @Override
     public String toString() {
         return this.name;
     }
-
-
 }

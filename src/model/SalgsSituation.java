@@ -10,16 +10,6 @@ public class SalgsSituation {
         this.navn = navn;
     }
 
-    public String getNavn() {
-        return navn;
-    }
-
-    public void setNavn(String navn) {
-        this.navn = navn;
-    }
-
-    /* ------------------------------------------------------------------------------------------------------------*/
-    // Create pris
     public Pris createPris(Produkt produkt, double pris, int klipPris, double pantPris) {
         Pris newPris = new Pris(produkt, pris, klipPris, pantPris);
         this.priser.add(newPris);
@@ -27,7 +17,16 @@ public class SalgsSituation {
     }
 
     public void removePris(Pris pris) {
-        priser.remove(pris);
+        if(priser.contains(pris))
+            priser.remove(pris);
+    }
+
+    public String getNavn() {
+        return navn;
+    }
+
+    public void setNavn(String navn) {
+        this.navn = navn;
     }
 
     public ArrayList<Pris> getPriser() {

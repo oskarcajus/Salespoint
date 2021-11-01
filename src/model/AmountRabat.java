@@ -2,8 +2,8 @@ package model;
 
 public class AmountRabat implements RabatStrategy {
 
-    private double aftaltRabat; // ex) -100kr discount, hvis en kunde køber mere end 1000kr produkter.
-    private double limitBeløb; // minimum purchase --> 1000kr
+    private double aftaltRabat; // ex) -200kr discount, hvis en kunde køber mere end 3000kr produkter.
+    private double limitBeløb; // minimum purchase --> 3000kr
 
     public AmountRabat(int aftaltRabat, int limitBeløb) {
       this.aftaltRabat = aftaltRabat;
@@ -28,12 +28,12 @@ public class AmountRabat implements RabatStrategy {
 
     @Override
     public double getRabat(double pris) {
-        double sum = 0;
+        double discount = 0;
         if(pris >= limitBeløb){
-            sum = pris - aftaltRabat;
-            return sum;
+            discount = aftaltRabat;
+            return discount;
         }
         else
-            return 0.0; // no discounts
+            return 0.0; // no discount
     }
 }

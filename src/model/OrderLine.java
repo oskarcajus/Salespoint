@@ -16,8 +16,6 @@ public class OrderLine {
         this.getOrderLineKlipBeløb = pris.getKlipPris() * antalProdukt;
     }
 
-    // beregn pris for orderLine
-    // getPris() method 추가해야함
     public double getOrderLinePrisBeløb() {
         return orderLinePrisBeløb;
     }
@@ -50,7 +48,6 @@ public class OrderLine {
 //    public double calcOrderLineBeløb() {
 //       return this.pris.getPris() * this.antalProdukt;
 //    }
-
 
     public Pris getPris() {
         return pris;

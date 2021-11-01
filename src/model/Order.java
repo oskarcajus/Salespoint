@@ -9,16 +9,12 @@ public class Order {
     private String orderComment;
     private LocalDate oprettelsesDato;
     private LocalDate betalingsDato;
-    private OrderStatus orderStatus; // oprettet, pending, afsluttet(betalt)
+    private OrderStatus orderStatus; // oprettet(betalt), pending, afsluttet(finish return calculation)
     private BetalingsType betalingsType; // Dankort, klippeKort....
-    private RabatStrategy rabatStrategy; // (0..1) nullable rabat
-    private AmountRabat amountRabat;
+    private Kunde kunde; // (0..1)
+    private RabatStrategy rabatStrategy; // (0..1)
 
-    // nullable doubleRettet kunde(0..1)
-    private Kunde kunde;
-
-    // komposition : orderline(0..*)
-    private ArrayList<OrderLine> orderLines = new ArrayList<>();
+    private final ArrayList<OrderLine> orderLines = new ArrayList<>();
 
     public Order(int orderNr, LocalDate oprettelsesDato){
         this.orderNr = orderNr;
@@ -27,23 +23,21 @@ public class Order {
         this.orderStatus = OrderStatus.OPRETTET;
     }
 
-    // opret orderLine
     public OrderLine createOrderLine(int antalProdukt, Pris pris){
     OrderLine orderLine = new OrderLine(antalProdukt, pris);
     orderLines.add(orderLine);
     return orderLine;
     }
 
-    // remove orderLine
     public void removeOrderLine(OrderLine orderLine){
-        if(this.orderLines.contains(orderLine))
-            orderLines.remove(orderLine);
+       if(this.orderLines.contains(orderLine))
+       orderLines.remove(orderLine);
     }
 
     public int orderKlipPris() {
         int orderKlipPris = 0;
         for (OrderLine orderLine : orderLines) {
-            orderKlipPris += orderLine.getOrderLineKlipBeløb();
+           orderKlipPris += orderLine.getOrderLineKlipBeløb();
         }
         return orderKlipPris;
     }
@@ -51,7 +45,7 @@ public class Order {
     public double orderPris() {
         double orderPris = 0.0;
         for (OrderLine orderLine : orderLines) {
-            orderPris += (orderLine.getOrderLinePrisBeløb() + orderLine.getOrderLinePantBeløb());
+           orderPris += (orderLine.getOrderLinePrisBeløb() + orderLine.getOrderLinePantBeløb());
         }
         return orderPris;
     }
@@ -59,12 +53,31 @@ public class Order {
     public double prisWithRabat(){
         double total = this.orderPris();
         if(rabatStrategy != null){
-         total = total - rabatStrategy.getRabat(total);
+         total -= rabatStrategy.getRabat(total);
         }
         return total;
     }
 
-    // get orderLine arrayList
+    public void setKunde(Kunde targetKunde){
+        if(this.kunde != targetKunde){
+            Kunde oldKunde = this.kunde;
+            if(oldKunde != null){
+                oldKunde.removeOrder(this);
+            }
+            this.kunde = targetKunde;
+            if(kunde != null){
+                kunde.addOrder(this); // doubleRettet
+            }
+        }
+    }
+    public void removeKunde(){
+        if(this.kunde != null){
+            Kunde removeKunde = this.kunde;
+            this.kunde = null;
+            removeKunde.removeOrder(this); // doubleRettet
+        }
+    }
+
     public ArrayList<OrderLine> getOrderLines() {
         return new ArrayList<>(orderLines);
     }
@@ -133,38 +146,17 @@ public class Order {
         this.rabatStrategy = rabatStrategy;
     }
 
-
 //    public AmountRabat getAmountRabat() {
 //        return amountRabat;
 //    }
 //
 //    public void setAmountRabat(AmountRabat amountRabat) {
 //        this.amountRabat = amountRabat;
+
 //    }
 
-    // nullable kunde(0..1)
     public Kunde getKunde() {
         return kunde;
-    }
-
-    public void setKunde(Kunde targetKunde){
-    if(this.kunde != targetKunde){
-        Kunde oldKunde = this.kunde;
-        if(oldKunde != null){
-            oldKunde.removeOrder(this);
-        }
-        this.kunde = targetKunde;
-        if(kunde != null){
-            kunde.addOrder(this);
-        }
-        }
-    }
-    public void removeKunde(){
-        if(this.kunde != null){
-            Kunde removeKunde = this.kunde;
-            this.kunde = null;
-            removeKunde.removeOrder(this);
-        }
     }
 
     @Override

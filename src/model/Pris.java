@@ -55,12 +55,12 @@ public class Pris {
         this.klipPris = klipPris;
     }
 
-    public double getPantPris() {
-        return pantPris;
-    }
-
     public double getPris() {
         return pris;
+    }
+
+    public double getPantPris() {
+        return pantPris;
     }
 
     public void setPris(double pris) {
@@ -94,6 +94,5 @@ public class Pris {
         } else{
             return getProdukt().toString() + ": "+ "\t" + getPris() + " kr.";
         }
-
     }
 }
