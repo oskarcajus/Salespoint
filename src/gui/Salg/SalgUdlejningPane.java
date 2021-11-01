@@ -2,6 +2,7 @@ package gui.Salg;
 
 import controller.Controller;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
@@ -13,11 +14,14 @@ import model.Pris;
 import model.SalgsSituation;
 
 public class SalgUdlejningPane extends GridPane {
-    SalgsSituation salgsSituation;
-    Controller controller = new Controller();
+    private final Controller controller = Controller.getController();
 
+    SalgsSituation salgsSituation;
     Label lblProdukter;
     ListView lvwProdukter;
+
+    Button btnUdlejningRetur = new Button("Udlejning Retur");
+
 
     public SalgUdlejningPane(SalgsSituation salgsSituation) {
         this.salgsSituation = salgsSituation;
@@ -33,6 +37,9 @@ public class SalgUdlejningPane extends GridPane {
         // Produkter
         lblProdukter = new Label("Udlejningsprodukter: ");
         this.add(lblProdukter, 0, 0);
+
+        this.add(btnUdlejningRetur, 5, 5);
+        btnUdlejningRetur.setOnAction(actionEvent -> onActionBtnUdlejningRetur(3));
 
         lvwProdukter = new ListView();
         Font font = Font.font("Calibri", FontWeight.BOLD, FontPosture.ITALIC, 15);
@@ -58,6 +65,10 @@ public class SalgUdlejningPane extends GridPane {
         this.add(lvwProdukter, 0, 1, 1, 5);
         lvwProdukter.setPrefWidth(300);
         lvwProdukter.setPrefHeight(500);
+
+    }
+
+    private void onActionBtnUdlejningRetur(int ordreNr) {
 
     }
 

@@ -161,13 +161,15 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderNr=" + orderNr +
-                ", oprettelsesDato=" + oprettelsesDato +
-                ", betalingsDato=" + betalingsDato +
-                ", orderStatus=" + orderStatus +
-                ", betalingsType=" + betalingsType +
-                ", orderLines=" + orderLines +
-                '}';
+//        return "Order{" +
+//                "orderNr=" + orderNr +
+//                ", oprettelsesDato=" + oprettelsesDato +
+//                ", betalingsDato=" + betalingsDato +
+//                ", orderStatus=" + orderStatus +
+//                ", betalingsType=" + betalingsType +
+//                ", orderLines=" + orderLines +
+//                '}';
+        return "Order: " + orderNr + ", " + "Orderstatus: " + orderStatus.toString();
     }
+
 }
