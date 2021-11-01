@@ -13,27 +13,33 @@ public class Produktgruppe {
     public Produkt createProdukt(ProduktType produktType, String navn) {
         Produkt produkt;
         for (Produkt p : produkter) {
-            if (p.getName().equals(navn)) {
+            if (p.getName().equalsIgnoreCase(navn)) {
                 throw new IllegalArgumentException("Der findes allerede et produkt med dette navn.");
             }
         }
         produkt = new Produkt(navn, produktType, this);
+        addProdukt(produkt);
+        produktType.addProdukt(produkt);
         return produkt;
     }
 
     public void addProdukt (Produkt produkt){
         if (!this.produkter.contains(produkt)) {
             produkter.add(produkt);
-            produkt.setProduktgruppe(this);
+            produkt.setProduktgruppe(this); // doublerettet
         }
     }
 
     public void removeProdukt (Produkt produkt){
         if (this.produkter.contains(produkt)) {
             produkter.remove(produkt);
-            produkt.setProduktgruppe(null);
+            produkt.setProduktgruppe(null); // doublerettet
         }
 
+    }
+
+    public ArrayList<Produkt> getProdukter() {
+        return new ArrayList<Produkt>(this.produkter);
     }
 
     public String getNavn() {
@@ -47,9 +53,5 @@ public class Produktgruppe {
     @Override
     public String toString() {
         return this.getNavn();
-    }
-
-    public ArrayList<Produkt> getProdukter() {
-        return new ArrayList<Produkt>(this.produkter);
     }
 }

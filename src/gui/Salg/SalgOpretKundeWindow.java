@@ -72,7 +72,7 @@ public class SalgOpretKundeWindow extends Stage {
         String navn = txfNavn.getText().trim();
         String tlf = txfTlf.getText().trim();
 
-        if (navn.isBlank() || tlf.isBlank()) {
+        if (navn.isEmpty() || tlf.isEmpty()) {
             errorAlert = new Alert(Alert.AlertType.ERROR, "Manglende navn eller telefon.");
             errorAlert.show();
         } else if (chbFirma.isSelected()) {

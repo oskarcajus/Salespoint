@@ -25,15 +25,14 @@ public class ProduktType {
     public void addProdukt(Produkt produkt) {
         if (!produkter.contains(produkt)) {
             produkter.add(produkt);
-            produkt.setProduktType(this);
+            produkt.setProduktType(this); // doublerettet
         }
-
     }
 
     public void removeProdukt (Produkt produkt){
         if (this.produkter.contains(produkt)) {
             produkter.remove(produkt);
-            produkt.setProduktType(null);
+            produkt.setProduktType(null); // doublerettet
         }
     }
 

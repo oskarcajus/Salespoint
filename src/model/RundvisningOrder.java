@@ -4,19 +4,11 @@ import java.time.LocalDate;
 
 public class RundvisningOrder extends Order{
 
-    private LocalDate rundvisningsDato;
+    private LocalDate expectingBetalingsDato;
 
-    public RundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate rundvisningsDato) {
+    public RundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato) {
         super(orderNr, oprettelsesDato);
-        this.rundvisningsDato = rundvisningsDato;
-    }
-
-    public void setRundvisningsDato(LocalDate rundvisningsDato) {
-        this.rundvisningsDato = rundvisningsDato;
-    }
-
-    public LocalDate getRundvisningsDato() {
-        return rundvisningsDato;
+        this.expectingBetalingsDato = expectingBetalingsDato;
     }
 
     //@Override
@@ -28,10 +20,18 @@ public class RundvisningOrder extends Order{
         return orderPris;
     }
 
+    public void setExpectingBetalingsDato(LocalDate expectingBetalingsDato) {
+        this.expectingBetalingsDato = expectingBetalingsDato;
+    }
+
+    public LocalDate getExpectingBetalingsDato() {
+        return expectingBetalingsDato;
+    }
+
     @Override
     public String toString() {
         return "RundvisningOrder{" +
-                "rundvisningsDato=" + rundvisningsDato +
+                "rundvisningsDato=" + expectingBetalingsDato +
                 '}';
     }
 }

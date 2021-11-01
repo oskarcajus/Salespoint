@@ -3,7 +3,6 @@ package controller;
 import javafx.collections.ObservableList;
 import model.*;
 import storage.*;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,7 +20,7 @@ public class Controller {
         return controller;
     }
 
-    //Produkt -------------------------
+    // Produkt ---------------------------------------------------------------------------------------------------------
     public Produkt createProdukt(Produktgruppe produktgruppe, ProduktType produktType, String navn) {
         Produkt produkt;
         if (controller.checkProduktNameIsInProduktgruppe(produktgruppe, navn)){
@@ -36,25 +35,22 @@ public class Controller {
 
     public Produkt redigerProdukt(Produkt produkt, String navn, Produktgruppe produktgruppe, ProduktType produktType) {
         for (Produkt p : produktgruppe.getProdukter()) {
-            if (p.getName().equals(navn)) {
+            if (p.getName().equalsIgnoreCase(navn)) {
                 throw new IllegalArgumentException("Der findes allerede et produkt med det navn i " +
                         produktgruppe.getNavn() + ".");
             }
         }
         for (Produkt p : produktType.getProdukter()) {
-            if (p.getName().equals(navn)) {
+            if (p.getName().equalsIgnoreCase(navn)) {
                 throw new IllegalArgumentException("Der findes allerede et produkt med det navn i " +
                         produktType.getNavn() + ".");
             }
         }
-
         produkt.setName(navn);
         produkt.setProduktgruppe(produktgruppe);
         produkt.setProduktType(produktType);
-
         return produkt;
     }
-
 
     public void removeProdukt(Produkt produkt) {
         produkt.getProduktgruppe().removeProdukt(produkt);
@@ -72,13 +68,12 @@ public class Controller {
     public ProduktType getProduktTypeFromProdukt(Produkt produkt) {
         return produkt.getProduktType();
     }
-    // --------------------------------
 
-    //Produktgruppe -------------------
+    //Produktgruppe ----------------------------------------------------------------------------------------------------
     public Produktgruppe createProduktgruppe(String navn) {
         Produktgruppe produktgruppe;
         for (Produktgruppe pg : storage.getProduktgrupper()) {
-            if (pg.getNavn().equals(navn)) {
+            if (pg.getNavn().equalsIgnoreCase(navn)) {
                 throw new IllegalArgumentException("Der findes allerede en produktgruppe med dette navn.");
             }
         }
@@ -105,7 +100,7 @@ public class Controller {
 
     public void renameProduktgruppe(Produktgruppe produktgruppe, String navn) {
         for (Produktgruppe pg : storage.getProduktgrupper()) {
-            if (pg.getNavn().equals(navn)) {
+            if (pg.getNavn().equalsIgnoreCase(navn)) {
                 throw new IllegalArgumentException("Der findes allerede en produktgruppe med det navn.");
             }
         }
@@ -119,13 +114,11 @@ public class Controller {
         return produktgrupper;
     }
 
-    //------------------------------------
-
-    //ProduktType -----------------------------
+    //ProduktType ------------------------------------------------------------------------------------------------------
     public ProduktType createProduktType(String navn) {
         ProduktType produktType;
         for (ProduktType pt : storage.getProduktTyper()) {
-            if (pt.getNavn().equals(navn)) {
+            if (pt.getNavn().equalsIgnoreCase(navn)) {
                 throw new IllegalArgumentException("Der findes allerede en produkttype med dette navn.");
             }
         }
@@ -149,7 +142,7 @@ public class Controller {
 
     public void renameProduktType(ProduktType produktType, String navn) {
         for (ProduktType pt : storage.getProduktTyper()) {
-            if (pt.getNavn().equals(navn)) {
+            if (pt.getNavn().equalsIgnoreCase(navn)) {
                 throw new IllegalArgumentException("Der findes allerede en produkttype med det navn.");
             }
         }
@@ -163,12 +156,12 @@ public class Controller {
         return produktTyper;
     }
 
-    //-------------------------------------
+    //-------------Help method------------------------------------------------------------------------------------------
 
     public boolean checkProduktNameIsInProduktgruppe(Produktgruppe produktgruppe, String navn) {
         boolean check = false;
         for (Produkt p : produktgruppe.getProdukter()) {
-            if (p.getName().equals(navn)) {
+            if (p.getName().equalsIgnoreCase(navn)) { // big letter(ØL) small letter(øl) should be same obj
                 check = true;
                 break;
             }
@@ -179,14 +172,13 @@ public class Controller {
     public boolean checkProduktNameIsInProduktType(ProduktType produktType, String navn) {
         boolean check = false;
         for (Produkt p : produktType.getProdukter()) {
-            if (p.getName().equals(navn)) {
+            if (p.getName().equalsIgnoreCase(navn)) {
                 check = true;
                 break;
             }
         }
         return check;
     }
-
 
     public ArrayList<Produkt> getProdukterInProduktgruppeAndOrProduktType(ObservableList<Produktgruppe> produktgrupper,
                                                                                  ObservableList<ProduktType> produktTyper) {
@@ -203,7 +195,7 @@ public class Controller {
                 }
             }
         }
-        //        produkter.sort((Produkt p1, Produkt p2) -> p1.getName().compareTo(p2.getName()));
+        //produkter.sort((Produkt p1, Produkt p2) -> p1.getName().compareTo(p2.getName()));
         produkter.sort(Comparator.comparing(Produkt::getName));
         return produkter;
     }
@@ -227,9 +219,7 @@ public class Controller {
         return produkter;
     }
 
-    //----------------------------------------------
-
-    //SalgSituation --------------------------------
+    //SalgSituation ----------------------------------------------------------------------------------------------------
 
     public ArrayList<SalgsSituation> getSalgsSituationer() {
         return new ArrayList<>(storage.getSalgsSituationer());
@@ -242,7 +232,7 @@ public class Controller {
     public SalgsSituation createSalgsSituation(String navn) {
         SalgsSituation salgsSituation = new SalgsSituation(navn);
         for (SalgsSituation ss :  storage.getSalgsSituationer()) {
-            if (ss.getNavn().equals(navn)) {
+            if (ss.getNavn().equalsIgnoreCase(navn)) {
                 throw new IllegalArgumentException("Der findes allerede en salgssituation med det navn.");
             }
         }
@@ -250,9 +240,7 @@ public class Controller {
         return salgsSituation;
     }
 
-    //----------------------------------------------
-
-    //Pris ------------------------------------------
+    //Pris -------------------------------------------------------------------------------------------------------------s
 
     public ArrayList<Pris> getPriserFromSalgsSituation(SalgsSituation salgsSituation) {
         return new ArrayList<>(salgsSituation.getPriser());
@@ -295,9 +283,7 @@ public class Controller {
         salgsSituation.removePris(pris);
     }
 
-    //---------------------------------------------
-
-    //Order ---------------------------------------------------------------------
+    //Order ------------------------------------------------------------------------------------------------------------
 
     public ArrayList<Order> getOrders() {
         return new ArrayList<>(storage.getOrders());
@@ -315,30 +301,26 @@ public class Controller {
         return order;
     }
 
-    public Order createRundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato) {
+    public RundvisningOrder createRundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato) {
         for (Order o : controller.getOrders()) {
             if (o.getOrderNr() == orderNr) {
                 throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
             }
         }
-
-        Order order = new RundvisningOrder(orderNr, oprettelsesDato, expectingBetalingsDato);
-        storage.addOrder(order);
-
-        return order;
+        RundvisningOrder rundvisningsOrder = new RundvisningOrder(orderNr, oprettelsesDato, expectingBetalingsDato);
+        storage.addOrder(rundvisningsOrder);
+        return rundvisningsOrder;
     }
 
-    public Order createUdlejningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate forventetReturDato) {
+    public UdlejningsOrder createUdlejningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate forventetReturDato) {
         for (Order o : controller.getOrders()) {
             if (o.getOrderNr() == orderNr) {
                 throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
             }
         }
-
-        Order order = new UdlejningsOrder(orderNr, oprettelsesDato, forventetReturDato);
-        storage.addOrder(order);
-
-        return order;
+        UdlejningsOrder udlejningsOrder = new UdlejningsOrder(orderNr, oprettelsesDato, forventetReturDato);
+        storage.addOrder(udlejningsOrder);
+        return udlejningsOrder;
     }
 
     public Order createReturnOrder(int orderNr) {
@@ -363,7 +345,6 @@ public class Controller {
                 }
             }
         }
-
         return returOrder;
     }
 
@@ -371,22 +352,26 @@ public class Controller {
         storage.removeOrder(order);
     }
 
-    public int beregnKlikPris(Order order) {
-        return order.orderKlipPris();
-    }
+    // We should not add these all calculation redundant methods inside of Controller,
+   // because we already have it inside of model classes. --> (redundant)
+    // we have to just use those methods throuth controller, whenever we need.
+
+   // public int beregnKlikPris(Order order) {
+    //   return order.orderKlipPris();
+    // }
 
     //Må gerne være negativ, da den også bruges til returordre
-    public double beregnPris(Order order) {
-        return order.prisWithRabat();
-    }
+    //  public double beregnPris(Order order) {
+    //      return order.prisWithRabat();
+    // }
 
-    public int beregnKlipPris(Order order) {
-        int sum = 0;
-        for (OrderLine ol : order.getOrderLines()) {
-            sum += ol.getOrderLineKlipBeløb();
-        }
-        return sum;
-    }
+    //  public int beregnKlipPris(Order order) {
+    //      int sum = 0;
+    //    for (OrderLine ol : order.getOrderLines()) {
+    //        sum += ol.getOrderLineKlipBeløb();
+    //     }
+    //     return sum;
+    //  }
     //---------------------------------------------------------------------------
 
     //Orderline -----------------------------------------------------------------
@@ -418,7 +403,7 @@ public class Controller {
         if (navn.isEmpty() || nummer.isEmpty()) {
             throw new IllegalArgumentException("Du mangler at udfylde en eller argumenter.");
         }
-        Kunde kunde = new Kunde(navn,nummer);
+        Kunde kunde = new Kunde(navn, nummer);
         storage.addKunde(kunde);
         return kunde;
     }
@@ -491,20 +476,17 @@ public class Controller {
         Order uor1 = controller.createReturnOrder(3);
 
         System.out.println(uo1);
-        System.out.println(controller.beregnPris(uo1));
+        System.out.println(uo1.orderPris()); // you have to use this instead
+       // System.out.println(controller.beregnPris(uo1));
 
         System.out.println(uor1);
-        System.out.println(controller.beregnPris(uor1));
+        System.out.println(uor1.orderPris()); // you have to use this instead
+       // System.out.println(controller.beregnPris(uor1));
 
         // Ordrer på kunden
         o5.setKunde(k1);
         o2.setKunde(k2);
         o1.setKunde(k3);
     }
-
-    
-
-
-
 }
 

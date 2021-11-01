@@ -2,7 +2,7 @@ package model;
 
 public class ProcentRabat implements RabatStrategy {
 
-    private double discountProcent; // ex: 20%...
+    private double discountProcent; // ex: 7%...
 
     public ProcentRabat(double discountProcent){
         this.discountProcent = discountProcent;
@@ -10,7 +10,7 @@ public class ProcentRabat implements RabatStrategy {
 
     @Override
     public double getRabat(double pris) {
-      return pris * (discountProcent/100) ;
+      return pris * (discountProcent / 100);
     }
 
     public double getDiscountProcent() {

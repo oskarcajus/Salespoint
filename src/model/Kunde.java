@@ -11,7 +11,6 @@ public class Kunde implements Comparable<Kunde> {
     public Kunde(String navn, String mobil) {
         this.navn = navn;
         this.mobil = mobil;
-        this.isFirma = false;
     }
 
     // Double Ass -- Kunde(0..*)
@@ -34,7 +33,6 @@ public class Kunde implements Comparable<Kunde> {
             this.rabatStrategy = rabatStrategy;
     }
 
-    // rabat
     public double totalPris() {
         double sum = 0;
         for (Order order : orders) {
@@ -69,16 +67,6 @@ public class Kunde implements Comparable<Kunde> {
             }
         }
 
-        @Override
-        public int compareTo(Kunde o) {
-            return this.getNavn().compareTo(o.getNavn());
-        }
-
-        @Override
-        public String toString() {
-            return String.format("%s, %s", this.navn, this.mobil);
-        }
-
     public String getNavn() {
         return navn;
     }
@@ -90,4 +78,14 @@ public class Kunde implements Comparable<Kunde> {
     public void setFirma(boolean firma) {
         isFirma = firma;
     }
+
+        @Override
+        public int compareTo(Kunde o) {
+            return this.getNavn().compareTo(o.getNavn());
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s, %s", this.navn, this.mobil);
+        }
 }
