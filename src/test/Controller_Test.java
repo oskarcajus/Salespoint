@@ -5,7 +5,6 @@ import controller.Controller;
 import model.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Order;
-import static org.junit.Assert.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Controller_Test {
@@ -89,7 +88,7 @@ public class Controller_Test {
         boolean actual = controller.checkProduktNameIsInProduktgruppe(produktgruppe, "Øl");
 
         // Assert
-        assertTrue(actual); // true test
+        Assertions.assertTrue(actual); // true test
     }
 
     @Test
@@ -99,12 +98,12 @@ public class Controller_Test {
         Produkt produkt = controller.createProdukt(produktgruppe,produktType, "Øl");
 
         // Act
-          IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+          IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             controller.createProdukt(produktgruppe, produktType, "Øl");
         });
 
         // Assert
-        assertEquals("Der er allerede et produkt med det navn tilknyttet produktgruppen.", exception.getMessage()); // exception test
+        Assertions.assertEquals("Der er allerede et produkt med det navn tilknyttet produktgruppen.", exception.getMessage()); // exception test
     }
 
     @Test
@@ -117,7 +116,7 @@ public class Controller_Test {
         boolean actual = controller.checkProduktNameIsInProduktType(produktType, "wiskey");
 
         // Assert
-        assertTrue(actual); // true test
+        Assertions.assertTrue(actual); // true test
     }
 
     @Test
@@ -127,12 +126,12 @@ public class Controller_Test {
         Produkt produkt = controller.createProdukt(produktgruppe, produktType, "wiskey");
 
         // Act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             controller.createProdukt(produktgruppe2, produktType, "Wiskey");
         });
 
         // Assert
-        assertEquals("Der er allerede et produkt med det navn tilknyttet produkttypen.", exception.getMessage()); // exception test
+        Assertions.assertEquals("Der er allerede et produkt med det navn tilknyttet produkttypen.", exception.getMessage()); // exception test
     }
 
     @Test
@@ -145,13 +144,13 @@ public class Controller_Test {
 
         // Act
         int actualSize = controller.getAllProdukter().size(); // expect -- 3
-        assertEquals(3, actualSize);
+        Assertions.assertEquals(3, actualSize);
 
         controller.removeProdukt(p1); // 3-1 = 2
         actualSize = controller.getAllProdukter().size(); // expect -- 2
 
         // Assert
-        assertEquals(2, actualSize);
+        Assertions.assertEquals(2, actualSize);
     }
 
     @Test
@@ -161,7 +160,7 @@ public class Controller_Test {
         Produktgruppe actual = controller.createProduktgruppe("Rundvisning");
 
         // Assert
-        assertEquals("Rundvisning", actual.getNavn());
+        Assertions.assertEquals("Rundvisning", actual.getNavn());
       }
 
     @Test
@@ -171,12 +170,12 @@ public class Controller_Test {
             Produktgruppe pg1 = controller.createProduktgruppe("Glas");
 
             // Act
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
                 controller.createProduktgruppe("glas");
             });
 
             // Assert
-            assertEquals("Der findes allerede en produktgruppe med dette navn.", exception.getMessage());
+        Assertions.assertEquals("Der findes allerede en produktgruppe med dette navn.", exception.getMessage());
     }
 
     @Test
@@ -192,8 +191,8 @@ public class Controller_Test {
         int actual2 = controller.getProduktgrupper().size(); // 1
 
         // Assert
-        assertEquals(2, actual1);
-        assertEquals(1, actual2);
+        Assertions.assertEquals(2, actual1);
+        Assertions.assertEquals(1, actual2);
     }
 
 
@@ -212,8 +211,8 @@ public class Controller_Test {
     model.Order actual = controller.createOrder(1, LocalDate.now());
 
     // Assert
-    assertEquals(1, actual.getOrderNr());
-    assertEquals(LocalDate.now(), actual.getOprettelsesDato());
+        Assertions.assertEquals(1, actual.getOrderNr());
+        Assertions.assertEquals(LocalDate.now(), actual.getOprettelsesDato());
     }
 
     @Test
@@ -224,12 +223,12 @@ public class Controller_Test {
         // Act
         model.Order actual_NewOrder = controller.createOrder(2, LocalDate.of(2021,10,30));
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             controller.createOrder(2, LocalDate.now());
         });
 
         // Assert
-        assertEquals("Der findes allerede en ordre med det ordrenr.", exception.getMessage());
+        Assertions.assertEquals("Der findes allerede en ordre med det ordrenr.", exception.getMessage());
     }
 
     @Test
@@ -240,9 +239,9 @@ public class Controller_Test {
         RundvisningOrder actual = controller.createRundvisningOrder(3, LocalDate.now(), LocalDate.of(2021,11,30));// Act
 
         // Assert
-        assertEquals(3, actual.getOrderNr());
-        assertEquals(LocalDate.now(), actual.getOprettelsesDato());
-        assertEquals(LocalDate.of(2021,11,30), actual.getExpectingBetalingsDato());
+        Assertions.assertEquals(3, actual.getOrderNr());
+        Assertions.assertEquals(LocalDate.now(), actual.getOprettelsesDato());
+        Assertions.assertEquals(LocalDate.of(2021,11,30), actual.getExpectingBetalingsDato());
     }
 
     @Test
@@ -252,12 +251,12 @@ public class Controller_Test {
         RundvisningOrder actual = controller.createRundvisningOrder(4, LocalDate.now(), LocalDate.of(2021,11,30));
 
         // Act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             controller.createRundvisningOrder(4, LocalDate.now(), LocalDate.of(2022,12,30));
         });
 
         // Assert
-        assertEquals("Der findes allerede en ordre med det ordrenr.", exception.getMessage());
+        Assertions.assertEquals("Der findes allerede en ordre med det ordrenr.", exception.getMessage());
     }
 
     @Test
@@ -267,9 +266,9 @@ public class Controller_Test {
         UdlejningsOrder actual = controller.createUdlejningOrder(5, LocalDate.now(), LocalDate.of(2021,11,30));// Act
 
         // Assert
-        assertEquals(5, actual.getOrderNr());
-        assertEquals(LocalDate.now(), actual.getOprettelsesDato());
-        assertEquals(LocalDate.of(2021,11,30), actual.getForventetReturDato());
+        Assertions.assertEquals(5, actual.getOrderNr());
+        Assertions.assertEquals(LocalDate.now(), actual.getOprettelsesDato());
+        Assertions.assertEquals(LocalDate.of(2021,11,30), actual.getForventetReturDato());
     }
 
     @Test
@@ -281,7 +280,7 @@ public class Controller_Test {
         model.Order actual = controller.createReturnOrder(10000000);
 
         // Assert
-        assertEquals(6, actual.getOrderNr());
+        Assertions.assertEquals(6, actual.getOrderNr());
     }
 
     @Test
@@ -293,7 +292,7 @@ public class Controller_Test {
         SalgsSituation actual = controller.createSalgsSituation("ChristmasBar");
 
         // Assert
-        assertEquals("ChristmasBar", actual.getNavn());
+        Assertions.assertEquals("ChristmasBar", actual.getNavn());
     }
 
     @Test
@@ -305,12 +304,12 @@ public class Controller_Test {
         SalgsSituation actual = controller.createSalgsSituation("NewYearBar");
 
         // Act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             controller.createSalgsSituation("newyearbar");
         });
 
         // Assert
-        assertEquals("Der findes allerede en salgssituation med det navn.", exception.getMessage());
+        Assertions.assertEquals("Der findes allerede en salgssituation med det navn.", exception.getMessage());
     }
 
     @Test
@@ -323,10 +322,10 @@ public class Controller_Test {
         Pris actual = controller.createPris(s1, produkt, 100, 2, 50);
 
         // Assert
-        assertEquals(produkt, actual.getProdukt());
-        assertEquals(100, actual.getPris());
-        assertEquals(2, actual.getKlipPris());
-        assertEquals(50, actual.getPantPris());
+        Assertions.assertEquals(produkt, actual.getProdukt());
+        Assertions.assertEquals(100, actual.getPris());
+        Assertions.assertEquals(2, actual.getKlipPris());
+        Assertions.assertEquals(50, actual.getPantPris());
     }
 
     @Test
@@ -338,12 +337,12 @@ public class Controller_Test {
 
         // Act
         Pris actual = controller.createPris(s1, produkt2, 100, 0, 50);
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             controller.createPris(s1, produkt2, 300, 0,0);
         });
 
         // Assert
-        assertEquals("Produktet har allerede en pris i denne salgssituation. \n" +
+        Assertions.assertEquals("Produktet har allerede en pris i denne salgssituation. \n" +
                 "Redigér i stedet prisen for produktet.", exception.getMessage());
     }
 

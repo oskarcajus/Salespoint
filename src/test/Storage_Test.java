@@ -7,7 +7,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Order;
 import storage.Storage;
 
-import static org.junit.Assert.*;
 
 public class Storage_Test {
 
@@ -51,12 +50,12 @@ public class Storage_Test {
         OrderLine orderLine = controller.createOrderLine(order,3, pris);
 
         // Act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             storage.solgtKlippeKort(startDate,endDate);
         });
 
         // Assert
-        assertEquals("Ugyldig Order Dato", exception.getMessage());
+        Assertions.assertEquals("Ugyldig Order Dato", exception.getMessage());
         }
 
     @Test
@@ -99,11 +98,11 @@ public class Storage_Test {
         OrderLine orderLine = controller.createOrderLine(order,3, pris);
 
         // Act
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             storage.brugtKlip(startDate,endDate);
         });
 
         // Assert
-        assertEquals("Ugyldig Order Dato", exception.getMessage());
+        Assertions.assertEquals("Ugyldig Order Dato", exception.getMessage());
     }
 }
