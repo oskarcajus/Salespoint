@@ -185,11 +185,11 @@ public class SalgStartPane extends GridPane {
     }
 
     public void updateLvwOrderLines() {
-        lvwOrderLines.getItems().setAll(currentOrder.getOrderLines());
+        lvwOrderLines.getItems().setAll(getCurrentOrder().getOrderLines());
     }
 
     public Order getCurrentOrder() {
-        if (currentOrder == null)
+        if (currentOrder == null || currentOrder.getOrderStatus().equals(OrderStatus.AFSLUTTET))
             currentOrder = controller.createOrder(controller.getOrders().size() + 1, LocalDate.now());
         return currentOrder;
     }
@@ -201,6 +201,8 @@ public class SalgStartPane extends GridPane {
             if (getCurrentOrder().getOrderLines().size() >0){
                 SalgOpretBestillingWindow salgOpretBestillingWindow = new SalgOpretBestillingWindow(getCurrentOrder());
                 salgOpretBestillingWindow.showAndWait();
+
+                updateLvwOrderLines();
 
             } else {
                 errorAlert = new Alert(Alert.AlertType.ERROR, "Du kan ikke opret en bestilling uden at vælge et produkt");

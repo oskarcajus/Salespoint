@@ -83,7 +83,7 @@ public class SalgKundePane extends GridPane {
 
 
     public void opretKunde(){
-        SalgOpretKundeWindow salgOpretKundeWindow = new SalgOpretKundeWindow(this);
+        SalgOpretKundeWindow salgOpretKundeWindow = new SalgOpretKundeWindow();
         salgOpretKundeWindow.showAndWait();
 
         lvwKunder.getItems().setAll(controller.getKunder());

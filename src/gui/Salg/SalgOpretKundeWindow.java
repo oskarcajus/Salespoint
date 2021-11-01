@@ -21,15 +21,13 @@ public class SalgOpretKundeWindow extends Stage {
     private CheckBox chbFirma;
     private Alert errorAlert;
 
-    public SalgOpretKundeWindow(SalgKundePane salgKundePane) {
-
-        this.salgKundePane = salgKundePane;
+    public SalgOpretKundeWindow() {
 
         this.setMinHeight(200);
         this.setMinWidth(300);
 
 
-        this.setTitle("Opret produktgruppe");
+        this.setTitle("Opret Kunde ");
         GridPane pane = new GridPane();
         pane.setGridLinesVisible(false);
         pane.setPadding(new Insets(20));
