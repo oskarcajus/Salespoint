@@ -13,6 +13,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import model.*;
 
+import javax.sound.midi.SysexMessage;
 import java.time.LocalDate;
 
 public class SalgStartPane extends GridPane {
@@ -99,11 +100,11 @@ public class SalgStartPane extends GridPane {
 
         Button btnOpretBestilling = new Button("Opret Bestilling");
         hbxButtonsOrdre.getChildren().add(btnOpretBestilling);
-//        btnOpretBestilling.setOnAction(event -> this.createActionKonference());
+        btnOpretBestilling.setOnAction(event -> this.opretBestilling());
 
         Button btnFjernProdukt = new Button("Fjern produkt");
         hbxButtonsOrdre.getChildren().add(btnFjernProdukt);
-        btnFjernProdukt.setOnAction(event -> this.fjernProduktAction(lvwOrderLines.getSelectionModel().getSelectedItem()));
+        btnFjernProdukt.setOnAction(event -> this.fjernOrdreLineAction(lvwOrderLines.getSelectionModel().getSelectedItem()));
 
 
         // Tilføje antal produkter
@@ -159,13 +160,13 @@ public class SalgStartPane extends GridPane {
                 errorAlert.show();
             }
         }
-        lvwOrderLines.getItems().setAll(order.getOrderLines());
+        updateLvwOrderLines();
         updateSamletBeløb();
     }
     //---------------------------------------------------------------------------------------------------------
     // Fjernes produkter fra Ordrer Listview
 
-    public void fjernProduktAction(OrderLine ol) {
+    public void fjernOrdreLineAction(OrderLine ol) {
         if (ol != null) {
             controller.removeOrderLine(currentOrder, ol);
         } else {
@@ -192,4 +193,24 @@ public class SalgStartPane extends GridPane {
             currentOrder = controller.createOrder(controller.getOrders().size() + 1, LocalDate.now());
         return currentOrder;
     }
+
+    //------------------------------------------------------------------------------------------------------------------------------------
+    // Opret bestilling
+    public void opretBestilling(){
+        if (getCurrentOrder() !=null){
+            if (getCurrentOrder().getOrderLines().size() >0){
+                SalgOpretBestillingWindow salgOpretBestillingWindow = new SalgOpretBestillingWindow(getCurrentOrder());
+                salgOpretBestillingWindow.showAndWait();
+
+            } else {
+                errorAlert = new Alert(Alert.AlertType.ERROR, "Du kan ikke opret en bestilling uden at vælge et produkt");
+                errorAlert.show();
+            }
+        } else {
+            errorAlert = new Alert(Alert.AlertType.ERROR, "Du skal først oprette en ordre, ved at tilføje et produkt!!");
+            errorAlert.show();
+        }
+    }
+
+
 }
