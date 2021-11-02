@@ -65,6 +65,11 @@ public class OrderLine {
 
     @Override
     public String toString() {
-        return pris.getProdukt().toString() + " : " + "Antal: " + getAntalProdukt();
+        return
+                this.getAntalProdukt() + "x " + this.pris.getProdukt().getName() + "\n"
+                + "Pris: " + this.getOrderLinePrisBeløb() + "\n"
+                + "Klippris: " + this.getOrderLineKlipBeløb() + "\n"
+                + "Pantpris: " + this.getOrderLinePantBeløb();
+
     }
 }
