@@ -155,6 +155,7 @@ public class SalgNewStartPane extends GridPane {
     public void tilføjeProduktAction() {
         Order order = getCurrentOrder();
         Object o = lvwProduktPriser.getSelectionModel().getSelectedItem();
+        OrderLine ol;
 
         try {
             int antal = Integer.parseInt(txfAntal.getText().trim());
@@ -165,23 +166,18 @@ public class SalgNewStartPane extends GridPane {
                 if (o instanceof Pris) {
                     Pris produkt = (Pris) o;
                     if (produkt != null) {
-                        //Ændring i priser
-                        if (pris >0){
-                          produkt.setPris(pris);  
-                        } 
-                        if (pantPris >0){
-                            produkt.setPantPris(pantPris);
-                        }
-                        if (klipPris >0) {
-                            produkt.setKlipPris(klipPris);
-                        }
                         // Opret order
                         if (antal >0){
-                            order.createOrderLine(antal,produkt);
+                           ol = controller.createOrderLine(order,antal,produkt);
+                            if (pris >0 || pantPris >0 || klipPris >0){
+                                controller.redigerOrderLine(ol,antal,pris,klipPris,pantPris);
+                            }
                         } else {
                             errorAlert = new Alert(Alert.AlertType.ERROR, "Antallet skal være mere end 0");
                             errorAlert.show();
                         }
+                        //Ændring i priser
+
                     }
                 }
             } else {
@@ -221,7 +217,7 @@ public class SalgNewStartPane extends GridPane {
 
     public void updateOrderLines() {
         lvwOrderLines.getItems().setAll(getCurrentOrder().getOrderLines());
-        lblOrdreNr = new Label(Integer.toString(getCurrentOrder().getOrderNr()));
+        lblOrdreNr.setText(Integer.toString(getCurrentOrder().getOrderNr()));
 
     }
 
@@ -233,7 +229,6 @@ public class SalgNewStartPane extends GridPane {
     public Order getCurrentOrder() {
         if (currentOrder == null || currentOrder.getOrderStatus().equals(OrderStatus.AFSLUTTET)) {
             currentOrder = controller.createOrder(controller.getOrders().size() + 1, LocalDate.now());
-            lblOrdreNr = new Label(Integer.toString(getCurrentOrder().getOrderNr()));
         }
         return currentOrder;
     }

@@ -397,10 +397,16 @@ public class Controller {
         if (orderLine == null || antalProdukt == 0) {
             throw new IllegalArgumentException("Du mangler at udfylde en eller argumenter.");
         }
+        if (pris >0){
+            orderLine.setOrderLinePrisBeløb(pris);
+        }
+        if (pantPris >0){
+            orderLine.setOrderLinePantBeløb(pantPris);
+        }
+        if (klipPris >0) {
+            orderLine.setOrderLineKlipBeløb(klipPris);
+        }
         orderLine.setAntalProdukt(antalProdukt);
-        orderLine.setOrderLinePrisBeløb(pris);
-        orderLine.setOrderLineKlipBeløb(klipPris);
-        orderLine.setOrderLinePantBeløb(pantPris);
     }
 
     public void removeOrderLine(Order order, OrderLine orderLine) {
