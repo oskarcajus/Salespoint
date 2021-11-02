@@ -334,8 +334,10 @@ public class Controller {
                 returOrder = controller.createOrder(order.getOrderNr() + 10000000, LocalDate.now());
                 returOrder.setRefOrderNr(orderNr);
                 //Kopierer ordrelinjer fra order til returorder
+                //Undgår shallow-copy ved at lave et nyt Pris-objekt
                 for (OrderLine ol : order.getOrderLines()) {
-                    returOrder.createOrderLine(ol.getAntalProdukt(), ol.getPris());
+                    returOrder.createOrderLine(ol.getAntalProdukt(), new Pris(ol.getPris().getProdukt(),
+                            ol.getPris().getPris(), ol.getPris().getKlipPris(), ol.getPris().getPantPris()));
 
                 }
                 //Sætter beløbet på alle orderlinjer til modsat fortegn

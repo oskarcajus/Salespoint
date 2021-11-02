@@ -6,14 +6,14 @@ public class OrderLine {
     private Pris pris;
     private double orderLinePrisBeløb;
     private double orderLinePantBeløb;
-    private int getOrderLineKlipBeløb;
+    private int orderLineKlipBeløb;
 
     public OrderLine(int antalProdukt, Pris pris){
         this.antalProdukt = antalProdukt;
         this.pris = pris;
         this.orderLinePrisBeløb = pris.getPris()  * antalProdukt;
         this.orderLinePantBeløb = pris.getPantPris() * antalProdukt;
-        this.getOrderLineKlipBeløb = pris.getKlipPris() * antalProdukt;
+        this.orderLineKlipBeløb = pris.getKlipPris() * antalProdukt;
     }
 
     public double getOrderLinePrisBeløb() {
@@ -37,11 +37,11 @@ public class OrderLine {
     }
 
     public int getOrderLineKlipBeløb() {
-        return getOrderLineKlipBeløb;
+        return orderLineKlipBeløb;
     }
 
     public void setOrderLineKlipBeløb(int getOrderLineKlipBeløb) {
-        this.getOrderLineKlipBeløb = getOrderLineKlipBeløb;
+        this.orderLineKlipBeløb = getOrderLineKlipBeløb;
     }
 
     // Skal måske bruges til opdatering i GUI
