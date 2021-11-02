@@ -393,6 +393,16 @@ public class Controller {
         orderLine.setPris(pris);
     }
 
+    public void redigerOrderLine(OrderLine orderLine, int antalProdukt, double pris, int klipPris, double pantPris) {
+        if (orderLine == null || antalProdukt == 0) {
+            throw new IllegalArgumentException("Du mangler at udfylde en eller argumenter.");
+        }
+        orderLine.setAntalProdukt(antalProdukt);
+        orderLine.setOrderLinePrisBeløb(pris);
+        orderLine.setOrderLineKlipBeløb(klipPris);
+        orderLine.setOrderLinePantBeløb(pantPris);
+    }
+
     public void removeOrderLine(Order order, OrderLine orderLine) {
         order.removeOrderLine(orderLine);
     }
