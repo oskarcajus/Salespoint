@@ -65,6 +65,6 @@ public class OrderLine {
 
     @Override
     public String toString() {
-        return getPris() + " : " + "Antal: " + getAntalProdukt();
+        return pris.getProdukt().toString() + " : " + "Antal: " + getAntalProdukt();
     }
 }
