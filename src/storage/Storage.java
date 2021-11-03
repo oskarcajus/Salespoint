@@ -95,6 +95,14 @@ public class Storage {
         return kunder;
     }
 
+    public void clearStorage() {
+        this.produktgrupper.clear();
+        this.produktTyper.clear();
+        this.salgsSituationer.clear();
+        this.orders.clear();
+        this.kunder.clear();
+    }
+
 //--------KlippeKort statistik---------------------------------------------------------------------------------------
 
     // solgtKlippeKort

@@ -5,6 +5,7 @@ import controller.Controller;
 import model.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.Order;
+import storage.Storage;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class Controller_Test {
@@ -32,6 +33,7 @@ public class Controller_Test {
     Pris pris = null;
 
     Controller controller;
+    private Storage storage = Storage.getStorage();
 
     @BeforeEach
     void setUp() throws Exception {
@@ -60,7 +62,7 @@ public class Controller_Test {
     @AfterEach
     void cleanup() throws Exception {
         System.out.println("Cleaning up");
-        //controller.resetController();
+        storage.clearStorage();
     }
 
 //------------test start-------------------------------------------------------------------------------------
