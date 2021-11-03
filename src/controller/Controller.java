@@ -30,7 +30,6 @@ public class Controller {
             throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produkttypen.");
         }
         produkt = produktgruppe.createProdukt(produktType, navn);
-        this.getAllProdukter().add(produkt);
         return produkt;
     }
 
@@ -467,32 +466,37 @@ public class Controller {
         int sum = 0;
 
         for (Order order : this.getOrders()) {
-            if(order.getOprettelsesDato().isAfter(startDate) && order.getOprettelsesDato().isBefore(endDate)){
+            int compareTo1 = order.getOprettelsesDato().compareTo(startDate);
+            int compareTo2 = order.getOprettelsesDato().compareTo(endDate);
 
+            if (compareTo1 < 0 || compareTo2 > 0) {
+                throw new IllegalArgumentException("Der er ingen klip brugt i det angivne datointerval");
+
+            } else {
                 if (order.getBetalingsType().equals(BetalingsType.KLIPPEKORT)) {
                     for (OrderLine ol : order.getOrderLines()) {
 
-                        if (ol.getOrderLineKlipBeløb() != 0)
+                        if (ol.getOrderLineKlipBeløb() != 0) {
                             sum += ol.getOrderLineKlipBeløb();
+                        }
                     }
                 }
             }
-            throw new IllegalArgumentException("Der er ingen klippekort brugt i det angivne datointerval");
         }
         return sum;
     }
 
     // En Oversigt over ikke afleverede udlejede produkter.----------------------------------------------------------
-    public ArrayList<Produkt> ikkeReturnProdukt(){
+    public ArrayList<Produkt> ikkeReturnProdukt() {
 
         ArrayList<Produkt> oversigt = new ArrayList<>();
 
-        for(Order order : this.getOrders()){
-            if(order instanceof UdlejningsOrder){
-                UdlejningsOrder udlejningsOrder = (UdlejningsOrder)order;
+        for (Order order : this.getOrders()) {
+            if (order instanceof UdlejningsOrder) {
+                UdlejningsOrder udlejningsOrder = (UdlejningsOrder) order;
 
-                if(udlejningsOrder.getForventetReturDato().isBefore(LocalDate.now())){
-                    for(OrderLine ol : order.getOrderLines()){
+                if (udlejningsOrder.getForventetReturDato().isBefore(LocalDate.now())) {
+                    for (OrderLine ol : order.getOrderLines()) {
                         oversigt.add(ol.getPris().getProdukt());
                     }
                 }
@@ -500,7 +504,6 @@ public class Controller {
         }
         return oversigt;
     }
-
     //-------------------------------------------------------------------------------------------------------------
     
 
@@ -543,7 +546,7 @@ public class Controller {
 
         Order o2 = controller.createOrder(2, LocalDate.of(2021, 9, 1));
 
-        Order o5 = controller.createOrder(5, LocalDate.of(2001,02,02));
+        Order o5 = controller.createOrder(5, LocalDate.of(2001,2,2));
 
         //Udlejning
         Order uo1 = controller.createUdlejningOrder(3, LocalDate.of(2021, 5, 1),

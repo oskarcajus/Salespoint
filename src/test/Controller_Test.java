@@ -1,6 +1,8 @@
 package test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+
 import controller.Controller;
 import model.*;
 import org.junit.jupiter.api.*;
@@ -51,12 +53,12 @@ public class Controller_Test {
         //produktType2 = new ProduktType("pant");
         //produktType3 = new ProduktType("KlippeKort");
 
-      produkt = new Produkt("Julebryg", produktType, produktgruppe);
-      //produkt2 = new Produkt("Blondie25L", produktType2, produktgruppe2);
-      //produkt3 = new Produkt("Klosterbryg ", produktType3, produktgruppe);
+        //produkt = new Produkt("Julebryg", produktType, produktgruppe);
+        //produkt2 = new Produkt("Blondie25L", produktType2, produktgruppe2);
+        //produkt3 = new Produkt("Klosterbryg ", produktType3, produktgruppe);
 
-      butikPrisliste = new SalgsSituation("Butik");
-      barPrisListe = new SalgsSituation("FredagsBar");
+        butikPrisliste = new SalgsSituation("Butik");
+        barPrisListe = new SalgsSituation("FredagsBar");
     }
 
     @AfterEach
@@ -65,7 +67,7 @@ public class Controller_Test {
         storage.clearStorage();
     }
 
-//------------test start-------------------------------------------------------------------------------------
+    //------------test start-------------------------------------------------------------------------------------
     @Test
     @Order(1)
     void TC1_Create_Produkt() { //Produktgruppe produktgruppe, ProduktType produktType, String navn
@@ -81,7 +83,8 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(2)// Boolean test
+    @Order(2)
+// Boolean test
     void TC2_Create_Produkt_Same_ProduktGruppeName() { //Produktgruppe produktgruppe, ProduktType produktType, String navn
         // Arrange
         Produkt produkt = controller.createProdukt(produktgruppe, produktType, "Øl");
@@ -94,13 +97,14 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(13)// Exception test
-    void TC13_Create_Produkt_Same_ProduktGruppeName() { //Produktgruppe produktgruppe, ProduktType produktType, String navn
+    @Order(3)
+// Exception test
+    void TC3_Create_Produkt_Same_ProduktGruppeName() { //Produktgruppe produktgruppe, ProduktType produktType, String navn
         // Arrange
-        Produkt produkt = controller.createProdukt(produktgruppe,produktType, "Øl");
+        Produkt produkt = controller.createProdukt(produktgruppe, produktType, "Øl");
 
         // Act
-          IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             controller.createProdukt(produktgruppe, produktType, "Øl");
         });
 
@@ -109,8 +113,9 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(3) // boolean test
-    void TC3_Create_Produkt_Same_ProduktType() {
+    @Order(4)
+        // boolean test
+    void TC4_Create_Produkt_Same_ProduktType() {
         // Arrange
         Produkt produkt = controller.createProdukt(produktgruppe, produktType, "wiskey");
 
@@ -122,8 +127,8 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(14)// Exception test
-    void TC14_Create_Produkt_Same_ProduktType() {
+    @Order(5)// Exception test
+    void TC5_Create_Produkt_Same_ProduktType() {
         // Arrange
         Produkt produkt = controller.createProdukt(produktgruppe, produktType, "wiskey");
 
@@ -137,12 +142,12 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(4)
-    void TC4_Remove_Produkt() {
+    @Order(6)
+    void TC6_Remove_Produkt() {
         // Arrange
-        Produkt p1 = controller.createProdukt(produktgruppe, produktType2, "Fustage");
-        Produkt p2 = controller.createProdukt(produktgruppe2, produktType3, "Julebryg");
-        Produkt p3 = controller.createProdukt(produktgruppe, produktType, "Blak Monster");
+        Produkt p1 = controller.createProdukt(produktgruppe, produktType2, "Fustagee");
+        Produkt p2 = controller.createProdukt(produktgruppe2, produktType3, "Julebrygg");
+        Produkt p3 = controller.createProdukt(produktgruppe, produktType, "Blak Monsterr");
 
         // Act
         int actualSize = controller.getAllProdukter().size(); // expect -- 3
@@ -156,40 +161,39 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(5)
-      void TC5_Create_ProduktGruppe() {
+    @Order(7)
+    void TC7_Create_ProduktGruppe() {
         // Arrange & Act
         Produktgruppe actual = controller.createProduktgruppe("Rundvisning");
 
         // Assert
         Assertions.assertEquals("Rundvisning", actual.getNavn());
-      }
+    }
 
     @Test
-    @Order(6)// Exception test
-    void TC6_Create_ProduktGruppe_SameName() {
-            // Arrange
-            Produktgruppe pg1 = controller.createProduktgruppe("Glas");
+    @Order(8)
+// Exception test
+    void TC8_Create_ProduktGruppe_SameName() {
+        // Arrange
+        Produktgruppe pg1 = controller.createProduktgruppe("Glas");
 
-            // Act
-            IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-                controller.createProduktgruppe("glas");
-            });
+        // Act
+        IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            controller.createProduktgruppe("glas");
+        });
 
-            // Assert
+        // Assert
         Assertions.assertEquals("Der findes allerede en produktgruppe med dette navn.", exception.getMessage());
     }
 
     @Test
-    @Order(7) //????????????????????????????????????????????? --- add double times
-    void TC7_Remove_ProduktGruppe() {
+    @Order(9)
+     void TC9_Remove_ProduktGruppe() {
         // Arrange
-        Produktgruppe p1 = controller.createProduktgruppe("Tshirts");
-        Produktgruppe p2 = controller.createProduktgruppe("Cola");
 
         // Act
         int actual1 = controller.getProduktgrupper().size(); // 2
-        controller.removeProduktgruppe(p1);
+        controller.removeProduktgruppe(produktgruppe);
         int actual2 = controller.getProduktgrupper().size(); // 1
 
         // Assert
@@ -197,33 +201,26 @@ public class Controller_Test {
         Assertions.assertEquals(1, actual2);
     }
 
-
     @Test
-    @Order(8) // Ekception test
-    void TC8_Remove_ProduktGruppe() {
+    @Order(11)
+    void TC11_Create_Order() {
+        // Arrange
 
-    }
+        // Act
+        model.Order actual = controller.createOrder(1, LocalDate.now());
 
-    @Test
-    @Order(15)
-    void TC15_Create_Order() {
-    // Arrange
-
-    // Act
-    model.Order actual = controller.createOrder(1, LocalDate.now());
-
-    // Assert
+        // Assert
         Assertions.assertEquals(1, actual.getOrderNr());
         Assertions.assertEquals(LocalDate.now(), actual.getOprettelsesDato());
     }
 
     @Test
-    @Order(16) // Exception Test
-    void TC16_Create_Order_Same_OrderNr() {
+    @Order(12)// Exception Test
+    void TC12_Create_Order_Same_OrderNr() {
         // Arrange
 
         // Act
-        model.Order actual_NewOrder = controller.createOrder(2, LocalDate.of(2021,10,30));
+        model.Order actual_NewOrder = controller.createOrder(2, LocalDate.of(2021, 10, 30));
 
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
             controller.createOrder(2, LocalDate.now());
@@ -234,27 +231,27 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(9)
-    void TC9_Create_RundvisningOrder() {
+    @Order(13)
+    void TC13_Create_RundvisningOrder() {
         // Arrange
         // Act
-        RundvisningOrder actual = controller.createRundvisningOrder(3, LocalDate.now(), LocalDate.of(2021,11,30));// Act
+        RundvisningOrder actual = controller.createRundvisningOrder(3, LocalDate.now(), LocalDate.of(2021, 11, 30));// Act
 
         // Assert
         Assertions.assertEquals(3, actual.getOrderNr());
         Assertions.assertEquals(LocalDate.now(), actual.getOprettelsesDato());
-        Assertions.assertEquals(LocalDate.of(2021,11,30), actual.getExpectingBetalingsDato());
+        Assertions.assertEquals(LocalDate.of(2021, 11, 30), actual.getExpectingBetalingsDato());
     }
 
     @Test
-    @Order(10) // Ekception test
-    void TC10_Create_RundvisningOrder_Same_OrderNr() {
+    @Order(14)// Ekception test
+    void TC14_Create_RundvisningOrder_Same_OrderNr() {
         // Arrange
-        RundvisningOrder actual = controller.createRundvisningOrder(4, LocalDate.now(), LocalDate.of(2021,11,30));
+        RundvisningOrder actual = controller.createRundvisningOrder(4, LocalDate.now(), LocalDate.of(2021, 11, 30));
 
         // Act
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            controller.createRundvisningOrder(4, LocalDate.now(), LocalDate.of(2022,12,30));
+            controller.createRundvisningOrder(4, LocalDate.now(), LocalDate.of(2022, 12, 30));
         });
 
         // Assert
@@ -262,27 +259,33 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(11)
-    void TC11_Create_UdlejningOrder() {
+    @Order(15)
+    void TC15_Create_UdlejningOrder() {
         // Act
-        UdlejningsOrder actual = controller.createUdlejningOrder(5, LocalDate.now(), LocalDate.of(2021,11,30));// Act
+        UdlejningsOrder actual = controller.createUdlejningOrder(5, LocalDate.now(), LocalDate.of(2021, 11, 30));// Act
 
         // Assert
         Assertions.assertEquals(5, actual.getOrderNr());
         Assertions.assertEquals(LocalDate.now(), actual.getOprettelsesDato());
-        Assertions.assertEquals(LocalDate.of(2021,11,30), actual.getForventetReturDato());
+        Assertions.assertEquals(LocalDate.of(2021, 11, 30), actual.getForventetReturDato());
     }
 
     @Test
-    @Order(12) //????????????????????????????????????????????????????????????????????????
-    void TC12_Create_Return_Order() {
+    @Order(16)
+    void TC16_Create_Return_Order() {
         // Arrange
+        SalgsSituation s1 = controller.createSalgsSituation("HyggeBar");
+        produkt = controller.createProdukt(produktgruppe, produktType, "Kimchi");
+        pris = controller.createPris(s1, produkt, 150, 0, 100 );
+        model.Order order = controller.createOrder(100,LocalDate.now());
+        OrderLine orderLine = controller.createOrderLine(order, 1, pris);
 
         // Act
-        model.Order actual = controller.createReturnOrder(10000000);
+        model.Order actual = controller.createReturnOrder(100);
+        order.setOrderNr(10000000);
 
         // Assert
-        Assertions.assertEquals(6, actual.getOrderNr());
+        Assertions.assertEquals(10000000, actual.getOrderNr());
     }
 
     @Test
@@ -298,7 +301,7 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(18) // Exception Test
+    @Order(18)// Exception Test
     void TC18_Create_SalgsSituation_Same_Name() {
         // Arrange
 
@@ -315,10 +318,11 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(19) //????????????????????????????????????????????????????????
-    void TC19_Create_Pris() {
+    @Order(19)
+       void TC19_Create_Pris() {
         // Arrange
         SalgsSituation s1 = controller.createSalgsSituation("NewyearBar");
+        produkt = controller.createProdukt(produktgruppe, produktType, "KoreanBeer");
 
         // Act
         Pris actual = controller.createPris(s1, produkt, 100, 2, 50);
@@ -331,7 +335,8 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(20) // Exception Test
+    @Order(20)
+        // Exception Test
     void TC20_Create_Pris_Same_Produkt() {
         // Arrange
         SalgsSituation s1 = controller.createSalgsSituation("MondayBar");
@@ -340,7 +345,7 @@ public class Controller_Test {
         // Act
         Pris actual = controller.createPris(s1, produkt2, 100, 0, 50);
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            controller.createPris(s1, produkt2, 300, 0,0);
+            controller.createPris(s1, produkt2, 300, 0, 0);
         });
 
         // Assert
@@ -349,19 +354,19 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(1)
+    @Order(21)
     void TC21_Solgt_KlippeKort() {
         // Arrange
         Produktgruppe produktgruppe = controller.createProduktgruppe("KlippeKort");
-        Produkt produkt = controller.createProdukt(produktgruppe, controller.createProduktType("klip"), "klippekort" );
+        Produkt produkt = controller.createProdukt(produktgruppe, controller.createProduktType("klip"), "klippekort");
         SalgsSituation s1 = controller.createSalgsSituation("MondayBar");
-        Pris pris = controller.createPris(s1, produkt,130,0,0 );
+        Pris pris = controller.createPris(s1, produkt, 130, 0, 0);
 
-        LocalDate startDate = LocalDate.of(2021,10,30);
-        LocalDate endDate = LocalDate.of(2021,11,4);
-        model.Order order = controller.createOrder(1, LocalDate.of(2021,11,4));
+        LocalDate startDate = LocalDate.of(2021, 10, 30);
+        LocalDate endDate = LocalDate.of(2021, 11, 4);
 
-        OrderLine orderLine = controller.createOrderLine(order,3, pris);
+        model.Order order = controller.createOrder(1, LocalDate.of(2021, 11, 4));
+        OrderLine orderLine = controller.createOrderLine(order, 3, pris);
 
         // Act
         int actual = controller.solgtKlippeKort(startDate, endDate);
@@ -369,45 +374,46 @@ public class Controller_Test {
         // Assert
         Assertions.assertEquals(3, actual); // antal Produkt = 3
     }
+
     @Test
-    @Order(2)
-    void TC22_Solgt_KlippeKort_Ugyldig_OrderDato() {
+    @Order(22) // Exception test
+    void TC22_Solgt_KlippeKort_Ugyldig_OrderDato_10_1() {
         // Arrange
         Produktgruppe produktgruppe = controller.createProduktgruppe("KlippeKort");
-        Produkt produkt = controller.createProdukt(produktgruppe, controller.createProduktType("klip"), "klippekort" );
+        Produkt produkt = controller.createProdukt(produktgruppe, controller.createProduktType("klip"), "klippekort");
         SalgsSituation s1 = controller.createSalgsSituation("MondayBar");
-        Pris pris = controller.createPris(s1, produkt,130,0,0 );
+        Pris pris = controller.createPris(s1, produkt, 130, 0, 0);
 
-        LocalDate startDate = LocalDate.of(2021,10,30);
-        LocalDate endDate = LocalDate.of(2021,11,4);
-        model.Order order = controller.createOrder(1, LocalDate.of(2021,11,5));
+        LocalDate startDate = LocalDate.of(2021, 10, 30);
+        LocalDate endDate = LocalDate.of(2021, 11, 4);
 
-        OrderLine orderLine = controller.createOrderLine(order,3, pris);
+        model.Order order = controller.createOrder(1, LocalDate.of(2021, 11, 5));
+        OrderLine orderLine = controller.createOrderLine(order, 3, pris);
 
         // Act
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            controller.solgtKlippeKort(startDate,endDate);
+            controller.solgtKlippeKort(startDate, endDate);
         });
 
         // Assert
-        Assertions.assertEquals("Ugyldig Order Dato", exception.getMessage());
+        Assertions.assertEquals("Der er ingen klippekort solgt i det angivne datointerval", exception.getMessage());
     }
 
     @Test
-    @Order(3)
+    @Order(23)
     void TC23_Brugt_Klip() {
         // Arrange
-        Produktgruppe produktgruppe = controller.createProduktgruppe("Flaske");
-        Produkt produkt = controller.createProdukt(produktgruppe, controller.createProduktType("normal"), "Klosterbryg" );
-        SalgsSituation s1 = controller.createSalgsSituation("TuesdayBar");
-        Pris pris = controller.createPris(s1, produkt,70,2,0 );
+        Produktgruppe produktgruppe = controller.createProduktgruppe("FlYske");
+        Produkt produkt = controller.createProdukt(produktgruppe, controller.createProduktType("norrmal"), "Klasterbryg");
+        SalgsSituation s1 = controller.createSalgsSituation("TuesdayyBar");
+        Pris pris = controller.createPris(s1, produkt, 70, 2, 0);
 
-        LocalDate startDate = LocalDate.of(2021,10,30);
-        LocalDate endDate = LocalDate.of(2021,11,4);
-        model.Order order = controller.createOrder(1,LocalDate.of(2021,11,4));
+        LocalDate startDate = LocalDate.of(2021, 10, 30);
+        LocalDate endDate = LocalDate.of(2021, 11, 4);
+        model.Order order = controller.createOrder(1000, LocalDate.of(2021, 11, 4));
 
         order.setBetalingsType(BetalingsType.KLIPPEKORT);
-        OrderLine orderLine = controller.createOrderLine(order,3, pris);
+        OrderLine orderLine = controller.createOrderLine(order, 3, pris);
 
         // Act
         int actual = controller.brugtKlip(startDate, endDate);
@@ -417,31 +423,54 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(4) // Exception Test
+    @Order(24)
+        // Exception Test
     void TC24_Brugt_Klip_Ugyldig_OrderDato() {
         // Arrange
-        Produktgruppe produktgruppe = controller.createProduktgruppe("Flaske");
-        Produkt produkt = controller.createProdukt(produktgruppe, controller.createProduktType("normal"), "Klosterbryg" );
+        Produktgruppe produktgruppe = controller.createProduktgruppe("Floskee");
+        Produkt produkt = controller.createProdukt(produktgruppe, controller.createProduktType("normall"), "Klosterbrygg");
         SalgsSituation s1 = controller.createSalgsSituation("TuesdayBar");
-        Pris pris = controller.createPris(s1, produkt,70,2,0 );
+        Pris pris = controller.createPris(s1, produkt, 70, 2, 0);
 
-        LocalDate startDate = LocalDate.of(2021,10,30);
-        LocalDate endDate = LocalDate.of(2021,11,4);
-        model.Order order = controller.createOrder(1,LocalDate.of(2021,11,5));
+        LocalDate startDate = LocalDate.of(2021, 10, 30);
+        LocalDate endDate = LocalDate.of(2021, 11, 4);
+        model.Order order = controller.createOrder(1, LocalDate.of(2021, 11, 5));
 
         order.setBetalingsType(BetalingsType.KLIPPEKORT);
-        OrderLine orderLine = controller.createOrderLine(order,3, pris);
+        OrderLine orderLine = controller.createOrderLine(order, 3, pris);
 
         // Act
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            controller.brugtKlip(startDate,endDate);
+            controller.brugtKlip(startDate, endDate);
         });
 
         // Assert
-        Assertions.assertEquals("Ugyldig Order Dato", exception.getMessage());
+        Assertions.assertEquals("Der er ingen klip brugt i det angivne datointerval", exception.getMessage());
     }
 
+    @Test
+    @Order(25)
+    void TC25_ikke_Return_Produkt() {
+        // Arrange
+        produktgruppe = controller.createProduktgruppe("Floske");
+        produkt = controller.createProdukt(produktgruppe, controller.createProduktType("norm"), "Klosterbryg");
+        SalgsSituation s1 = controller.createSalgsSituation("Bar");
+        Pris pris = controller.createPris(s1, produkt, 150,0 , 100);
 
+        model.Order ikkeReturn1 = controller.createUdlejningOrder(100, LocalDate.of(2021,10,1), LocalDate.of(2021,10,30));
+        ikkeReturn1.createOrderLine(1, pris);
+        model.Order ikkeReturn2 = controller.createUdlejningOrder(101, LocalDate.of(2021,10,1), LocalDate.of(2021,10,20));
+        ikkeReturn2.createOrderLine(1,pris);
+        // venter på return
+        model.Order udlejningsOrder = controller.createUdlejningOrder(102, LocalDate.of(2021,10,2), LocalDate.of(2021, 11,30));
+        udlejningsOrder.createOrderLine(1,pris);
+
+        // Act
+        ArrayList<Produkt> actual = controller.ikkeReturnProdukt();
+
+        // Act
+        Assertions.assertEquals(2, actual.size());
+    }
 }
 
 
