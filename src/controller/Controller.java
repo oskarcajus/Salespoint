@@ -304,7 +304,7 @@ public class Controller {
     public RundvisningOrder createRundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato) {
         for (Order o : controller.getOrders()) {
             if (o.getOrderNr() == orderNr) {
-                throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
+                throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr " + orderNr);
             }
         }
         RundvisningOrder rundvisningsOrder = new RundvisningOrder(orderNr, oprettelsesDato, expectingBetalingsDato);

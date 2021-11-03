@@ -114,7 +114,6 @@ public class SalgNewStartPane extends GridPane {
         btnTilføjeProdukt.setOnAction(event -> this.tilføjeProduktAction());
 
 
-
         // samlet pris
         lblSamletBeløb = new Label("Samlet pris: ");
         this.add(lblSamletBeløb, 1, 7);
@@ -144,6 +143,7 @@ public class SalgNewStartPane extends GridPane {
         this.add(hBoxRS, 4, 8);
 
         btnRedigerProdukt = new Button("Rediger");
+        btnRedigerProdukt.setOnAction(event -> this.redigerOrderLineAction(lvwOrderLines.getSelectionModel().getSelectedItem()));
         btnSletProdukt = new Button("Fjern");
         btnSletProdukt.setOnAction(event -> this.fjernOrdreLineAction(lvwOrderLines.getSelectionModel().getSelectedItem()));
         hBoxRS.getChildren().addAll(btnRedigerProdukt, btnSletProdukt);
@@ -167,10 +167,10 @@ public class SalgNewStartPane extends GridPane {
                     Pris produkt = (Pris) o;
                     if (produkt != null) {
                         // Opret order
-                        if (antal >0){
-                           ol = controller.createOrderLine(order,antal,produkt);
-                            if (pris >0 || pantPris >0 || klipPris >0){
-                                controller.redigerOrderLine(ol,antal,pris,klipPris,pantPris);
+                        if (antal > 0) {
+                            ol = controller.createOrderLine(order, antal, produkt);
+                            if (pris > 0 || pantPris > 0 || klipPris > 0) {
+                                controller.redigerOrderLine(ol, antal, pris, klipPris, pantPris);
                             }
                         } else {
                             errorAlert = new Alert(Alert.AlertType.ERROR, "Antallet skal være mere end 0");
@@ -222,6 +222,34 @@ public class SalgNewStartPane extends GridPane {
     }
 
     // TODO rediger metoden!!
+    public void redigerOrderLineAction(OrderLine ol) {
+        if (ol != null) {
+            try {
+                int antal = Integer.parseInt(txfAntal.getText().trim());
+                double pris = Double.parseDouble(txfPris.getText().trim());
+                double pantPris = Double.parseDouble(txfPantPris.getText().trim());
+                int klipPris = Integer.parseInt(txfKlipPris.getText().trim());
+                // Opret order
+                if (antal > 0) {
+                    if (pris > 0 || pantPris > 0 || klipPris > 0) {
+                        controller.redigerOrderLine(ol, antal, pris, klipPris, pantPris);
+                        updateSamletBeløb();
+                        updateOrderLines();
+                    }
+                } else {
+                    errorAlert = new Alert(Alert.AlertType.ERROR, "Antallet skal være mere end 0");
+                    errorAlert.show();
+                }
+            } catch (NumberFormatException e) {
+                errorAlert = new Alert(Alert.AlertType.ERROR, "Det skal være et tal");
+                errorAlert.show();
+            }
+        } else {
+            errorAlert = new Alert(Alert.AlertType.ERROR, "Du skal vælge en produkt i ordrelisten!");
+            errorAlert.show();
+
+        }
+    }
 
 
     //---------------------------------------------------------------------------------------------------------

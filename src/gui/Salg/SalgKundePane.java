@@ -17,14 +17,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Kunde;
+import model.Order;
 import model.Pris;
 import model.SalgsSituation;
 
 public class SalgKundePane extends GridPane {
     private final Controller controller = Controller.getController();
 
-    private ListView lvwKunder, lvwKundeOrdreNr, lvwOrdreInfo;
-    private Label lblKunde, lblOrdre;
+    private ListView lvwKunder, lvwKundeOrdreNr, lvwOrdreline;
+    private Label lblKunde, lblOrdre, lblOrdreline;
 
 
     public SalgKundePane() {
@@ -44,10 +45,10 @@ public class SalgKundePane extends GridPane {
         this.add(lvwKunder, 0, 1, 1, 5);
         lvwKunder.setPrefWidth(300);
         lvwKunder.setPrefHeight(500);
-        lvwKunder.getItems().setAll(controller.getKunder());
-        ChangeListener<Kunde> listenerKunde = (ok, oldKunde, newKunde) -> this.selectedCompanyChanged();
+        this.updateKunder();
+        ChangeListener<Kunde> listenerKunde = (ok, oldKunde, newKunde) -> this.selectedKunde();
         lvwKunder.getSelectionModel().selectedItemProperty().addListener(listenerKunde);
-        
+
         // Button kunde
         HBox hbxButtonsKunde = new HBox(40);
         this.add(hbxButtonsKunde, 0, 6, 1, 1);
@@ -61,44 +62,63 @@ public class SalgKundePane extends GridPane {
 
         Button btnSletKunde = new Button("Slet Kunde");
         hbxButtonsKunde.getChildren().add(btnSletKunde);
-      btnSletKunde.setOnAction(event -> this.sletKunde());
-
-
+        btnSletKunde.setOnAction(event -> this.sletKunde());
 
 
         //Kunde ordre
         lblOrdre = new Label("Kundes ordre: ");
         this.add(lblOrdre, 3, 0);
 
-        lvwKundeOrdreNr= new ListView();
+        lvwKundeOrdreNr = new ListView();
         this.add(lvwKundeOrdreNr, 3, 1, 1, 5);
         lvwKundeOrdreNr.setPrefWidth(300);
         lvwKundeOrdreNr.setPrefHeight(500);
+        ChangeListener<Order> listenerKundeOrdre = (ok, oldKunde, newKunde) -> this.selectedKundeOrdrerline();
+        lvwKundeOrdreNr.getSelectionModel().selectedItemProperty().addListener(listenerKundeOrdre);
+
+
+        // Kunde
+        lblOrdreline = new Label("Orderline: ");
+        this.add(lblOrdreline, 4, 0);
+
+        lvwOrdreline = new ListView();
+        this.add(lvwOrdreline, 4, 1, 1, 5);
+        lvwOrdreline.setPrefWidth(300);
+        lvwOrdreline.setPrefHeight(500);
+
+    }
+
+    public void selectedKunde() {
         Kunde kunde = (Kunde) lvwKunder.getSelectionModel().getSelectedItem();
+        lvwKundeOrdreNr.getItems().setAll(controller.getKundeOrders(kunde));
+        lvwOrdreline.getItems().clear();
     }
 
-    public void selectedCompanyChanged(){
-        updateControls();
+    public void selectedKundeOrdrerline() {
+        Order order = (Order) lvwKundeOrdreNr.getSelectionModel().getSelectedItem();
+        if (order != null){
+            lvwOrdreline.getItems().setAll(order.getOrderLines());
+        }
+
     }
 
 
-    public void opretKunde(){
+    public void opretKunde() {
         SalgOpretKundeWindow salgOpretKundeWindow = new SalgOpretKundeWindow();
         salgOpretKundeWindow.showAndWait();
 
         lvwKunder.getItems().setAll(controller.getKunder());
     }
 
-    public void sletKunde(){
+    public void sletKunde() {
         Kunde kunde = (Kunde) lvwKunder.getSelectionModel().getSelectedItem();
         controller.removeKunde(kunde);
         lvwKunder.getItems().setAll(controller.getKunder());
     }
 
-    public void updateControls(){
-        Kunde kunde = (Kunde) lvwKunder.getSelectionModel().getSelectedItem();
-        lvwKundeOrdreNr.getItems().setAll(controller.getKundeOrders(kunde));
+    public void updateKunder(){
+        lvwKunder.getItems().setAll(controller.getKunder());
     }
 
-
 }
+
