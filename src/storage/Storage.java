@@ -95,66 +95,13 @@ public class Storage {
         return kunder;
     }
 
-//--------KlippeKort statistik---------------------------------------------------------------------------------------
-
-    // solgtKlippeKort
-    public int solgtKlippeKort(LocalDate startDate, LocalDate endDate) {
-        int solgtKlippeKort = 0;
-
-        for (Order order : this.getOrders()) {
-            int compareTo1 = order.getOprettelsesDato().compareTo(startDate);
-            int compareTo2 = order.getOprettelsesDato().compareTo(endDate);
-
-            if (compareTo1 < 0 || compareTo2 > 0) {
-                throw new IllegalArgumentException("Ugyldig Order Dato");
-            } else {
-                for (OrderLine ol : order.getOrderLines()) {
-                    if (ol.getPris().getProdukt().getProduktgruppe().getNavn().equalsIgnoreCase("KlippeKort"))
-                        solgtKlippeKort += ol.getAntalProdukt();
-                }
-            }
-        }
-        return solgtKlippeKort;
+    public void clearStorage() {
+        this.produktgrupper.clear();
+        this.produktTyper.clear();
+        this.salgsSituationer.clear();
+        this.orders.clear();
+        this.kunder.clear();
     }
 
-    // brugtKlippeKort
-    public int brugtKlip(LocalDate startDate, LocalDate endDate) {
-        int sum = 0;
-
-        for (Order order : this.getOrders()) {
-            if(order.getOprettelsesDato().isAfter(startDate) && order.getOprettelsesDato().isBefore(endDate)){
-
-               if (order.getBetalingsType().equals(BetalingsType.KLIPPEKORT)) {
-                   for (OrderLine ol : order.getOrderLines()) {
-
-                       if (ol.getOrderLineKlipBeløb() != 0)
-                           sum += ol.getOrderLineKlipBeløb();
-                        }
-                    }
-                }
-            throw new IllegalArgumentException("Ugyldig Order Dato");
-            }
-        return sum;
-    }
-// Oversigt over ikke afleverede udlejede produkter.----------------------------------------------------------
-public ArrayList<Produkt> ikkeReturnProdukt(){
-
-        ArrayList<Produkt> oversigt = new ArrayList<>();
-        Produkt ikkeAflejeveret = null;
-
-        for(Order order : this.orders){
-            if(order instanceof UdlejningsOrder){
-                UdlejningsOrder udlejningsOrder = (UdlejningsOrder)order;
-
-                if(udlejningsOrder.getForventetReturDato().isBefore(LocalDate.now())){
-                    for(OrderLine ol : order.getOrderLines()){
-                       ikkeAflejeveret = ol.getPris().getProdukt();
-                    }
-                }
-                    oversigt.add(ikkeAflejeveret);
-                }
-            }
-        return oversigt;
-        }
 }
 

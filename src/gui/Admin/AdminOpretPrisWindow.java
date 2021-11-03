@@ -136,5 +136,4 @@ public class AdminOpretPrisWindow extends Stage {
             errorAlert.show();
         }
     }
-
 }

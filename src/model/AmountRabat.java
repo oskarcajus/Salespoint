@@ -2,7 +2,7 @@ package model;
 
 public class AmountRabat implements RabatStrategy {
 
-    private double aftaltRabat; // ex) -200kr discount, hvis en kunde køber mere end 3000kr produkter.
+    private double aftaltRabat; // ex) -200kr discount, en order pris er over end 3000kr.
     private double limitBeløb; // minimum purchase --> 3000kr
 
     public AmountRabat(double aftaltRabat, double limitBeløb) {

@@ -5,14 +5,14 @@ import java.util.ArrayList;
 
 public class Order {
     private int orderNr;
-    private int refOrderNr;
-    private String orderComment;
     private LocalDate oprettelsesDato;
     private LocalDate betalingsDato;
+    private int refOrderNr;
     private OrderStatus orderStatus; // oprettet(betalt), pending, afsluttet(finish return calculation)
     private BetalingsType betalingsType; // Dankort, klippeKort....
     private Kunde kunde; // (0..1)
     private RabatStrategy rabatStrategy; // (0..1)
+    private String orderComment;
 
     private final ArrayList<OrderLine> orderLines = new ArrayList<>();
 
@@ -58,13 +58,13 @@ public class Order {
         return total;
     }
 
-    public double klipPrisWithRabat(){
-        double total = this.orderKlipPris();
+    /*public int klipPrisWithRabat(){
+        int total = this.orderKlipPris();
         if(rabatStrategy != null){
             total -= rabatStrategy.getRabat(total);
         }
         return total;
-    }
+    } */
 
     public void setKunde(Kunde targetKunde){
         if(this.kunde != targetKunde){

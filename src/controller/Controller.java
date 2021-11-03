@@ -30,6 +30,7 @@ public class Controller {
             throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produkttypen.");
         }
         produkt = produktgruppe.createProdukt(produktType, navn);
+        this.getAllProdukter().add(produkt);
         return produkt;
     }
 
@@ -438,7 +439,69 @@ public class Controller {
         return kunde.getOrders();
     }
 
-    //---------------------------------------------------------------------------
+    // Statistik for GUI
+    //-------------------statistik af solgtKlippeKort og brugtKlipper-----------------------------------------------------
+
+    // solgtKlippeKort
+    public int solgtKlippeKort(LocalDate startDate, LocalDate endDate) {
+        int solgtKlippeKort = 0;
+
+        for (Order order : this.getOrders()) {
+            int compareTo1 = order.getOprettelsesDato().compareTo(startDate);
+            int compareTo2 = order.getOprettelsesDato().compareTo(endDate);
+
+            if (compareTo1 < 0 || compareTo2 > 0) {
+                throw new IllegalArgumentException("Der er ingen klippekort solgt i det angivne datointerval");
+            } else {
+                for (OrderLine ol : order.getOrderLines()) {
+                    if (ol.getPris().getProdukt().getProduktgruppe().getNavn().equalsIgnoreCase("KlippeKort"))
+                        solgtKlippeKort += ol.getAntalProdukt();
+                }
+            }
+        }
+        return solgtKlippeKort;
+    }
+
+    // brugtKlips
+    public int brugtKlip(LocalDate startDate, LocalDate endDate) {
+        int sum = 0;
+
+        for (Order order : this.getOrders()) {
+            if(order.getOprettelsesDato().isAfter(startDate) && order.getOprettelsesDato().isBefore(endDate)){
+
+                if (order.getBetalingsType().equals(BetalingsType.KLIPPEKORT)) {
+                    for (OrderLine ol : order.getOrderLines()) {
+
+                        if (ol.getOrderLineKlipBeløb() != 0)
+                            sum += ol.getOrderLineKlipBeløb();
+                    }
+                }
+            }
+            throw new IllegalArgumentException("Der er ingen klippekort brugt i det angivne datointerval");
+        }
+        return sum;
+    }
+
+    // En Oversigt over ikke afleverede udlejede produkter.----------------------------------------------------------
+    public ArrayList<Produkt> ikkeReturnProdukt(){
+
+        ArrayList<Produkt> oversigt = new ArrayList<>();
+
+        for(Order order : this.getOrders()){
+            if(order instanceof UdlejningsOrder){
+                UdlejningsOrder udlejningsOrder = (UdlejningsOrder)order;
+
+                if(udlejningsOrder.getForventetReturDato().isBefore(LocalDate.now())){
+                    for(OrderLine ol : order.getOrderLines()){
+                        oversigt.add(ol.getPris().getProdukt());
+                    }
+                }
+            }
+        }
+        return oversigt;
+    }
+
+    //-------------------------------------------------------------------------------------------------------------
     
 
     public void initContent() {
