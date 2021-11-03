@@ -1,94 +1,121 @@
 package gui.Salg;
 
-import javafx.geometry.Insets;
-import javafx.scene.control.*;
-import javafx.scene.*;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import model.SalgsSituation;
-import java.time.LocalDate;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+        import controller.Controller;
+        import javafx.beans.value.ChangeListener;
+        import javafx.collections.FXCollections;
+        import javafx.geometry.Insets;
+        import javafx.scene.control.*;
+        import javafx.scene.layout.GridPane;
+        import javafx.scene.layout.HBox;
+        import model.Kunde;
+        import model.Order;
+        import model.OrderStatus;
+        import model.SalgsSituation;
 
-public class SalgRundvisningPane extends GridPane {
+        import java.time.LocalDate;
+        import java.time.temporal.ChronoUnit;
+        import java.util.Optional;
 
-    SalgsSituation salgsSituation;
-    Label lblProdukter;
-    ListView lvwProdukter;
+        public class SalgRundvisningPane extends GridPane{
+        Controller controller=new Controller();
+        SalgsSituation salgsSituation;
+        Order currentOrder;
 
-    private DatePicker dpDato = new DatePicker(LocalDate.now());
-    private TextField txfTimeHour = new TextField();
-    private TextField txfTimeMinute = new TextField();
-    private TextField txfDeltagere = new TextField();
-    private Label lblError;
+        Label lblOrdreNr,lblOrdrerTxt,lblExpectingDato,lblKundeNavn,lblKundeTlf;
+        TextField txfExpectingDato,txfKundeNavn,txfKundeTlf;
+        Button btnOpretRV,btnOpretKunde;
+        CheckBox checkKunde;
+        ComboBox<Kunde>cBoxKunde;
+        ListView lvwOrdreline;
+        Alert errorAlert;
 
-    // constructor
-    public SalgRundvisningPane(SalgsSituation salgsSituation) {
 
-        this.salgsSituation = salgsSituation;
-
+        public SalgRundvisningPane(SalgsSituation salgsSituation){
+        this.salgsSituation=salgsSituation;
         this.setGridLinesVisible(false);
+        this.initContent();
         this.setHgap(10);
         this.setVgap(10);
         this.setPadding(new Insets(20));
+        }
 
-        GridPane pane = new GridPane();
-        Scene scene = new Scene(pane);
-        this.initContent(pane);
-        //Sthis.setScene(scene);
+        public void initContent(){
+//Leftside
+//OrdrerNr
+        HBox hBoxOrderNr=new HBox(10);
+        this.add(hBoxOrderNr,0,0);
 
-        pane.setPadding(new Insets(20));
-        pane.setGridLinesVisible(false);
-    }
+        lblOrdrerTxt=new Label("Ordrernr:");
+        hBoxOrderNr.getChildren().add(lblOrdrerTxt);
 
-    // Init content
-    public void initContent(GridPane pane) {
+        lblOrdreNr=new Label(Integer.toString(getCurrentOrderNr()));
+        hBoxOrderNr.getChildren().add(lblOrdreNr);
 
-        Label lblRundvisningsDato = new Label("Rundvisnings Dato");
-        pane.add(lblRundvisningsDato, 0, 0);
-        HBox hbxDateTime = new HBox();
-        hbxDateTime.getChildren().add(dpDato);
-        txfTimeHour.setMaxWidth(50);
-        hbxDateTime.getChildren().add(txfTimeHour);
-        Label lblRundvisningTimeSeperator = new Label(":");
-        hbxDateTime.getChildren().add(lblRundvisningTimeSeperator);
-        txfTimeMinute.setMaxWidth(50);
-        hbxDateTime.getChildren().add(txfTimeMinute);
-        pane.add(hbxDateTime, 0, 1);
+//exceptingdato
+        lblExpectingDato=new Label("Rundvisingdato:");
+        this.add(lblExpectingDato,0,1);
 
-        Label lblDeltagere = new Label("Deltagere");
-        pane.add(lblDeltagere, 0, 2);
-        pane.add(txfDeltagere, 0, 3);
+        txfExpectingDato=new TextField();
+        txfExpectingDato.setMaxWidth(100);
+        this.add(txfExpectingDato,1,1);
 
-        HBox hbxDialogControlls = new HBox();
-        Button btnOpret = new Button("Opret");
-        btnOpret.setOnAction(event -> actionOpret());
-        hbxDialogControlls.getChildren().add(btnOpret);
-        Button btnCancel = new Button("Cancel");
-        //btnCancel.setOnAction(event -> this.close());
-        hbxDialogControlls.getChildren().add(btnCancel);
+//Kunde
+        HBox hBoxKunde=new HBox(10);
+        lblKundeNavn=new Label("VælgeKunde:");
+        this.add(lblKundeNavn,0,2);
 
-        pane.add(hbxDialogControlls, 0, 4);
-    }
+        cBoxKunde=new ComboBox<Kunde>();
+        cBoxKunde.getItems().add(null);
+        cBoxKunde.getItems().addAll(FXCollections.observableArrayList(controller.getKunder()));
+        cBoxKunde.setMinWidth(200);
+////TODOcBoxKunde.getSelectionModel().selectedItemProperty().addListener(obs->updateControls());
+        hBoxKunde.getChildren().add(cBoxKunde);
+
+        btnOpretKunde=new Button("OpretKunde");
+        btnOpretKunde.setOnAction(event->opretKundeAction());
+        hBoxKunde.getChildren().add(btnOpretKunde);
+        this.add(hBoxKunde,1,2);
+
+//button
+        btnOpretRV=new Button("OpretRundvisning");
+        this.add(btnOpretRV,0,6);
+        btnOpretRV.setOnAction(event->this.opretRundvisingAction());
+
+        }
+
+        public int getCurrentOrderNr(){
+        return controller.getOrders().size()+1;
+        }
 
 
-    //  Button action
-    private void actionOpret() {
+        public void opretRundvisingAction(){
+        LocalDate expecting=LocalDate.parse(txfExpectingDato.getText().trim());
+        LocalDate now=LocalDate.now();
+        Kunde kunde=cBoxKunde.getValue();
+        int ordreNr=getCurrentOrderNr();
+        if(!now.isAfter(expecting)){
+        if(kunde!=null){
+        Order order=controller.createRundvisningOrder(ordreNr,now,expecting);
+        order.setKunde(kunde);
+        }else{
+        errorAlert=new Alert(Alert.AlertType.ERROR,"Opretenkundeellervælgeenkunde");
+        errorAlert.show();
+        }
+        }else{
+        errorAlert=new Alert(Alert.AlertType.ERROR,"Vælgeendato,somikkeerdatid");
+        errorAlert.show();
+        }
+
+        }
+
+public void opretKundeAction(){
+        SalgOpretKundeWindow salgOpretKundeWindow=new SalgOpretKundeWindow();
+        salgOpretKundeWindow.showAndWait();
+
+        cBoxKunde.getItems().clear();
+        cBoxKunde.getItems().add(null);
+        cBoxKunde.getItems().setAll(controller.getKunder());
+        }
 
 
-    }
-}
-
-
+        }
