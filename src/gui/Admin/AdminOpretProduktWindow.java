@@ -73,7 +73,7 @@ public class AdminOpretProduktWindow extends Stage {
         lblNavn = new Label("Navn på produktet: ");
         navnInput = new TextField();
         btnOpret = new Button("Opret");
-        btnOpret.setOnAction(event -> this.opretProdukt(produktgruppe, produktType, navnInput.getText().trim()));
+        btnOpret.setOnAction(event -> this.createProdukt(produktgruppe, produktType, navnInput.getText().trim()));
 
         vBox = new VBox();
         vBox.getChildren().add(btnOpret);
@@ -90,13 +90,12 @@ public class AdminOpretProduktWindow extends Stage {
 
     }
 
-    private void opretProdukt(Produktgruppe produktgruppe, ProduktType produktType, String navn) {
+    private void createProdukt(Produktgruppe produktgruppe, ProduktType produktType, String navn) {
         if (navn.equals("")) {
             errorAlert = new Alert(Alert.AlertType.ERROR, "Manglende navn.");
             errorAlert.show();
         }
         else {
-            //Errorhandling fra Produktgruppe i modellen
             try {
                 controller.createProdukt(produktgruppe, produktType, navn);
                 this.adminProduktPane.updateLwProdukter();

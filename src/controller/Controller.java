@@ -34,17 +34,11 @@ public class Controller {
     }
 
     public Produkt redigerProdukt(Produkt produkt, String navn, Produktgruppe produktgruppe, ProduktType produktType) {
-        for (Produkt p : produktgruppe.getProdukter()) {
-            if (p.getName().equalsIgnoreCase(navn)) {
-                throw new IllegalArgumentException("Der findes allerede et produkt med det navn i " +
-                        produktgruppe.getNavn() + ".");
-            }
+        if (controller.checkProduktNameIsInProduktgruppe(produktgruppe, navn)){
+            throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produktgruppen.");
         }
-        for (Produkt p : produktType.getProdukter()) {
-            if (p.getName().equalsIgnoreCase(navn)) {
-                throw new IllegalArgumentException("Der findes allerede et produkt med det navn i " +
-                        produktType.getNavn() + ".");
-            }
+        if (controller.checkProduktNameIsInProduktType(produktType, navn)) {
+            throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produkttypen.");
         }
         produkt.setName(navn);
         produkt.setProduktgruppe(produktgruppe);
@@ -304,7 +298,7 @@ public class Controller {
     public RundvisningOrder createRundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato) {
         for (Order o : controller.getOrders()) {
             if (o.getOrderNr() == orderNr) {
-                throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
+                throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr " + orderNr);
             }
         }
         RundvisningOrder rundvisningsOrder = new RundvisningOrder(orderNr, oprettelsesDato, expectingBetalingsDato);
