@@ -364,7 +364,7 @@ public class Controller_Test {
         OrderLine orderLine = controller.createOrderLine(order,3, pris);
 
         // Act
-        int actual = storage.solgtKlippeKort(startDate, endDate);
+        int actual = controller.solgtKlippeKort(startDate, endDate);
 
         // Assert
         Assertions.assertEquals(3, actual); // antal Produkt = 3
@@ -386,7 +386,7 @@ public class Controller_Test {
 
         // Act
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            storage.solgtKlippeKort(startDate,endDate);
+            controller.solgtKlippeKort(startDate,endDate);
         });
 
         // Assert
@@ -410,7 +410,7 @@ public class Controller_Test {
         OrderLine orderLine = controller.createOrderLine(order,3, pris);
 
         // Act
-        int actual = storage.brugtKlip(startDate, endDate);
+        int actual = controller.brugtKlip(startDate, endDate);
 
         // Assert
         Assertions.assertEquals(6, actual); // klipPris 2 * antal Produkt 3 = 6
@@ -434,7 +434,7 @@ public class Controller_Test {
 
         // Act
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            storage.brugtKlip(startDate,endDate);
+            controller.brugtKlip(startDate,endDate);
         });
 
         // Assert

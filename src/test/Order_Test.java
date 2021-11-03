@@ -1,12 +1,11 @@
 package test;
 
 import model.*;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 
 public class Order_Test {
@@ -103,8 +102,8 @@ public class Order_Test {
         OrderLine actual = order.createOrderLine(antalProdukt, pris);
 
         // Assert
-        Assertions.assertEquals(antalProdukt, actual.getAntalProdukt()); // 2,2
-        Assertions.assertEquals(pris, actual.getPris()); // 4, 4
+        Assertions.assertEquals(antalProdukt, actual.getAntalProdukt());
+        Assertions.assertEquals(pris, actual.getPris());
        }
 
     @Test
@@ -126,14 +125,16 @@ public class Order_Test {
     void TC5_KlipPris_Beløb() {
         // Arrange
         pris = barPrisListe.createPris(produkt, 150, 2, 0 );
+        pris2 = barPrisListe.createPris(produkt2,100, 1, 0);
         order = new Order(5, LocalDate.of(2021,10,30));
         OrderLine orderLine = order.createOrderLine(2, pris);
+        OrderLine orderLine2 = order.createOrderLine(1, pris2);
 
         // Act
-        int actual = order.orderKlipPris(); // 2 * 2 = 4
+        int actual = order.orderKlipPris(); // (2 * 2) + 1 = 5
 
         // Assert
-        Assertions.assertEquals(4, actual);
+        Assertions.assertEquals(5, actual);
     }
 
     @Test
@@ -194,7 +195,7 @@ public class Order_Test {
     }
 
     @Test
-    void TC9_prisWithRabat_procentRabat_7procent() {
+    void TC9_prisWithRabat_ProcentRabat_7procent() {
         // Arrange
         pris = butikPrisliste.createPris(produkt, 150, 0, 0 );
         pris2 = butikPrisliste.createPris(produkt2, 150, 0, 100);
