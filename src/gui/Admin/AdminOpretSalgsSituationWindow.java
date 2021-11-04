@@ -70,6 +70,7 @@ public class AdminOpretSalgsSituationWindow extends Stage {
             try {
                 controller.createSalgsSituation(navn);
                 this.adminPrisPane.updateLwSalgsSituationer();
+                hide();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 errorAlert.show();

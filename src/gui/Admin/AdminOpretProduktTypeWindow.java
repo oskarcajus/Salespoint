@@ -69,6 +69,7 @@ public class AdminOpretProduktTypeWindow extends Stage {
             try {
                 controller.createProduktType(navn);
                 this.adminProduktPane.updateLwProduktTyper();
+                hide();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 errorAlert.show();

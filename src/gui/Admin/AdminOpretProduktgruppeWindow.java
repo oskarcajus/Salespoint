@@ -71,6 +71,7 @@ public class AdminOpretProduktgruppeWindow extends Stage {
             try {
                 controller.createProduktgruppe(navn);
                 this.adminProduktPane.updateLwProduktgrupper();
+                hide();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 errorAlert.show();

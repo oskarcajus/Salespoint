@@ -73,6 +73,7 @@ public class AdminRedigerProduktTypeWindow extends Stage {
             try {
                 controller.renameProduktType(produktType, navn);
                 this.adminProduktPane.updateLwProduktTyper();
+                hide();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 errorAlert.show();

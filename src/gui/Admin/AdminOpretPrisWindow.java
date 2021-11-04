@@ -130,6 +130,8 @@ public class AdminOpretPrisWindow extends Stage {
             controller.createPris(this.salgsSituation, produkt, pris, klikPris, pantPris);
             adminPrisPane.updateLwPriser(this.salgsSituation);
 
+            hide();
+
         }
         catch (IllegalArgumentException e) {
             errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());

@@ -99,6 +99,7 @@ public class AdminRedigerProduktWindow extends Stage {
             try {
                 controller.redigerProdukt(produkt, navn, produktgruppe, produktType);
                 this.adminProduktPane.updateLwProdukter();
+                hide();
             } catch (IllegalArgumentException e) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 errorAlert.show();

@@ -141,6 +141,7 @@ public class AdminRedigerPrisWindow extends Stage {
         try {
             controller.redigerPris(pris, newPris, newKlikPris, newPantPris);
             adminPrisPane.updateLwPriser(this.salgsSituation);
+            hide();
 
         }
         catch (IllegalArgumentException e) {
