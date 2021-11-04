@@ -13,7 +13,7 @@ public class Controller {
     private final Storage storage = Storage.getStorage();
 
     // Singleton metode
-    public static Controller getController() {
+    public static synchronized Controller getController() {
         if (controller == null) {
             controller = new Controller();
         }
@@ -30,22 +30,15 @@ public class Controller {
             throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produkttypen.");
         }
         produkt = produktgruppe.createProdukt(produktType, navn);
-        this.getAllProdukter().add(produkt);
         return produkt;
     }
 
     public Produkt redigerProdukt(Produkt produkt, String navn, Produktgruppe produktgruppe, ProduktType produktType) {
-        for (Produkt p : produktgruppe.getProdukter()) {
-            if (p.getName().equalsIgnoreCase(navn)) {
-                throw new IllegalArgumentException("Der findes allerede et produkt med det navn i " +
-                        produktgruppe.getNavn() + ".");
-            }
+        if (controller.checkProduktNameIsInProduktgruppe(produktgruppe, navn)){
+            throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produktgruppen.");
         }
-        for (Produkt p : produktType.getProdukter()) {
-            if (p.getName().equalsIgnoreCase(navn)) {
-                throw new IllegalArgumentException("Der findes allerede et produkt med det navn i " +
-                        produktType.getNavn() + ".");
-            }
+        if (controller.checkProduktNameIsInProduktType(produktType, navn)) {
+            throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produkttypen.");
         }
         produkt.setName(navn);
         produkt.setProduktgruppe(produktgruppe);
@@ -286,6 +279,11 @@ public class Controller {
 
     //Order ------------------------------------------------------------------------------------------------------------
 
+    public double afslutOrder(Order order) {
+        order.setOrderStatus(OrderStatus.AFSLUTTET);
+        return order.prisWithRabat();
+    }
+
     public ArrayList<Order> getOrders() {
         return new ArrayList<>(storage.getOrders());
     }
@@ -355,27 +353,19 @@ public class Controller {
         storage.removeOrder(order);
     }
 
-    // We should not add these all calculation redundant methods inside of Controller,
-   // because we already have it inside of model classes. --> (redundant)
-    // we have to just use those methods throuth controller, whenever we need.
-
-   // public int beregnKlikPris(Order order) {
-    //   return order.orderKlipPris();
-    // }
-
-    //Må gerne være negativ, da den også bruges til returordre
-    //  public double beregnPris(Order order) {
-    //      return order.prisWithRabat();
-    // }
-
-    //  public int beregnKlipPris(Order order) {
-    //      int sum = 0;
-    //    for (OrderLine ol : order.getOrderLines()) {
-    //        sum += ol.getOrderLineKlipBeløb();
-    //     }
-    //     return sum;
-    //  }
-    //---------------------------------------------------------------------------
+    // Ordre statestik
+    public ArrayList<Order> salgsRapport(LocalDate fraDato, LocalDate tilDato) {
+        ArrayList<Order> ordrer = new ArrayList<>();
+        for (Order o : controller.getOrders()) {
+            if (o.getOprettelsesDato().compareTo(fraDato) >= 0 && o.getOprettelsesDato().compareTo(tilDato) <= 0) {
+                ordrer.add(o);
+            }
+        }
+        if (ordrer.size() == 0) {
+            throw new IllegalArgumentException("Der er ingen ordrer i den pågældende periode.");
+        }
+        return ordrer;
+    }
 
     //Orderline -----------------------------------------------------------------
 
@@ -450,49 +440,55 @@ public class Controller {
             int compareTo1 = order.getOprettelsesDato().compareTo(startDate);
             int compareTo2 = order.getOprettelsesDato().compareTo(endDate);
 
-            if (compareTo1 < 0 || compareTo2 > 0) {
-                throw new IllegalArgumentException("Der er ingen klippekort solgt i det angivne datointerval");
-            } else {
+            if (compareTo1 >= 0 && compareTo2 <= 0) {
                 for (OrderLine ol : order.getOrderLines()) {
                     if (ol.getPris().getProdukt().getProduktgruppe().getNavn().equalsIgnoreCase("KlippeKort"))
                         solgtKlippeKort += ol.getAntalProdukt();
                 }
             }
         }
+        if(solgtKlippeKort == 0){
+            throw new IllegalArgumentException("Der er ingen solgt klippekort i den periode.");
+        }
         return solgtKlippeKort;
     }
 
-    // brugtKlips
+    // brugt Klips
     public int brugtKlip(LocalDate startDate, LocalDate endDate) {
         int sum = 0;
 
         for (Order order : this.getOrders()) {
-            if(order.getOprettelsesDato().isAfter(startDate) && order.getOprettelsesDato().isBefore(endDate)){
+            int compareTo1 = order.getOprettelsesDato().compareTo(startDate);
+            int compareTo2 = order.getOprettelsesDato().compareTo(endDate);
 
-                if (order.getBetalingsType().equals(BetalingsType.KLIPPEKORT)) {
+            if (compareTo1 >= 0 && compareTo2 <= 0) {
+                 if (order.getBetalingsType().equals(BetalingsType.KLIPPEKORT)) {
                     for (OrderLine ol : order.getOrderLines()) {
 
-                        if (ol.getOrderLineKlipBeløb() != 0)
+                        if (ol.getOrderLineKlipBeløb() != 0) {
                             sum += ol.getOrderLineKlipBeløb();
+                        }
                     }
                 }
             }
-            throw new IllegalArgumentException("Der er ingen klippekort brugt i det angivne datointerval");
+        }
+        if(sum == 0){
+            throw new IllegalArgumentException("Der er ingen brugte klip i den periode.");
         }
         return sum;
     }
 
     // En Oversigt over ikke afleverede udlejede produkter.----------------------------------------------------------
-    public ArrayList<Produkt> ikkeReturnProdukt(){
+    public ArrayList<Produkt> ikkeReturnProdukt() {
 
         ArrayList<Produkt> oversigt = new ArrayList<>();
 
-        for(Order order : this.getOrders()){
-            if(order instanceof UdlejningsOrder){
-                UdlejningsOrder udlejningsOrder = (UdlejningsOrder)order;
+        for (Order order : this.getOrders()) {
+            if (order instanceof UdlejningsOrder) {
+                UdlejningsOrder udlejningsOrder = (UdlejningsOrder) order;
 
-                if(udlejningsOrder.getForventetReturDato().isBefore(LocalDate.now())){
-                    for(OrderLine ol : order.getOrderLines()){
+                if (udlejningsOrder.getForventetReturDato().isBefore(LocalDate.now())) {
+                    for (OrderLine ol : order.getOrderLines()) {
                         oversigt.add(ol.getPris().getProdukt());
                     }
                 }
@@ -500,9 +496,8 @@ public class Controller {
         }
         return oversigt;
     }
-
     //-------------------------------------------------------------------------------------------------------------
-    
+
 
     public void initContent() {
         //Create produktgrupper
@@ -543,7 +538,7 @@ public class Controller {
 
         Order o2 = controller.createOrder(2, LocalDate.of(2021, 9, 1));
 
-        Order o5 = controller.createOrder(5, LocalDate.of(2001,02,02));
+        Order o5 = controller.createOrder(5, LocalDate.of(2001,2,2));
 
         //Udlejning
         Order uo1 = controller.createUdlejningOrder(3, LocalDate.of(2021, 5, 1),
@@ -556,18 +551,11 @@ public class Controller {
         //Retur
         Order uor1 = controller.createReturnOrder(3);
 
-        System.out.println(uo1);
-        System.out.println(uo1.orderPris()); // you have to use this instead
-       // System.out.println(controller.beregnPris(uo1));
-
-        System.out.println(uor1);
-        System.out.println(uor1.orderPris()); // you have to use this instead
-       // System.out.println(controller.beregnPris(uor1));
-
         // Ordrer på kunden
         o5.setKunde(k1);
         o2.setKunde(k2);
         o1.setKunde(k3);
+
     }
 }
 

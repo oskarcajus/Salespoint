@@ -9,6 +9,11 @@ public class RundvisningOrder extends Order{
     public RundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato) {
         super(orderNr, oprettelsesDato);
         this.expectingBetalingsDato = expectingBetalingsDato;
+
+        // Rundvisning har en aftalt rabat --> totalpris >= 3000 --> - 200kr rabat
+        super.setRabatStrategy(new AmountRabat(250, 3000));
+        // ellers 5% discount
+        super.setRabatStrategy(new ProcentRabat(5));
     }
 
     //@Override
