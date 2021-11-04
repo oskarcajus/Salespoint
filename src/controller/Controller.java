@@ -23,10 +23,10 @@ public class Controller {
     // Produkt ---------------------------------------------------------------------------------------------------------
     public Produkt createProdukt(Produktgruppe produktgruppe, ProduktType produktType, String navn) {
         Produkt produkt;
-        if (checkProduktNameIsInProduktgruppe(produktgruppe, navn)){
+        if (controller.checkProduktNameIsInProduktgruppe(produktgruppe, navn)){
             throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produktgruppen.");
         }
-        if (checkProduktNameIsInProduktType(produktType, navn)) {
+        if (controller.checkProduktNameIsInProduktType(produktType, navn)) {
             throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produkttypen.");
         }
         produkt = produktgruppe.createProdukt(produktType, navn);
@@ -34,10 +34,10 @@ public class Controller {
     }
 
     public Produkt redigerProdukt(Produkt produkt, String navn, Produktgruppe produktgruppe, ProduktType produktType) {
-        if (checkProduktNameIsInProduktgruppe(produktgruppe, navn)){
+        if (controller.checkProduktNameIsInProduktgruppe(produktgruppe, navn)){
             throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produktgruppen.");
         }
-        if (checkProduktNameIsInProduktType(produktType, navn)) {
+        if (controller.checkProduktNameIsInProduktType(produktType, navn)) {
             throw new IllegalArgumentException("Der er allerede et produkt med det navn tilknyttet produkttypen.");
         }
         produkt.setName(navn);
@@ -77,7 +77,7 @@ public class Controller {
     }
 
     public void removeProduktgruppe(Produktgruppe produktgruppe) {
-        if (getProdukterFromProduktgruppe(produktgruppe).size() == 0) {
+        if (controller.getProdukterFromProduktgruppe(produktgruppe).size() == 0) {
             storage.removeProduktgruppe(produktgruppe);
         } else {
             throw new RuntimeException("Der er stadig produkter tilknyttet den valgte produktgruppe.\nFjern alle produkter fra produktgruppen før du fortsætter.");
@@ -122,7 +122,7 @@ public class Controller {
     }
 
     public void removeProduktType(ProduktType produktType) {
-        if (getProdukterFromProduktType(produktType).size() == 0) {
+        if (controller.getProdukterFromProduktType(produktType).size() == 0) {
             storage.removeProduktType(produktType);
         } else {
             throw new RuntimeException("Der er stadig produkter tilknyttet den valgte produktgruppe." +
@@ -279,23 +279,29 @@ public class Controller {
 
     //Order ------------------------------------------------------------------------------------------------------------
 
+    public double afslutOrder(Order order) {
+        order.setOrderStatus(OrderStatus.AFSLUTTET);
+        return order.prisWithRabat();
+    }
+
     public ArrayList<Order> getOrders() {
         return new ArrayList<>(storage.getOrders());
     }
 
     public Order createOrder(int orderNr, LocalDate oprettelsesDato) {
-        for (Order o : getOrders()) {
+        for (Order o : controller.getOrders()) {
             if (o.getOrderNr() == orderNr) {
                 throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
             }
         }
         Order order = new Order(orderNr, oprettelsesDato);
         storage.addOrder(order);
+
         return order;
     }
 
     public RundvisningOrder createRundvisningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate expectingBetalingsDato) {
-        for (Order o : getOrders()) {
+        for (Order o : controller.getOrders()) {
             if (o.getOrderNr() == orderNr) {
                 throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr " + orderNr);
             }
@@ -306,7 +312,7 @@ public class Controller {
     }
 
     public UdlejningsOrder createUdlejningOrder(int orderNr, LocalDate oprettelsesDato, LocalDate forventetReturDato) {
-        for (Order o : getOrders()) {
+        for (Order o : controller.getOrders()) {
             if (o.getOrderNr() == orderNr) {
                 throw new IllegalArgumentException("Der findes allerede en ordre med det ordrenr.");
             }
@@ -320,11 +326,11 @@ public class Controller {
         Order returOrder = null;
 
         boolean found = false;
-        for (Order order : getOrders()) {
+        for (Order order : controller.getOrders()) {
             if (order.getOrderNr() == orderNr && !found) {
                 found = true;
                 //Laver en ny ordre
-                returOrder = createOrder(order.getOrderNr() + 10000000, LocalDate.now());
+                returOrder = controller.createOrder(order.getOrderNr() + 10000000, LocalDate.now());
                 returOrder.setRefOrderNr(orderNr);
                 //Kopierer ordrelinjer fra order til returorder
                 //Undgår shallow-copy ved at lave et nyt Pris-objekt
@@ -347,6 +353,19 @@ public class Controller {
         storage.removeOrder(order);
     }
 
+    // Ordre statestik
+    public ArrayList<Order> salgsRapport(LocalDate fraDato, LocalDate tilDato) {
+        ArrayList<Order> ordrer = new ArrayList<>();
+        for (Order o : controller.getOrders()) {
+            if (o.getOprettelsesDato().compareTo(fraDato) >= 0 && o.getOprettelsesDato().compareTo(tilDato) <= 0) {
+                ordrer.add(o);
+            }
+        }
+        if (ordrer.size() == 0) {
+            throw new IllegalArgumentException("Der er ingen ordrer i den pågældende periode.");
+        }
+        return ordrer;
+    }
 
     //Orderline -----------------------------------------------------------------
 
@@ -478,70 +497,65 @@ public class Controller {
         return oversigt;
     }
     //-------------------------------------------------------------------------------------------------------------
-    
+
 
     public void initContent() {
         //Create produktgrupper
-        Produktgruppe pg1 = createProduktgruppe("Flaske");
-        Produktgruppe pg2 = createProduktgruppe("Fustage");
+        Produktgruppe pg1 = controller.createProduktgruppe("Flaske");
+        Produktgruppe pg2 = controller.createProduktgruppe("Fustage");
 
 
         //Create produktTyper
-        ProduktType pt1 = createProduktType("Produkt");
-        ProduktType pt2 = createProduktType("Udlejning");
+        ProduktType pt1 = controller.createProduktType("Produkt");
+        ProduktType pt2 = controller.createProduktType("Udlejning");
 
         //Create produkter
-        Produkt p1 = createProdukt(pg1, pt1, "Klosterbryg");
-        Produkt p2 = createProdukt(pg1, pt1, "Sweet Georgia Brown");
-        Produkt p3 = createProdukt(pg2, pt2, "Jazz Classic, 25 liter");
-        Produkt p4 = createProdukt(pg2, pt2, "Extra Pilsner, 25 liter");
+        Produkt p1 = controller.createProdukt(pg1, pt1, "Klosterbryg");
+        Produkt p2 = controller.createProdukt(pg1, pt1, "Sweet Georgia Brown");
+        Produkt p3 = controller.createProdukt(pg2, pt2, "Jazz Classic, 25 liter");
+        Produkt p4 = controller.createProdukt(pg2, pt2, "Extra Pilsner, 25 liter");
 
         //Create salgssituation
-        SalgsSituation s1 = createSalgsSituation("Butik");
-        SalgsSituation s2 = createSalgsSituation("Fredagsbar");
+        SalgsSituation s1 = controller.createSalgsSituation("Butik");
+        SalgsSituation s2 = controller.createSalgsSituation("Fredagsbar");
 
 
         //Create priser
-        Pris pris1 = createPris(s1, p1, 35, 0, 0);
-        Pris pris2 = createPris(s2, p1, 35, 2, 0);
-        Pris pris3 = createPris(s1, p3, 500, 0, 200);
+        Pris pris1 = controller.createPris(s1, p1, 35, 0, 0);
+        Pris pris2 = controller.createPris(s2, p1, 35, 2, 0);
+        Pris pris3 = controller.createPris(s1, p3, 500, 0, 200);
 
         //Create kunder
         // Kunde
-        Kunde k1 = createKunde("Arosan","12345678");
-        Kunde k2 = createKunde("Oskar", "09876543");
-        Kunde k3 = createKunde("Kim", "23456789");
+        Kunde k1 = controller.createKunde("Arosan","12345678");
+        Kunde k2 = controller.createKunde("Oskar", "09876543");
+        Kunde k3 = controller.createKunde("Kim", "23456789");
 
         //Create order & orderline
-        Order o1 = createOrder(1, LocalDate.of(2021, 9, 1));
-        OrderLine ol1 = createOrderLine(o1, 3, pris1);
-        OrderLine ol2 = createOrderLine(o1, 1, pris3);
+        Order o1 = controller.createOrder(1, LocalDate.of(2021, 9, 1));
+        OrderLine ol1 = controller.createOrderLine(o1, 3, pris1);
+        OrderLine ol2 = controller.createOrderLine(o1, 1, pris3);
 
-        Order o2 = createOrder(2, LocalDate.of(2021, 9, 1));
+        Order o2 = controller.createOrder(2, LocalDate.of(2021, 9, 1));
 
-        Order o5 = createOrder(5, LocalDate.of(2001,2,2));
+        Order o5 = controller.createOrder(5, LocalDate.of(2001,2,2));
 
         //Udlejning
-        Order uo1 = createUdlejningOrder(3, LocalDate.of(2021, 5, 1),
+        Order uo1 = controller.createUdlejningOrder(3, LocalDate.of(2021, 5, 1),
                 LocalDate.of(2021, 6, 1));
-        OrderLine ol3 = createOrderLine(uo1, 2, pris3);
+        OrderLine ol3 = controller.createOrderLine(uo1, 2, pris3);
 
-        Order uo2 = createUdlejningOrder(4, LocalDate.of(2021, 6, 5),
+        Order uo2 = controller.createUdlejningOrder(4, LocalDate.of(2021, 6, 5),
                 LocalDate.of(2021, 6, 12));
 
         //Retur
-        Order uor1 = createReturnOrder(3);
-
-        System.out.println(uo1);
-        System.out.println(uo1.orderPris()); // you have to use this instead
-
-        System.out.println(uor1);
-        System.out.println(uor1.orderPris()); // you have to use this instead
+        Order uor1 = controller.createReturnOrder(3);
 
         // Ordrer på kunden
         o5.setKunde(k1);
         o2.setKunde(k2);
         o1.setKunde(k3);
+
     }
 }
 
