@@ -255,7 +255,7 @@ public class Controller_Test {
         });
 
         // Assert
-        Assertions.assertEquals("Der findes allerede en ordre med det ordrenr.", exception.getMessage());
+        Assertions.assertEquals("Der findes allerede en ordre med det ordrenr " + actual.getOrderNr(), exception.getMessage());
     }
 
     @Test
@@ -282,10 +282,10 @@ public class Controller_Test {
 
         // Act
         model.Order actual = controller.createReturnOrder(100);
-        order.setOrderNr(10000000);
+//        order.setOrderNr(10000000);
 
         // Assert
-        Assertions.assertEquals(10000000, actual.getOrderNr());
+        Assertions.assertEquals(10000000 + actual.getRefOrderNr(), actual.getOrderNr());
     }
 
     @Test
