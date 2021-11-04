@@ -247,11 +247,11 @@ public class Controller_Test {
     @Order(14)// Ekception test
     void TC14_Create_RundvisningOrder_Same_OrderNr() {
         // Arrange
-        RundvisningOrder actual = controller.createRundvisningOrder(4, LocalDate.now(), LocalDate.of(2021, 11, 30));
+        RundvisningOrder actual = controller.createRundvisningOrder(250, LocalDate.now(), LocalDate.of(2021, 11, 30));
 
         // Act
         IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            controller.createRundvisningOrder(4, LocalDate.now(), LocalDate.of(2022, 12, 30));
+            controller.createRundvisningOrder(250, LocalDate.now(), LocalDate.of(2022, 12, 30));
         });
 
         // Assert
@@ -396,7 +396,7 @@ public class Controller_Test {
         });
 
         // Assert
-        Assertions.assertEquals("Der er ingen klippekort solgt i det angivne datointerval", exception.getMessage());
+        Assertions.assertEquals("Der er ingen solgt klippekort i den periode.", exception.getMessage());
     }
 
     @Test
@@ -445,7 +445,7 @@ public class Controller_Test {
         });
 
         // Assert
-        Assertions.assertEquals("Der er ingen klip brugt i det angivne datointerval", exception.getMessage());
+        Assertions.assertEquals("Der er ingen brugte klip i den periode.", exception.getMessage());
     }
 
     @Test

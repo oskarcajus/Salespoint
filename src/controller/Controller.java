@@ -421,19 +421,20 @@ public class Controller {
             int compareTo1 = order.getOprettelsesDato().compareTo(startDate);
             int compareTo2 = order.getOprettelsesDato().compareTo(endDate);
 
-            if (compareTo1 < 0 || compareTo2 > 0) {
-                throw new IllegalArgumentException("Der er ingen klippekort solgt i det angivne datointerval");
-            } else {
+            if (compareTo1 >= 0 && compareTo2 <= 0) {
                 for (OrderLine ol : order.getOrderLines()) {
                     if (ol.getPris().getProdukt().getProduktgruppe().getNavn().equalsIgnoreCase("KlippeKort"))
                         solgtKlippeKort += ol.getAntalProdukt();
                 }
             }
         }
+        if(solgtKlippeKort == 0){
+            throw new IllegalArgumentException("Der er ingen solgt klippekort i den periode.");
+        }
         return solgtKlippeKort;
     }
 
-    // brugtKlips
+    // brugt Klips
     public int brugtKlip(LocalDate startDate, LocalDate endDate) {
         int sum = 0;
 
@@ -441,11 +442,8 @@ public class Controller {
             int compareTo1 = order.getOprettelsesDato().compareTo(startDate);
             int compareTo2 = order.getOprettelsesDato().compareTo(endDate);
 
-            if (compareTo1 < 0 || compareTo2 > 0) {
-                throw new IllegalArgumentException("Der er ingen klip brugt i det angivne datointerval");
-
-            } else {
-                if (order.getBetalingsType().equals(BetalingsType.KLIPPEKORT)) {
+            if (compareTo1 >= 0 && compareTo2 <= 0) {
+                 if (order.getBetalingsType().equals(BetalingsType.KLIPPEKORT)) {
                     for (OrderLine ol : order.getOrderLines()) {
 
                         if (ol.getOrderLineKlipBeløb() != 0) {
@@ -454,6 +452,9 @@ public class Controller {
                     }
                 }
             }
+        }
+        if(sum == 0){
+            throw new IllegalArgumentException("Der er ingen brugte klip i den periode.");
         }
         return sum;
     }
