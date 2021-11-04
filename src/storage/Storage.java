@@ -102,6 +102,5 @@ public class Storage {
         this.orders.clear();
         this.kunder.clear();
     }
-
 }
 

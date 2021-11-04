@@ -13,7 +13,9 @@ public class UdlejningsOrder extends Order {
 
         super(orderNr, oprettelsesDato);
         this.forventetReturDato = forventetReturDato;
-    }
+        super.setRabatStrategy(new ProcentRabat(6));
+        super.setRabatStrategy(new AmountRabat(500, 7000 ));
+        }
 
     public LocalDate getForventetReturDato() {
         return forventetReturDato;
