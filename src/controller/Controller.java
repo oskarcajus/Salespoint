@@ -13,7 +13,7 @@ public class Controller {
     private final Storage storage = Storage.getStorage();
 
     // Singleton metode
-    public static Controller getController() {
+    public static synchronized Controller getController() {
         if (controller == null) {
             controller = new Controller();
         }
