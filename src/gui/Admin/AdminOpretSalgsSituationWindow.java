@@ -29,7 +29,6 @@ public class AdminOpretSalgsSituationWindow extends Stage {
         this.setMinHeight(200);
         this.setMinWidth(300);
 
-
         this.setTitle("Opret salgssituation");
         GridPane pane = new GridPane();
         pane.setGridLinesVisible(false);
@@ -66,7 +65,6 @@ public class AdminOpretSalgsSituationWindow extends Stage {
             errorAlert.show();
         }
         else {
-            //Errorhandling fra Produktgruppe i modellen
             try {
                 controller.createSalgsSituation(navn);
                 this.adminPrisPane.updateLwSalgsSituationer();

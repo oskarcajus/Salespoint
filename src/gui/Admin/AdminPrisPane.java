@@ -34,8 +34,6 @@ public class AdminPrisPane extends GridPane {
     private final Button btnRedigerPris = new Button("Rediger");
     private final Button btnSletPris = new Button("Slet");
 
-
-
     SalgsSituation selectedSalgsSituation;
     Pris selectedPris;
 
@@ -103,8 +101,14 @@ public class AdminPrisPane extends GridPane {
     }
 
     private void selectionChangedLwSalgsSituationer() {
-        selectedSalgsSituation = lwSalgsSituationer.getSelectionModel().getSelectedItem();
-        this.updateLwPriser(this.selectedSalgsSituation);
+        if (selectedSalgsSituation == null) {
+            selectedSalgsSituation = lwSalgsSituationer.getItems().get(0);
+        }
+        else {
+            selectedSalgsSituation = lwSalgsSituationer.getSelectionModel().getSelectedItem();
+        }
+
+        this.updateLwPriser(selectedSalgsSituation);
     }
 
 
@@ -114,8 +118,8 @@ public class AdminPrisPane extends GridPane {
     }
 
     private void onActionBtnRedigerSalgsSituation(AdminPrisPane adminPrisPane, SalgsSituation salgsSituation) {
-//        AdminRedigerSalgsSituationWindow adminRedigerSalgsSituationWindow = new AdminRedigerSalgsSituationWindow(adminPrisPane, salgsSituation);
-//        adminRedigerSalgsSituationWindow.showAndWait();
+        AdminRedigerSalgsSituationWindow adminRedigerSalgsSituationWindow = new AdminRedigerSalgsSituationWindow(adminPrisPane, salgsSituation);
+        adminRedigerSalgsSituationWindow.showAndWait();
     }
 
     private void onActionBtnSletSalgsSituation(SalgsSituation salgsSituation) {
