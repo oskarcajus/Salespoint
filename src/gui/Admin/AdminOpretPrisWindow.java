@@ -58,11 +58,9 @@ public class AdminOpretPrisWindow extends Stage {
 
         lblProdukter = new Label("Vælg et produkt:");
         cbProdukter = new ComboBox<>();
-        ObservableList<Produkt> alleProdukter = FXCollections.observableArrayList(controller.getAllProdukter());
         for (Produkt p : controller.getAllProdukter()) {
             cbProdukter.getItems().add(p);
         }
-//        cbProdukter.getItems().addAll(alleProdukter);
 
         lblPris = new Label("Pris: ");
         prisInput = new TextField();

@@ -31,7 +31,6 @@ public class AdminOpretProduktgruppeWindow extends Stage {
         this.setMinHeight(200);
         this.setMinWidth(300);
 
-
         this.setTitle("Opret produktgruppe");
         GridPane pane = new GridPane();
         pane.setGridLinesVisible(false);
@@ -67,7 +66,6 @@ public class AdminOpretProduktgruppeWindow extends Stage {
             errorAlert.show();
         }
         else {
-            //Errorhandling fra Produktgruppe i modellen
             try {
                 controller.createProduktgruppe(navn);
                 this.adminProduktPane.updateLwProduktgrupper();

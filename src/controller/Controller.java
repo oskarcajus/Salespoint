@@ -225,13 +225,22 @@ public class Controller {
 
     public SalgsSituation createSalgsSituation(String navn) {
         SalgsSituation salgsSituation = new SalgsSituation(navn);
-        for (SalgsSituation ss :  storage.getSalgsSituationer()) {
+        for (SalgsSituation ss :  controller.getSalgsSituationer()) {
             if (ss.getNavn().equalsIgnoreCase(navn)) {
                 throw new IllegalArgumentException("Der findes allerede en salgssituation med det navn.");
             }
         }
         storage.addSalgsSituation(salgsSituation);
         return salgsSituation;
+    }
+
+    public void redigerSalgsSituation(SalgsSituation salgsSituation, String navn) {
+        for (SalgsSituation ss : controller.getSalgsSituationer()) {
+            if (ss.getNavn().equals(navn)) {
+                throw new IllegalArgumentException("Der findes allerede en salgssituation med det navn.");
+            }
+        }
+        salgsSituation.setNavn(navn);
     }
 
     //Pris -------------------------------------------------------------------------------------------------------------s
