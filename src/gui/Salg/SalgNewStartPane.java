@@ -169,9 +169,7 @@ public class SalgNewStartPane extends GridPane {
                         if (antal > 0) {
                             // Opret order
                             ol = controller.createOrderLine(order, antal, produkt);
-                            if (pris > 0 || pantPris > 0 || klipPris > 0) {
-                                controller.redigerOrderLine(ol, antal, pris, klipPris, pantPris);
-                            }
+                            controller.redigerOrderLine(ol, antal, pris, klipPris, pantPris);
                         } else {
                             errorAlert = new Alert(Alert.AlertType.ERROR, "Antallet skal være mere end 0");
                             errorAlert.show();
@@ -231,7 +229,7 @@ public class SalgNewStartPane extends GridPane {
                 int klipPris = Integer.parseInt(txfKlipPris.getText().trim());
                 // Opret order
                 if (antal > 0) {
-                    if (pris > 0 || pantPris > 0 || klipPris > 0) {
+                    if (/*pris > 0 || pantPris > 0 || */klipPris > 0) {
                         controller.redigerOrderLine(ol, antal, pris, klipPris, pantPris);
                         updateSamletBeløb();
                         updateOrderLines();

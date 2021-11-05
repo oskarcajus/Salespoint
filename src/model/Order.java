@@ -58,6 +58,7 @@ public class Order {
         return total;
     }
 
+    //Er til rådighed, hvis man senere vil implementere en klippris rabatstrategi
     /*public int klipPrisWithRabat(){
         int total = this.orderKlipPris();
         if(rabatStrategy != null){
@@ -154,29 +155,12 @@ public class Order {
         this.rabatStrategy = rabatStrategy;
     }
 
-//    public AmountRabat getAmountRabat() {
-//        return amountRabat;
-//    }
-//
-//    public void setAmountRabat(AmountRabat amountRabat) {
-//        this.amountRabat = amountRabat;
-
-//    }
-
     public Kunde getKunde() {
         return kunde;
     }
 
     @Override
     public String toString() {
-//        return "Order{" +
-//                "orderNr=" + orderNr +
-//                ", oprettelsesDato=" + oprettelsesDato +
-//                ", betalingsDato=" + betalingsDato +
-//                ", orderStatus=" + orderStatus +
-//                ", betalingsType=" + betalingsType +
-//                ", orderLines=" + orderLines +
-//                '}';
         return "Order: " + orderNr + ", " + "Orderstatus: " + orderStatus.toString();
     }
 

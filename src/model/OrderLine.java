@@ -44,11 +44,6 @@ public class OrderLine {
         this.orderLineKlipBeløb = getOrderLineKlipBeløb;
     }
 
-    // Skal måske bruges til opdatering i GUI
-//    public double calcOrderLineBeløb() {
-//       return this.pris.getPris() * this.antalProdukt;
-//    }
-
     public Pris getPris() {
         return pris;
     }

@@ -1,48 +1,6 @@
 package model;
 
 public class Pris {
-    // Builder pattern - to make pris contructor flexible
-//    public static class PrisBuilder {
-//
-//        private Produkt produkt;
-//
-//        // 3 different pris type
-//        private int normalPris;
-//        private int pantPris;
-//        private int klipPris;
-
-//        // necessary parameter - (1) produkt
-//        public PrisBuilder(Produkt produkt) {
-//            this.produkt = produkt;
-//        }
-//
-//        public PrisBuilder pris(int pris) {
-//            this.normalPris = pris;
-//            return this;
-//        }
-//
-//        public PrisBuilder pantPris(int pant) {
-//            this.pantPris = pant;
-//            return this;
-//        }
-//
-//        public PrisBuilder klipPris(int klip) {
-//            this.klipPris = klip;
-//            return this;
-//        }
-//
-//        public Pris build() {
-//            Pris price = new Pris(produkt);
-//            price.setPris(this.normalPris);
-//            price.setPantPris(this.pantPris);
-//            price.setKlipPris(this.klipPris);
-//
-//            return price;
-//        }
-//    }
-
-    // BuilderPattern slut
-//-------------------------------------------------------------------------------------------
     private double pris;
     private double pantPris;
     private int klipPris;

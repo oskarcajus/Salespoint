@@ -177,7 +177,6 @@ public class Controller {
     public ArrayList<Produkt> getProdukterInProduktgruppeAndOrProduktType(ObservableList<Produktgruppe> produktgrupper,
                                                                                  ObservableList<ProduktType> produktTyper) {
         ArrayList<Produkt> produkter = new ArrayList<>();
-        //Skal nok være en mergesort!!
 
         for (Produktgruppe pg : produktgrupper) {
             produkter.addAll(pg.getProdukter());
@@ -196,7 +195,6 @@ public class Controller {
 
     public ArrayList<Produkt> getProdukterInProduktgruppeAndOrProduktType(ArrayList<Produktgruppe> produktgrupper,
                                                                                  ArrayList<ProduktType> produktTyper) {
-        //Skal nok være en mergesort!!
         ArrayList<Produkt> produkter = new ArrayList<>();
         for (Produktgruppe pg : produktgrupper) {
             produkter.addAll(pg.getProdukter());
@@ -397,15 +395,9 @@ public class Controller {
         if (orderLine == null || antalProdukt == 0) {
             throw new IllegalArgumentException("Du mangler at udfylde en eller argumenter.");
         }
-        if (pris >0){
-            orderLine.setOrderLinePrisBeløb(pris);
-        }
-        if (pantPris >0){
-            orderLine.setOrderLinePantBeløb(pantPris);
-        }
-        if (klipPris >0) {
-            orderLine.setOrderLineKlipBeløb(klipPris);
-        }
+        orderLine.setOrderLineKlipBeløb(klipPris);
+        orderLine.setOrderLinePrisBeløb(pris);
+        orderLine.setOrderLinePantBeløb(pantPris);
         orderLine.setAntalProdukt(antalProdukt);
     }
 

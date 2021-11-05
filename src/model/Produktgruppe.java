@@ -12,11 +12,6 @@ public class Produktgruppe {
 
     public Produkt createProdukt(ProduktType produktType, String navn) {
         Produkt produkt;
-        for (Produkt p : produkter) {
-            if (p.getName().equalsIgnoreCase(navn)) {
-                throw new IllegalArgumentException("Der findes allerede et produkt med dette navn.");
-            }
-        }
         produkt = new Produkt(navn, produktType, this);
         addProdukt(produkt);
         produktType.addProdukt(produkt);

@@ -10,14 +10,13 @@ public class Storage {
 
     private static Storage storage;
 
-    //Lav singleton
+    //Singleton-pattern
     public static Storage getStorage() {
         if (storage == null) {
             storage = new Storage();
         }
         return storage;
     }
-
     //-----------------------------------------------------------------------
 
     //Produktgruppe
@@ -36,6 +35,7 @@ public class Storage {
     }
 
     //---------------------------------------------------------------------------------------------------------
+
     //ProduktType
     private final ArrayList<ProduktType> produktTyper = new ArrayList<>();
 
@@ -52,6 +52,7 @@ public class Storage {
     }
 
     //---------------------------------------------------------------------------------------------------------
+
     //SalgsSituation
     private final ArrayList<SalgsSituation> salgsSituationer = new ArrayList<>();
 
@@ -68,6 +69,7 @@ public class Storage {
     }
 
     //---------------------------------------------------------------------------------------------------------
+
     //Order
     private final ArrayList<Order> orders = new ArrayList<>();
 
@@ -84,7 +86,8 @@ public class Storage {
     }
 
     //---------------------------------------------------------------------------------------------------------
-    // Kunde
+
+    //Kunde
     private final ArrayList<Kunde> kunder = new ArrayList<>();
 
     public void addKunde(Kunde kunde) {
@@ -100,7 +103,7 @@ public class Storage {
     }
 
     //---------------------------------------------------------------------------------------------------------
-    // SLET DET HELE ;(
+    // Bruges i test - Skal bruge mocking næste gang
     public void clearStorage() {
         this.produktgrupper.clear();
         this.produktTyper.clear();

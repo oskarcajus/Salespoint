@@ -13,6 +13,8 @@ public class UdlejningsOrder extends Order {
 
         super(orderNr, oprettelsesDato);
         this.forventetReturDato = forventetReturDato;
+
+        //Rabatter-regler som Aarhus Bryghus benytter sig:
         super.setRabatStrategy(new ProcentRabat(6));
         super.setRabatStrategy(new AmountRabat(500, 7000 ));
         }
@@ -25,6 +27,7 @@ public class UdlejningsOrder extends Order {
         this.forventetReturDato = forventetReturDato;
     }
 
+    //Kan bruges hvis man ønsker at implementere Udlejningsordre som pending, når udlejningen ikke er afleveret
     //@Override
 //   public double orderPris() {
 //
