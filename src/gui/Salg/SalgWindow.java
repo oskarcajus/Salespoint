@@ -50,8 +50,6 @@ public class SalgWindow extends Application {
         lvwSalgsSituation.setPrefHeight(200);
         lvwSalgsSituation.getItems().setAll(controller.getSalgsSituationer());
 
-//        ChangeListener<SalgsSituation> listenerSalgsSituation = (ok, oldKonference, newKonference) -> ;
-//        lvwSalgsSituation.getSelectionModel().selectedItemProperty().addListener(listenerSalgsSituation);
 
         // button
         Button btnStart = new Button("Start salg");
@@ -61,6 +59,7 @@ public class SalgWindow extends Application {
 
     }
 
+    //---------------------------------------------------------------------------------------------------------
     private void onActionBtnStart(SalgsSituation selectedItem) {
         if (selectedItem != null){
             SalgButikStartWindow salgButikStartWindow = new SalgButikStartWindow(selectedItem);

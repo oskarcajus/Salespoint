@@ -14,7 +14,6 @@ import model.Kunde;
 public class SalgOpretKundeWindow extends Stage {
     private final Controller controller = Controller.getController();
 
-    private SalgKundePane salgKundePane;
     private Label lblNavn, lblTlf;
     private TextField txfNavn, txfTlf;
     private Button btnOpret;
@@ -81,8 +80,5 @@ public class SalgOpretKundeWindow extends Stage {
             controller.createKunde(navn, tlf);
             hide();
         }
-
-
-
     }
 }

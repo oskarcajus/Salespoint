@@ -17,8 +17,8 @@ public class SalgRundvisningPane extends GridPane {
     Controller controller = new Controller();
     SalgsSituation salgsSituation;
 
-    Label lblOrdreNr, lblOrdrerTxt, lblExpectingDato, lblKundeNavn, lblBetalingMetode, lblTotalPris;
-    TextField txfExpectingDato, txfTotaltPris;
+    Label lblOrdreNr, lblOrdrerTxt, lblExpectingDato, lblKundeNavn, lblBetalingMetode;
+    TextField txfExpectingDato ;
     Button btnOpretRV, btnOpretKunde;
     ComboBox<Kunde> cBoxKunde;
     Alert errorAlert;
@@ -47,7 +47,7 @@ public class SalgRundvisningPane extends GridPane {
         hBoxOrderNr.getChildren().add(lblOrdreNr);
 
 //exceptingdato
-        lblExpectingDato = new Label("Rundvisingdato:");
+        lblExpectingDato = new Label("Rundvisingdato: (yyyy-mm-dd)");
         this.add(lblExpectingDato, 0, 1);
 
         txfExpectingDato = new TextField();
@@ -92,12 +92,12 @@ public class SalgRundvisningPane extends GridPane {
         this.add(hbxBetaling, 0, 4, 2, 1);
 
     }
-
+    //---------------------------------------------------------------------------------------
     public int getCurrentOrderNr() {
         return controller.getOrders().size() + 1;
     }
 
-
+    //---------------------------------------------------------------------------------------
     public void opretRundvisingAction() {
         LocalDate expecting = LocalDate.parse(txfExpectingDato.getText().trim());
         LocalDate now = LocalDate.now();
@@ -138,6 +138,7 @@ public class SalgRundvisningPane extends GridPane {
 
     }
 
+    //---------------------------------------------------------------------------------------
     public void opretKundeAction() {
         SalgOpretKundeWindow salgOpretKundeWindow = new SalgOpretKundeWindow();
         salgOpretKundeWindow.showAndWait();
@@ -147,6 +148,7 @@ public class SalgRundvisningPane extends GridPane {
         cBoxKunde.getItems().setAll(controller.getKunder());
     }
 
+    //---------------------------------------------------------------------------------------
     private void actionBetalingsTypeChanged() {
 
         BetalingsType betalingsTypee = (BetalingsType) betalingsGroup.getSelectedToggle().getUserData();
@@ -155,8 +157,6 @@ public class SalgRundvisningPane extends GridPane {
             if (BetalingsType.KLIPPEKORT.equals(betalingsTypee)) {
                 errorAlert = new Alert(Alert.AlertType.ERROR, "Man kan ikke betale med klippekort");
                 errorAlert.show();
-            } else {
-
             }
         }
     }

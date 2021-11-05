@@ -244,7 +244,7 @@ public class Controller_Test {
     }
 
     @Test
-    @Order(14)// Ekception test
+    @Order(14)// Exception test
     void TC14_Create_RundvisningOrder_Same_OrderNr() {
         // Arrange
         RundvisningOrder actual = controller.createRundvisningOrder(250, LocalDate.now(), LocalDate.of(2021, 11, 30));

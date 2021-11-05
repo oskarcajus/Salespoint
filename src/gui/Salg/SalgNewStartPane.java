@@ -166,8 +166,8 @@ public class SalgNewStartPane extends GridPane {
                 if (o instanceof Pris) {
                     Pris produkt = (Pris) o;
                     if (produkt != null) {
-                        // Opret order
                         if (antal > 0) {
+                            // Opret order
                             ol = controller.createOrderLine(order, antal, produkt);
                             if (pris > 0 || pantPris > 0 || klipPris > 0) {
                                 controller.redigerOrderLine(ol, antal, pris, klipPris, pantPris);
@@ -176,7 +176,6 @@ public class SalgNewStartPane extends GridPane {
                             errorAlert = new Alert(Alert.AlertType.ERROR, "Antallet skal være mere end 0");
                             errorAlert.show();
                         }
-                        //Ændring i priser
 
                     }
                 }
@@ -221,7 +220,8 @@ public class SalgNewStartPane extends GridPane {
 
     }
 
-    // TODO rediger metoden!!
+    //---------------------------------------------------------------------------------------------------------
+    // Rediger orderline
     public void redigerOrderLineAction(OrderLine ol) {
         if (ol != null) {
             try {

@@ -35,6 +35,7 @@ public class Storage {
         return new ArrayList<>(this.produktgrupper);
     }
 
+    //---------------------------------------------------------------------------------------------------------
     //ProduktType
     private final ArrayList<ProduktType> produktTyper = new ArrayList<>();
 
@@ -50,6 +51,7 @@ public class Storage {
         return new ArrayList<>(this.produktTyper);
     }
 
+    //---------------------------------------------------------------------------------------------------------
     //SalgsSituation
     private final ArrayList<SalgsSituation> salgsSituationer = new ArrayList<>();
 
@@ -65,6 +67,7 @@ public class Storage {
         return new ArrayList<>(this.salgsSituationer);
     }
 
+    //---------------------------------------------------------------------------------------------------------
     //Order
     private final ArrayList<Order> orders = new ArrayList<>();
 
@@ -80,6 +83,7 @@ public class Storage {
         return new ArrayList<>(this.orders);
     }
 
+    //---------------------------------------------------------------------------------------------------------
     // Kunde
     private final ArrayList<Kunde> kunder = new ArrayList<>();
 
@@ -95,6 +99,8 @@ public class Storage {
         return kunder;
     }
 
+    //---------------------------------------------------------------------------------------------------------
+    // SLET DET HELE ;(
     public void clearStorage() {
         this.produktgrupper.clear();
         this.produktTyper.clear();

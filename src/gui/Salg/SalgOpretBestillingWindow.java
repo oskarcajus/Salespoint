@@ -60,7 +60,6 @@ public class SalgOpretBestillingWindow extends Stage {
         cBoxKunde.getItems().add(null);
         cBoxKunde.getItems().addAll(FXCollections.observableArrayList(controller.getKunder()));
         cBoxKunde.setMinWidth(200);
-////      TODO  cBoxKunde.getSelectionModel().selectedItemProperty().addListener(obs -> updateControls());
         hBoxKunde.getChildren().add(cBoxKunde);
 
         btnOpretKunde = new Button("Opret Kunde");
@@ -149,6 +148,7 @@ public class SalgOpretBestillingWindow extends Stage {
         cBoxKunde.getItems().add(null);
         cBoxKunde.getItems().addAll(controller.getKunder());
     }
+    //---------------------------------------------------------------------------------------
 
     public void rabatAction() {
         try {
@@ -169,6 +169,7 @@ public class SalgOpretBestillingWindow extends Stage {
         }
 
     }
+    //---------------------------------------------------------------------------------------
 
     public void aftaltPrisAction() {
 //        samletpris - Aftaltpris = discount fixed pris
@@ -187,6 +188,7 @@ public class SalgOpretBestillingWindow extends Stage {
             errorAlert.show();
         }
     }
+    //---------------------------------------------------------------------------------------
 
     public void updateControl() {
         txfTotaltPris.setText(String.valueOf(order.prisWithRabat()));

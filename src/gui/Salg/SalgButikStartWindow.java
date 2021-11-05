@@ -48,7 +48,7 @@ public class SalgButikStartWindow extends Stage {
         Tab tabKunde = new Tab("Kunder");
         Tab tabRundvisning = new Tab("Rundvisning");
 
-
+        // Alle tabs
         SalgNewStartPane salgStartPane = new SalgNewStartPane(salgsSituation);
         tabSalg.setContent(salgStartPane);
 
